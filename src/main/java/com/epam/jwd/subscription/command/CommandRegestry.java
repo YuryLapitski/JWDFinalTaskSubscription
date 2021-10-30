@@ -2,13 +2,16 @@ package com.epam.jwd.subscription.command;
 
 public enum CommandRegestry {
 
-    MAIN_PAGE(ShowMainPageCommand.getInstance()),
-    DEFAULT(ShowMainPageCommand.getInstance());
+    MAIN_PAGE(ShowMainPageCommand.getInstance(),"main_page"),
+    SHOW_EDITIONS(ShowEditionsPageCommand.getInstance(), "show_editions"),
+    DEFAULT(ShowMainPageCommand.getInstance(), "");
 
     private final Command command;
+    private final String path;
 
-    CommandRegestry(Command command) {
+    CommandRegestry(Command command, String path) {
         this.command = command;
+        this.path = path;
     }
 
     public Command getCommand() {
@@ -17,7 +20,7 @@ public enum CommandRegestry {
 
     static Command of(String name) {
         for (CommandRegestry constant : values()){
-            if (constant.name().equals(name)) {
+            if (constant.path.equalsIgnoreCase(name)) {
                 return constant.command;
             }
         }

@@ -2,7 +2,7 @@ package com.epam.jwd.subscription.controller;
 
 import com.epam.jwd.subscription.db.ConnectionPool;
 import com.epam.jwd.subscription.command.Command;
-import com.epam.jwd.subscription.command.CommandResponce;
+import com.epam.jwd.subscription.command.CommandResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,12 +35,12 @@ public class MainServlet extends HttpServlet {
         LOG.trace("caught req and resp in doGet method");
         final String commandName = req.getParameter("command");
         final Command command = Command.of(commandName);
-        final CommandResponce commandResponce = command.execute(null);
-        proceedWithResponse(req, resp, commandResponce);
+        final CommandResponse commandResponse = command.execute(req::setAttribute);
+        proceedWithResponse(req, resp, commandResponse);
     }
 
     private void proceedWithResponse(HttpServletRequest req, HttpServletResponse resp,
-                                     CommandResponce commandResponce) {
+                                     CommandResponse commandResponce) {
         try {
             forwardOrRedirectToResponceLocation(req, resp, commandResponce);
         } catch (ServletException e) {
@@ -51,7 +51,7 @@ public class MainServlet extends HttpServlet {
     }
 
     private void forwardOrRedirectToResponceLocation (HttpServletRequest req, HttpServletResponse resp,
-                                                      CommandResponce commandResponce)
+                                                      CommandResponse commandResponce)
                                                         throws IOException, ServletException {
         if (commandResponce.isRedirect()) {
             resp.sendRedirect(commandResponce.getPath());

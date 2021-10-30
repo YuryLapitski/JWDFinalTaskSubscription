@@ -16,7 +16,7 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
     private static final Logger LOG = LogManager.getLogger(MethodEditionDao.class);
 
-    private static final String EDITION_TABLE_NAME = "edition e join category c on c.id = e.category_id";
+    private static final String EDITION_TABLE_NAME = "edition e join category c on c.id = e.cat_id";
     private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
     private static final String CATEGORY_FIELD_NAME = "c.cat_name";

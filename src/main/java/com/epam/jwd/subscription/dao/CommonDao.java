@@ -30,7 +30,7 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
     @Override
     public List<T> read() {
         try {
-            return executeStatement(selectAllExpression + getTableName(), this::extractResultCatchingException);
+            return executeStatement(selectAllExpression, this::extractResultCatchingException);
         } catch (InterruptedException e) {
             LOG.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();

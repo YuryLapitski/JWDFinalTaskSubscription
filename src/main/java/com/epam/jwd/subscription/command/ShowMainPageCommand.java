@@ -24,7 +24,7 @@ public class ShowMainPageCommand implements Command {
         return instance;
     }
 
-    private final static CommandResponce FORWARD_TO_MAIN_PAGE_RESPONCE = new CommandResponce() {
+    private final static CommandResponse FORWARD_TO_MAIN_PAGE_RESPONCE = new CommandResponse() {
         @Override
         public boolean isRedirect() {
             return false;
@@ -37,7 +37,7 @@ public class ShowMainPageCommand implements Command {
     };
 
     @Override
-    public CommandResponce execute(CommandRequest request) {
+    public CommandResponse execute(CommandRequest request) {
         return FORWARD_TO_MAIN_PAGE_RESPONCE;
     }
 }

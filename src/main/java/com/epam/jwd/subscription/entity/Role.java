@@ -22,5 +22,4 @@ public enum Role {
         }
         return USER;
     }
-
 }

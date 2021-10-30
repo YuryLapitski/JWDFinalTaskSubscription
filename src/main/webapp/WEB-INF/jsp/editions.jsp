@@ -6,22 +6,22 @@
 </head>
 <body>
 <h3>Editions</h3>
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <th>Name</th>--%>
-<%--        <th>Category</th>--%>
-<%--    </tr>--%>
-<%--    <c:forEach var="edition" items="${requestScope.editions}">--%>
-<%--        <tr>--%>
-<%--            <td>${edition.name}</td>--%>
-<%--            <td>${edition.category}</td>--%>
-<%--        </tr>--%>
-<%--    </c:forEach>--%>
-<%--</table>--%>
-<ul>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+    </tr>
     <c:forEach var="edition" items="${requestScope.editions}">
-        <li>${edition.name}</li>
+        <tr>
+            <td>${edition.name}</td>
+            <td>${edition.category}</td>
+        </tr>
     </c:forEach>
-</ul>
+</table>
+<%--<ul>--%>
+<%--    <c:forEach var="edition" items="${requestScope.editions}">--%>
+<%--        <li>${edition.name}</li>--%>
+<%--    </c:forEach>--%>
+<%--</ul>--%>
 </body>
 </html>

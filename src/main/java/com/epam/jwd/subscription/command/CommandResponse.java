@@ -1,6 +1,6 @@
 package com.epam.jwd.subscription.command;
 
-public interface CommandResponce {
+public interface CommandResponse {
 
     boolean isRedirect();
 

@@ -7,13 +7,13 @@ import com.epam.jwd.subscription.service.ServiceFactory;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ShowEditionPageCommand implements Command {
+public class ShowEditionsPageCommand implements Command {
 
     private static final String EDITIONS_ATTRIBUTE_NAME = "editions";
 
-    private static ShowEditionPageCommand instance = null;
+    private static ShowEditionsPageCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
-    private final static CommandResponce FORWARD_TO_EDITIONS_PAGE = new CommandResponce() {
+    private final static CommandResponse FORWARD_TO_EDITIONS_PAGE = new CommandResponse() {
         @Override
         public boolean isRedirect() {
             return false;
@@ -26,16 +26,16 @@ public class ShowEditionPageCommand implements Command {
     };
     private final EntityService<Edition> service;
 
-    private ShowEditionPageCommand(EntityService<Edition> service) {
+    private ShowEditionsPageCommand(EntityService<Edition> service) {
         this.service = service;
     }
 
-    public static ShowEditionPageCommand getInstance() {
+    public static ShowEditionsPageCommand getInstance() {
         if (instance == null) {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowEditionPageCommand(ServiceFactory.instance().serviceFor(Edition.class));
+                    instance = new ShowEditionsPageCommand(ServiceFactory.instance().serviceFor(Edition.class));
                 }
             } finally {
                 LOCK.unlock();
@@ -45,7 +45,7 @@ public class ShowEditionPageCommand implements Command {
     }
 
     @Override
-    public CommandResponce execute(CommandRequest request) {
+    public CommandResponse execute(CommandRequest request) {
         final List<Edition> editions = service.findAll();
         request.addAttributeToJsp(EDITIONS_ATTRIBUTE_NAME, editions);
         return FORWARD_TO_EDITIONS_PAGE;

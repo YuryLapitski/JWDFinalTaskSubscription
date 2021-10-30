@@ -3,11 +3,12 @@ package com.epam.jwd.subscription.entity;
 import java.util.Arrays;
 import java.util.List;
 
-public enum Category {
+public enum  Category {
 
-    NEWSPAPER,
-    MAGAZINE,
-    BOOK_SERIES;
+    Newspaper,
+    Magazine,
+    Book,
+    Unknown;
 
     private static final List<Category> ALL_AVAILABLE_CATEGORIES = Arrays.asList(values());
 
@@ -21,7 +22,7 @@ public enum Category {
                 return category;
             }
         }
-        return NEWSPAPER;
+        return Unknown;
     }
 }
 
