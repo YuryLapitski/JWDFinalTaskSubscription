@@ -2,7 +2,7 @@ package com.epam.jwd.subscription.entity;
 
 import java.util.Objects;
 
-public class User implements DBEntity {
+public class User implements Entity {
 
     private static final long serialVersionUID = 6976305955133982276L;
     private final Long id;

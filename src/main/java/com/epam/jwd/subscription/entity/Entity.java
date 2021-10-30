@@ -2,7 +2,7 @@ package com.epam.jwd.subscription.entity;
 
 import java.io.Serializable;
 
-public interface DBEntity extends Serializable {
+public interface Entity extends Serializable {
 
     Long getID();
 

@@ -1,6 +1,6 @@
 package com.epam.jwd.subscription.db;
 
-import com.epam.jwd.subscription.entity.DBEntity;
+import com.epam.jwd.subscription.entity.Entity;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @FunctionalInterface
-public interface ResultSetExtractor<T extends DBEntity> {
+public interface ResultSetExtractor<T extends Entity> {
 
     T extract(ResultSet resultSet) throws EntityExtractionFailedException;
 

@@ -1,6 +1,6 @@
 package com.epam.jwd.subscription.db;
 
-import com.epam.jwd.subscription.exception.CouldNotInitializeConnectionPool;
+import com.epam.jwd.subscription.exception.CouldNotInitializeConnectionPoolError;
 import com.epam.jwd.subscription.exception.ResourcesLoadingException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -189,6 +189,7 @@ public class LockingConnectionPool implements ConnectionPool {
 
     private void initializeConnections(int amountConnection, boolean failOnConnectionException) {
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             for (int i = 0; i < amountConnection; i++) {
                 final Connection connection = DriverManager.getConnection(urlFromProperties(readProperties()),
                         userFromProperties(readProperties()),
@@ -198,10 +199,12 @@ public class LockingConnectionPool implements ConnectionPool {
                 availableConnections.add(proxyConnection);
             }
         } catch (SQLException e) {
-            LOG.error("Error occurred creating connection");
+            LOG.error("Error occurred creating connection", e);
             if (failOnConnectionException) {
-                throw new CouldNotInitializeConnectionPool("Failed to create connection", e);
+                throw new CouldNotInitializeConnectionPoolError("Failed to create connection", e);
             }
+        } catch (ClassNotFoundException e) {
+            LOG.error("Class 'com.mysql.cj.jdbc.Driver' not found", e);
         }
     }
 

@@ -1,13 +1,12 @@
 package com.epam.jwd.subscription.app;
 
 import com.epam.jwd.subscription.db.*;
-import com.epam.jwd.subscription.entity.DBEntity;
+import com.epam.jwd.subscription.entity.Entity;
 import com.epam.jwd.subscription.entity.User;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.sql.ConnectionPoolDataSource;
 import java.sql.*;
 import java.util.Collections;
 import java.util.List;
@@ -64,8 +63,8 @@ public class Application {
 //        CONNECTION_POOL.shutDown();
     }
 
-    private static <T extends DBEntity> List<T> executeStatement(String sql,
-                                                                 ResultSetExtractor<T>
+    private static <T extends Entity> List<T> executeStatement(String sql,
+                                                               ResultSetExtractor<T>
                                                                          extractor) throws InterruptedException {
         try (final Connection connection = CONNECTION_POOL.takeConnection();
              final Statement statement = connection.createStatement();
@@ -85,9 +84,9 @@ public class Application {
         return Collections.emptyList();
     }
 
-    private static <T extends DBEntity> List<T> executePrepareded (String sql,
-                                                                   ResultSetExtractor<T> extractor,
-                                                                   StatementPreparator
+    private static <T extends Entity> List<T> executePrepareded (String sql,
+                                                                 ResultSetExtractor<T> extractor,
+                                                                 StatementPreparator
                                                                            statementPreparation) throws InterruptedException {
         try (final Connection connection = CONNECTION_POOL.takeConnection();
              final PreparedStatement statement = connection.prepareStatement(sql)) {

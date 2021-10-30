@@ -1,14 +1,14 @@
 package com.epam.jwd.subscription.db;
 
-import com.epam.jwd.subscription.exception.CouldNotInitializeConnectionPool;
+import com.epam.jwd.subscription.exception.CouldNotInitializeConnectionPoolError;
 
 import java.sql.Connection;
 
 public interface ConnectionPool {
 
-    boolean isInitialized() throws CouldNotInitializeConnectionPool;
+    boolean isInitialized();
 
-    boolean init();
+    boolean init() throws CouldNotInitializeConnectionPoolError;
 
     boolean shutDown();
 
