@@ -189,7 +189,6 @@ public class LockingConnectionPool implements ConnectionPool {
 
     private void initializeConnections(int amountConnection, boolean failOnConnectionException) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
             for (int i = 0; i < amountConnection; i++) {
                 final Connection connection = DriverManager.getConnection(urlFromProperties(readProperties()),
                         userFromProperties(readProperties()),
@@ -203,8 +202,6 @@ public class LockingConnectionPool implements ConnectionPool {
             if (failOnConnectionException) {
                 throw new CouldNotInitializeConnectionPoolError("Failed to create connection", e);
             }
-        } catch (ClassNotFoundException e) {
-            LOG.error("Class 'com.mysql.cj.jdbc.Driver' not found", e);
         }
     }
 
