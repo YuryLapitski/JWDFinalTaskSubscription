@@ -1,6 +1,7 @@
 package com.epam.jwd.subscription.service;
 
 import com.epam.jwd.subscription.dao.EditionDao;
+import com.epam.jwd.subscription.dao.UserDao;
 import com.epam.jwd.subscription.entity.Entity;
 
 import java.util.Map;
@@ -36,6 +37,8 @@ public class SimpleServiceFactory implements ServiceFactory {
             switch (className) {
                 case "Edition":
                     return new EditionService(EditionDao.instance());
+                case "User":
+                    return new UserService(UserDao.instance());
                 default:
                     throw new IllegalArgumentException(String.format(SERVICE_NOT_FOUND, className));
             }

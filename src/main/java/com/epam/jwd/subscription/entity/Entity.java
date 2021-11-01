@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 public interface Entity extends Serializable {
 
-    Long getID();
+    Long getId();
 
 }

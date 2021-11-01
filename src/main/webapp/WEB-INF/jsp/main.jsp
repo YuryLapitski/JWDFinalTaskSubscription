@@ -4,8 +4,8 @@
     <title>Title</title>
 </head>
 <body>
-<h1>World hello</h1>
-<p>sent from jsp</p>
-<a href="/controller?command=show_editions">editions page</a>
+<h1>COOL SUBSCRIPTIONS</h1>
+<p><a href="/controller?command=show_editions">editions page</a></p>
+<p><a href="/controller?command=show_users">users page</a></p>
 </body>
 </html>

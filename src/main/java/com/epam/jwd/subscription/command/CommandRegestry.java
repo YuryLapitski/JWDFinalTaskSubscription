@@ -4,6 +4,7 @@ public enum CommandRegestry {
 
     MAIN_PAGE(ShowMainPageCommand.getInstance(),"main_page"),
     SHOW_EDITIONS(ShowEditionsPageCommand.getInstance(), "show_editions"),
+    SHOW_USERS(ShowUsersPageCommand.getInstance(), "show_users"),
     DEFAULT(ShowMainPageCommand.getInstance(), "");
 
     private final Command command;
