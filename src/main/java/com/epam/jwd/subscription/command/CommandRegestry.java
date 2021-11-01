@@ -3,6 +3,7 @@ package com.epam.jwd.subscription.command;
 public enum CommandRegestry {
 
     MAIN_PAGE(ShowMainPageCommand.getInstance(),"main_page"),
+    SHOW_ACCOUNTS(ShowAccountsPageCommand.getInstance(), "show_accounts"),
     SHOW_EDITIONS(ShowEditionsPageCommand.getInstance(), "show_editions"),
     SHOW_USERS(ShowUsersPageCommand.getInstance(), "show_users"),
     DEFAULT(ShowMainPageCommand.getInstance(), "");

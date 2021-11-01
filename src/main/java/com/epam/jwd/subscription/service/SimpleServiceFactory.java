@@ -1,5 +1,6 @@
 package com.epam.jwd.subscription.service;
 
+import com.epam.jwd.subscription.dao.AccountDao;
 import com.epam.jwd.subscription.dao.EditionDao;
 import com.epam.jwd.subscription.dao.UserDao;
 import com.epam.jwd.subscription.entity.Entity;
@@ -35,6 +36,8 @@ public class SimpleServiceFactory implements ServiceFactory {
         return clazz -> {
             final String className = clazz.getSimpleName();
             switch (className) {
+                case "Account":
+                    return new AccountService(AccountDao.instance());
                 case "Edition":
                     return new EditionService(EditionDao.instance());
                 case "User":
