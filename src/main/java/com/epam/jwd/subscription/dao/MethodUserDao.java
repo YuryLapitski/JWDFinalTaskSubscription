@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 public class MethodUserDao extends CommonDao<User> implements UserDao {
@@ -29,6 +30,16 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
     @Override
     protected String getTableName() {
         return USER_TABLE_NAME;
+    }
+
+    @Override
+    protected List<String> getFields() {
+        return null;
+    }
+
+    @Override
+    protected String getIdFieldName() {
+        return null;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.epam.jwd.subscription.command;
 
 import com.epam.jwd.subscription.entity.Account;
-import com.epam.jwd.subscription.entity.Edition;
 import com.epam.jwd.subscription.service.EntityService;
 import com.epam.jwd.subscription.service.ServiceFactory;
 

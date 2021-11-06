@@ -1,20 +1,11 @@
 package com.epam.jwd.subscription.service;
 
-import com.epam.jwd.subscription.dao.AccountDao;
 import com.epam.jwd.subscription.entity.Account;
 
-import java.util.List;
+import java.util.Optional;
 
-public class AccountService implements EntityService<Account> {
+public interface AccountService extends EntityService<Account> {
 
-    private final AccountDao accountDao;
+    Optional<Account> authenticate(String login, String password);
 
-    public AccountService(AccountDao accountDao) {
-        this.accountDao = accountDao;
-    }
-
-    @Override
-    public List<Account> findAll() {
-        return accountDao.read();
-    }
 }

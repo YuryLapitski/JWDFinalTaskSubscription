@@ -37,7 +37,7 @@ public class SimpleServiceFactory implements ServiceFactory {
             final String className = clazz.getSimpleName();
             switch (className) {
                 case "Account":
-                    return new AccountService(AccountDao.instance());
+                    return new SimpleAccountService(AccountDao.instance());
                 case "Edition":
                     return new EditionService(EditionDao.instance());
                 case "User":

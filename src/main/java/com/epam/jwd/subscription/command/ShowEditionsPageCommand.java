@@ -1,5 +1,6 @@
 package com.epam.jwd.subscription.command;
 
+import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.Edition;
 import com.epam.jwd.subscription.service.EntityService;
 import com.epam.jwd.subscription.service.ServiceFactory;
@@ -10,24 +11,17 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ShowEditionsPageCommand implements Command {
 
     private static final String EDITIONS_ATTRIBUTE_NAME = "editions";
+    private static final String EDITIONS_JSP_PATH = "WEB-INF/jsp/editions.jsp";
 
     private static ShowEditionsPageCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
-    private final static CommandResponse FORWARD_TO_EDITIONS_PAGE = new CommandResponse() {
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
 
-        @Override
-        public String getPath() {
-            return "WEB-INF/jsp/editions.jsp";
-        }
-    };
     private final EntityService<Edition> service;
+    private final RequestFactory requestFactory;
 
-    private ShowEditionsPageCommand(EntityService<Edition> service) {
+    private ShowEditionsPageCommand(EntityService<Edition> service, RequestFactory requestFactory) {
         this.service = service;
+        this.requestFactory = requestFactory;
     }
 
     public static ShowEditionsPageCommand getInstance() {
@@ -35,7 +29,8 @@ public class ShowEditionsPageCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowEditionsPageCommand(ServiceFactory.instance().serviceFor(Edition.class));
+                    instance = new ShowEditionsPageCommand(ServiceFactory.instance().serviceFor(Edition.class),
+                            RequestFactory.getInstance());
                 }
             } finally {
                 LOCK.unlock();
@@ -48,6 +43,6 @@ public class ShowEditionsPageCommand implements Command {
     public CommandResponse execute(CommandRequest request) {
         final List<Edition> editions = service.findAll();
         request.addAttributeToJsp(EDITIONS_ATTRIBUTE_NAME, editions);
-        return FORWARD_TO_EDITIONS_PAGE;
+        return requestFactory.createForwardResponse(EDITIONS_JSP_PATH);
     }
 }

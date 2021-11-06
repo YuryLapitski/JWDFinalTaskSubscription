@@ -39,6 +39,16 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     @Override
+    protected List<String> getFields() {
+        return null;
+    }
+
+    @Override
+    protected String getIdFieldName() {
+        return null;
+    }
+
+    @Override
     protected Edition extractResult(ResultSet rs) throws EntityExtractionFailedException {
 
         try {
