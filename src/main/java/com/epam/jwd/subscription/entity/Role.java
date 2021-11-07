@@ -14,8 +14,8 @@ public enum Role {
         return ALL_AVAILABLE_ROLES;
     }
 
-    public static com.epam.jwd.subscription.entity.Role of(String name) {
-        for (com.epam.jwd.subscription.entity.Role role : values()) {
+    public static Role of(String name) {
+        for (Role role : values()) {
             if (role.name().equalsIgnoreCase(name)) {
                 return role;
             }
