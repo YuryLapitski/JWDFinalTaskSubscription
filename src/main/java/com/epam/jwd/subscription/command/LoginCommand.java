@@ -1,5 +1,6 @@
 package com.epam.jwd.subscription.command;
 
+import com.epam.jwd.subscription.controller.PropertyContext;
 import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.Account;
 import com.epam.jwd.subscription.service.AccountService;
@@ -11,11 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class LoginCommand implements Command {
 
     private static final String INDEX_PAGE = "page.index";
-//    private static final String LOGIN_PAGE = "page.login";
-    private static final String INDEX_PATH = "/";
-
-    private static final String MAIN_JSP_PATH = "WEB-INF/jsp/main.jsp";
-    private static final String LOGIN_JSP_PATH = "WEB-INF/jsp/login.jsp";
+    private static final String LOGIN_PAGE = "page.login";
     private static final String ERROR_LOGIN_PASS_ATRIBUTE = "errorLoginPassMessage";
     private static final String ERROR_LOGIN_PASS_MESSAGE = "Invalid login or password";
     private static final String ACCOUNT_SESSION_ATRIBUTE_NAME = "account";
@@ -27,10 +24,13 @@ public class LoginCommand implements Command {
 
     private final AccountService accountService;
     private final RequestFactory requestFactory;
+    private final PropertyContext propertyContext;
 
-    private LoginCommand(AccountService accountService, RequestFactory requestFactory) {
+    private LoginCommand(AccountService accountService, RequestFactory requestFactory,
+                         PropertyContext propertyContext) {
         this.accountService = accountService;
         this.requestFactory = requestFactory;
+        this.propertyContext = propertyContext;
     }
 
     public static LoginCommand getInstance() {
@@ -39,7 +39,7 @@ public class LoginCommand implements Command {
                 LOCK.lock();
                 if (instance == null) {
                     instance = new LoginCommand(ServiceFactory.instance().accountService(),
-                            RequestFactory.getInstance());
+                            RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {
                 LOCK.unlock();
@@ -58,15 +58,14 @@ public class LoginCommand implements Command {
         final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
         final Optional<Account> account = accountService.authenticate(login, password);
         if (!account.isPresent()) {
-            //error: bad login or password
             request.addAttributeToJsp(ERROR_LOGIN_PASS_ATRIBUTE, ERROR_LOGIN_PASS_MESSAGE);
-            requestFactory.createForwardResponse(LOGIN_JSP_PATH);
+            requestFactory.createForwardResponse(propertyContext.get(LOGIN_PAGE));
 
             return null;
         }
         request.clearSession();
         request.createSession();
         request.addToSession(ACCOUNT_SESSION_ATRIBUTE_NAME, account.get());
-        return requestFactory.createRedirectResponse(INDEX_PATH);
+        return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
     }
 }
