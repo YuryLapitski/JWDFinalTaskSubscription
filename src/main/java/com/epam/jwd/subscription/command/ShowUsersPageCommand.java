@@ -1,5 +1,7 @@
 package com.epam.jwd.subscription.command;
 
+import com.epam.jwd.subscription.controller.PropertyContext;
+import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.User;
 import com.epam.jwd.subscription.service.EntityService;
 import com.epam.jwd.subscription.service.ServiceFactory;
@@ -9,25 +11,21 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ShowUsersPageCommand implements Command {
 
-    private static final String USERS_ATTRIBUTE_NAME = "users";
+    private static final String JSP_USERS_ATTRIBUTE_NAME = "users";
+    private static final String USERS_PAGE = "page.users";
 
     private static ShowUsersPageCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
-    private final static CommandResponse FORWARD_TO_USERS_PAGE = new CommandResponse() {
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
 
-        @Override
-        public String getPath() {
-            return "WEB-INF/jsp/users.jsp";
-        }
-    };
     private final EntityService<User> service;
+    private final RequestFactory requestFactory;
+    private final PropertyContext propertyContext;
 
-    private ShowUsersPageCommand(EntityService<User> service) {
+    private ShowUsersPageCommand(EntityService<User> service, RequestFactory requestFactory,
+                                 PropertyContext propertyContext) {
         this.service = service;
+        this.requestFactory = requestFactory;
+        this.propertyContext = propertyContext;
     }
 
     public static ShowUsersPageCommand getInstance() {
@@ -35,7 +33,8 @@ public class ShowUsersPageCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowUsersPageCommand(ServiceFactory.instance().serviceFor(User.class));
+                    instance = new ShowUsersPageCommand(ServiceFactory.instance().serviceFor(User.class),
+                            RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {
                 LOCK.unlock();
@@ -47,7 +46,7 @@ public class ShowUsersPageCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
         final List<User> users = service.findAll();
-        request.addAttributeToJsp(USERS_ATTRIBUTE_NAME, users);
-        return FORWARD_TO_USERS_PAGE;
+        request.addAttributeToJsp(JSP_USERS_ATTRIBUTE_NAME, users);
+        return requestFactory.createForwardResponse(propertyContext.get(USERS_PAGE));
     }
 }

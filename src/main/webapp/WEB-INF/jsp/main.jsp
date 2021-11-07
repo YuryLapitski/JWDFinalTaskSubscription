@@ -9,9 +9,11 @@
 <c:if test="${not empty sessionScope.account}">
     <p>Hello, ${sessionScope.account.login}</p>
 </c:if>
-<p><a href="/controller?command=show_editions">editions page</a></p>
-<p><a href="/controller?command=show_users">users page</a></p>
-<p><a href="/controller?command=show_accounts">accounts page</a></p>
+<a href="/controller?command=show_editions">editions page</a>
+<br>
+<a href="/controller?command=show_users">users page</a>
+<br>
+<a href="/controller?command=show_accounts">accounts page</a>
 <br>
 <c:choose>
     <c:when test="${not empty sessionScope.account}">

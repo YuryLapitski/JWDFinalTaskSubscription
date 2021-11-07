@@ -3,6 +3,7 @@ package com.epam.jwd.subscription.controller;
 public enum PagePaths {
     INDEX("/"),
     MAIN("/WEB-INF/jsp/main.jsp"),
+    ACCOUNTS("/WEB-INF/jsp/accounts.jsp"),
     EDITIONS("/WEB-INF/jsp/editions.jsp"),
     LOGIN("/WEB-INF/jsp/login.jsp"),
     USERS("/WEB-INF/jsp/users.jsp"),
