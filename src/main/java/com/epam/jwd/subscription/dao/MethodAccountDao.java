@@ -20,9 +20,9 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     private static final Logger LOG = LogManager.getLogger(MethodAccountDao.class);
 
     private static final String ACCOUNT_TABLE_NAME = "account a join role r on r.id = a.role_id";
-    private static final String ID_FIELD_NAME = "id";
-    private static final String LOGIN_FIELD_NAME = "login";
-    private static final String PASSWORD_FIELD_NAME = "a_pass";
+    private static final String ID_FIELD_NAME = "a.id";
+    private static final String LOGIN_FIELD_NAME = "a.login";
+    private static final String PASSWORD_FIELD_NAME = "a.a_pass";
     private static final String ROLE_FIELD_NAME = "r.role_name";
 
     private static final List<String> FIELDS = Arrays.asList(
