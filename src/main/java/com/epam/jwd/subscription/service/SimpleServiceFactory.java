@@ -1,5 +1,6 @@
 package com.epam.jwd.subscription.service;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.epam.jwd.subscription.dao.AccountDao;
 import com.epam.jwd.subscription.dao.EditionDao;
 import com.epam.jwd.subscription.dao.UserDao;
@@ -37,7 +38,7 @@ public class SimpleServiceFactory implements ServiceFactory {
             final String className = clazz.getSimpleName();
             switch (className) {
                 case "Account":
-                    return new SimpleAccountService(AccountDao.instance());
+                    return new SimpleAccountService(AccountDao.instance(), BCrypt.withDefaults(), BCrypt.verifyer());
                 case "Edition":
                     return new EditionService(EditionDao.instance());
                 case "User":

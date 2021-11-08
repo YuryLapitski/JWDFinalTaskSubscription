@@ -40,6 +40,10 @@ public class Account implements Entity {
         return role;
     }
 
+    public Account withPassword(String password) {
+        return new Account(accId, login, password);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

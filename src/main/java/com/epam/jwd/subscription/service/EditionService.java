@@ -4,6 +4,7 @@ import com.epam.jwd.subscription.dao.EditionDao;
 import com.epam.jwd.subscription.entity.Edition;
 
 import java.util.List;
+import java.util.Optional;
 
 public class EditionService implements EntityService<Edition> {
 
@@ -16,5 +17,10 @@ public class EditionService implements EntityService<Edition> {
     @Override
     public List<Edition> findAll() {
         return editionDao.read();
+    }
+
+    @Override
+    public Optional<Edition> create(Edition entity) {
+        return Optional.empty();
     }
 }
