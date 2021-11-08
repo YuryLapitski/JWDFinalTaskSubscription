@@ -23,22 +23,22 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
     private static final String COMMA = ", ";
 
     private static final Logger LOG = LogManager.getLogger(CommonDao.class);
-    protected static final String SELECT_ALL_FROM = "select * from ";
+    protected static final String SELECT_ALL_FROM = "select %s from ";
     protected static final String WHERE_FIELD = "where %s = ?";
     protected static final String SPACE = " ";
 
     protected final ConnectionPool pool;
     private final String selectAllExpression;
     private final String selectByIdExpression;
-//    private final String insertSql;
+    private final String insertSql;
     private final Logger logger;
 
     protected CommonDao(ConnectionPool pool, Logger logger) {
         this.pool = pool;
         this.logger = logger;
-        selectAllExpression = SELECT_ALL_FROM + getTableName();
-        this.selectByIdExpression = selectAllExpression + SPACE + format(WHERE_FIELD, ID_FIELD_NAME);
-//        this.insertSql = format(INSERT_INTO, getTableName(), join(COMMA, getFields()));
+        selectAllExpression = format(SELECT_ALL_FROM, String.join(", ", getFields())) + getTableName();
+        this.selectByIdExpression = selectAllExpression + SPACE + format(WHERE_FIELD, getIdFieldName());;
+        this.insertSql = format(INSERT_INTO, getTableName(), join(COMMA, getFields()));
     }
 
     @Override

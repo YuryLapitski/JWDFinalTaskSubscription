@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +18,13 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     private static final Logger LOG = LogManager.getLogger(MethodEditionDao.class);
 
     private static final String EDITION_TABLE_NAME = "edition e join category c on c.id = e.cat_id";
-    private static final String ID_FIELD_NAME = "id";
-    private static final String NAME_FIELD_NAME = "name";
+    private static final String ID_FIELD_NAME = "e.id";
+    private static final String NAME_FIELD_NAME = "e.name";
     private static final String CATEGORY_FIELD_NAME = "c.cat_name";
+
+    private static final List<String> FIELDS = Arrays.asList(
+            ID_FIELD_NAME, NAME_FIELD_NAME, CATEGORY_FIELD_NAME
+    );
 
     private MethodEditionDao(ConnectionPool pool) {
         super(pool, LOG);
@@ -40,12 +45,12 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
     @Override
     protected List<String> getFields() {
-        return null;
+        return FIELDS;
     }
 
     @Override
     protected String getIdFieldName() {
-        return null;
+        return ID_FIELD_NAME;
     }
 
     @Override

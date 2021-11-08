@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,11 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
     private static final String AGE_FIELD_NAME = "age";
     private static final String EMAIL_FIELD_NAME = "email";
 
+    private static final List<String> FIELDS = Arrays.asList(
+            ID_FIELD_NAME, FIRST_NAME_FIELD_NAME, LAST_NAME_FIELD_NAME,
+            AGE_FIELD_NAME, EMAIL_FIELD_NAME
+    );
+
     private MethodUserDao(ConnectionPool pool) {
         super(pool, LOG);
     }
@@ -34,12 +40,12 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
 
     @Override
     protected List<String> getFields() {
-        return null;
+        return FIELDS;
     }
 
     @Override
     protected String getIdFieldName() {
-        return null;
+        return ID_FIELD_NAME;
     }
 
     @Override

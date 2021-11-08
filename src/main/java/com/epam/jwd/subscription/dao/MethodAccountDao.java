@@ -34,7 +34,8 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
 
     private MethodAccountDao(ConnectionPool pool) {
         super(pool, LOG);
-        this.selectByLoginExpression = SELECT_ALL_FROM + getTableName() + SPACE + format(WHERE_FIELD, LOGIN_FIELD_NAME);
+        this.selectByLoginExpression = format(SELECT_ALL_FROM, String.join(", ", getFields())) +
+                getTableName() + SPACE + format(WHERE_FIELD, LOGIN_FIELD_NAME);
 //        this.selectByLoginExpression = format(SELECT_ALL_FROM, String.join(", ", getFields()))
 //                + getTableName() + SPACE + format(WHERE_FIELD, LOGIN_FIELD_NAME);
     }
