@@ -10,20 +10,20 @@
 <c:if test="${not empty sessionScope.account}">
     <p>Hello, ${sessionScope.account.login}</p>
 </c:if>
-<a href="/controller?command=show_editions">editions page</a>
+<a href="${pageContext.request.contextPath}/controller?command=show_editions">editions page</a>
 <br>
 <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
-<a href="/controller?command=show_users">users page</a>
+<a href="${pageContext.request.contextPath}/controller?command=show_users">users page</a>
 <br>
-<a href="/controller?command=show_accounts">accounts page</a>
+<a href="${pageContext.request.contextPath}/controller?command=show_accounts">accounts page</a>
 <br>
 </c:if>
 <c:choose>
     <c:when test="${not empty sessionScope.account}">
-        <a href="/controller?command=logout">logout</a>
+        <a href="${pageContext.request.contextPath}/controller?command=logout">logout</a>
     </c:when>
     <c:otherwise>
-        <a href="/controller?command=show_login">login</a>
+        <a href="${pageContext.request.contextPath}/controller?command=show_login">login</a>
     </c:otherwise>
 </c:choose>
 </body>

@@ -6,7 +6,7 @@
 </head>
 <body>
 <h3>Please log in:</h3>
-<form name="login-form" action="/controller?command=login" method="post">
+<form name="login-form" action="${pageContext.request.contextPath}/controller?command=login" method="post">
     <label for="login-input">Login:</label>
     <input id="login-input" type="text" name="login" value=""/>
     <br>
