@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="jwds" uri="subscription.jwd.epam.com" %>
 <%@ page import="com.epam.jwd.subscription.entity.Role" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${cookie.lang.value}" />
@@ -18,9 +19,7 @@
 </head>
 <body>
 <h1>${subscriptionMessage}</h1>
-<c:if test="${not empty sessionScope.account}">
-    <p>${welcomeMessage} ${sessionScope.account.login}</p>
-</c:if>
+<jwds:welcomeAccount text="${welcomeMessage}"/>
 <a href="${pageContext.request.contextPath}/controller?command=show_editions">${editionsLink}</a>
 <br>
 <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
