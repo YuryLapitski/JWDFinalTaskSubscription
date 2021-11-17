@@ -5,40 +5,41 @@ import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.Account;
 import com.epam.jwd.subscription.service.AccountService;
 import com.epam.jwd.subscription.service.ServiceFactory;
+import com.epam.jwd.subscription.validator.AccountValidator;
 
-import java.util.Optional;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class LoginCommand implements Command {
+public class SignUpCommand implements Command {
 
     private static final String INDEX_PAGE = "page.index";
-    private static final String LOGIN_PAGE = "page.login";
-    private static final String ERROR_LOGIN_PASS_ATRIBUTE = "errorLoginPassMessage";
-    private static final String ERROR_LOGIN_PASS_MESSAGE = "Invalid login or password";
+    private static final String SIGNUP_PAGE = "page.signup";
+    private static final String ERROR_SIGNUP_ATRIBUTE = "errorSignUpMessage";
+    private static final String ERROR_SIGNUP_MESSAGE = "Invalid login or password";
     private static final String ACCOUNT_SESSION_ATRIBUTE_NAME = "account";
-    private static final String LOGIN_REQUEST_PARAM_NAME = "login";
+    private static final String LOGIN_REQUEST_PARAM_NAME = "signup";
     private static final String PASSWORD_REQUEST_PARAM_NAME = "password";
+    private static final Integer USER_ROLE_ID = 1;
 
-    private static LoginCommand instance = null;
+    private static SignUpCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
     private final AccountService accountService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
-    private LoginCommand(AccountService accountService, RequestFactory requestFactory,
-                         PropertyContext propertyContext) {
+    private SignUpCommand(AccountService accountService, RequestFactory requestFactory,
+                          PropertyContext propertyContext) {
         this.accountService = accountService;
         this.requestFactory = requestFactory;
         this.propertyContext = propertyContext;
     }
 
-    public static LoginCommand getInstance() {
+    public static SignUpCommand getInstance() {
         if (instance == null) {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new LoginCommand(ServiceFactory.instance().accountService(),
+                    instance = new SignUpCommand(ServiceFactory.instance().accountService(),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {
@@ -54,16 +55,16 @@ public class LoginCommand implements Command {
             //todo: error - account alredy logged in
             return null;
         }
+        AccountValidator validator = new AccountValidator();
         final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
         final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
-        final Optional<Account> account = accountService.authenticate(login, password);
-        if (!account.isPresent()) {
-            request.addAttributeToJsp(ERROR_LOGIN_PASS_ATRIBUTE, ERROR_LOGIN_PASS_MESSAGE);
-            return requestFactory.createForwardResponse(propertyContext.get(LOGIN_PAGE));
+        if (validator.validateAll(login, password)) {
+            Account newAccount = new Account(login, password, USER_ROLE_ID);
+            accountService.create(newAccount);
+            return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
+        } else {
+            request.addAttributeToJsp(ERROR_SIGNUP_ATRIBUTE, ERROR_SIGNUP_MESSAGE);
+            return requestFactory.createForwardResponse(propertyContext.get(SIGNUP_PAGE));
         }
-        request.clearSession();
-        request.createSession();
-        request.addToSession(ACCOUNT_SESSION_ATRIBUTE_NAME, account.get());
-        return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
     }
 }

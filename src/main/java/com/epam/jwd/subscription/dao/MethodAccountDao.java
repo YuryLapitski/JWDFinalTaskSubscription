@@ -7,37 +7,49 @@ import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
+import static java.lang.String.join;
 
 public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
 
     private static final Logger LOG = LogManager.getLogger(MethodAccountDao.class);
 
     private static final String ACCOUNT_TABLE_NAME = "account a join role r on r.id = a.role_id";
+    private static final String ACCOUNT_INSERT_TABLE_NAME = "account";
     private static final String ID_FIELD_NAME = "a.id";
     private static final String LOGIN_FIELD_NAME = "a.login";
+    private static final String INSERT_LOGIN_FIELD_NAME = "login";
     private static final String PASSWORD_FIELD_NAME = "a.a_pass";
+    private static final String INSERT_PASSWORD_FIELD_NAME = "a_pass";
+    private static final String ROLE_ID_FIELD_NAME = "a.role_id";
+    private static final String INSERT_ROLE_ID_FIELD_NAME = "role_id";
     private static final String ROLE_FIELD_NAME = "r.role_name";
+    private static final String INSERT_INTO = "insert %s (%s) values (?, ?, ?)";
+    private static final String COMMA = ", ";
 
     private static final List<String> FIELDS = Arrays.asList(
-            ID_FIELD_NAME, LOGIN_FIELD_NAME,
-            PASSWORD_FIELD_NAME, ROLE_FIELD_NAME
+            ID_FIELD_NAME, LOGIN_FIELD_NAME, PASSWORD_FIELD_NAME,
+            ROLE_ID_FIELD_NAME, ROLE_FIELD_NAME
+    );
+
+    private static final List<String> FIELDS_FOR_INSERT = Arrays.asList(
+            INSERT_LOGIN_FIELD_NAME, INSERT_PASSWORD_FIELD_NAME,
+            INSERT_ROLE_ID_FIELD_NAME
     );
 
     private final String selectByLoginExpression;
+    private final String insertSql;
 
     private MethodAccountDao(ConnectionPool pool) {
         super(pool, LOG);
-        this.selectByLoginExpression = format(SELECT_ALL_FROM, String.join(", ", getFields())) +
+        this.selectByLoginExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELD, LOGIN_FIELD_NAME);
-//        this.selectByLoginExpression = format(SELECT_ALL_FROM, String.join(", ", getFields()))
-//                + getTableName() + SPACE + format(WHERE_FIELD, LOGIN_FIELD_NAME);
+        this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields()));
     }
 
     private static class Holder {
@@ -46,6 +58,37 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
 
     static AccountDao getInstance() {
         return MethodAccountDao.Holder.INSTANCE;
+    }
+
+    protected List<String> getInsertFields() {
+        return FIELDS_FOR_INSERT;
+    }
+
+    protected String getInsertTableName() {
+        return ACCOUNT_INSERT_TABLE_NAME;
+    }
+
+    @Override
+    public Account create(Account account) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, account));
+            if (rowsUpdated > 0) {
+//                read() //todo: read by unique param
+                return null;
+            }
+            return null; //todo: throw exc
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return null;
+        }
+    }
+
+    @Override
+    protected void fillEntity(PreparedStatement statement, Account account) throws SQLException {
+        statement.setString(1, account.getLogin());
+        statement.setString(2, account.getPassword());
+        statement.setInt(3, account.getRoleId());
     }
 
     @Override
@@ -83,16 +126,12 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
                     rs.getLong(ID_FIELD_NAME),
                     rs.getString(LOGIN_FIELD_NAME),
                     rs.getString(PASSWORD_FIELD_NAME),
+                    rs.getInt(ROLE_ID_FIELD_NAME),
                     Role.of(rs.getString(ROLE_FIELD_NAME)));
         } catch (SQLException e) {
             LOG.error("sql exception occured extracting edition from ResultSet", e);
             throw new EntityExtractionFailedException("could not extract entity", e);
         }
-    }
-
-    @Override
-    public Account create(Account entity) {
-        return null;
     }
 
     @Override

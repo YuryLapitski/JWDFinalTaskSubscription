@@ -6,6 +6,7 @@ import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -62,6 +63,11 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
             LOG.error("sql exception occured extracting user from ResultSet", e);
             throw new EntityExtractionFailedException("could not extract entity", e);
         }
+    }
+
+    @Override
+    protected void fillEntity(PreparedStatement statement, User entity) throws SQLException {
+
     }
 
     @Override

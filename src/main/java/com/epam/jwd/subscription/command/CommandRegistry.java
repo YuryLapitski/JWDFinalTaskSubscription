@@ -13,6 +13,8 @@ public enum CommandRegistry {
     SHOW_LOGIN(ShowLoginPageCommand.getInstance(),"show_login", UNAUTHORIZED),
     LOGIN(LoginCommand.getInstance(), "login", UNAUTHORIZED),
     LOGOUT(LogoutCommand.getInstance(), "logout", USER, ADMIN),
+    SHOW_SIGNUP(ShowSignUpPageCommand.getInstance(), "show_signup", UNAUTHORIZED),
+    SIGNUP(SignUpCommand.getInstance(), "signup", UNAUTHORIZED),
     SHOW_ACCOUNTS(ShowAccountsPageCommand.getInstance(), "show_accounts", ADMIN),
     SHOW_EDITIONS(ShowEditionsPageCommand.getInstance(), "show_editions"),
     SHOW_USERS(ShowUsersPageCommand.getInstance(), "show_users", ADMIN),

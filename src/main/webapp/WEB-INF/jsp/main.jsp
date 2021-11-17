@@ -13,6 +13,7 @@
 <fmt:message bundle="${loc}" key="label.link.accounts" var="accountsLink" />
 <fmt:message bundle="${loc}" key="label.link.login" var="loginLink" />
 <fmt:message bundle="${loc}" key="label.link.logout" var="logoutLink" />
+<fmt:message bundle="${loc}" key="label.link.signup" var="signupLink" />
 <html>
 <head>
     <title>${pageTitle}</title>
@@ -21,6 +22,7 @@
 <h1>${subscriptionMessage}</h1>
 <jwds:welcomeAccount text="${welcomeMessage}"/>
 <a href="${pageContext.request.contextPath}/controller?command=show_editions">${editionsLink}</a>
+
 <br>
 <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
     <a href="${pageContext.request.contextPath}/controller?command=show_users">${usersLink}</a>
@@ -34,6 +36,8 @@
     </c:when>
     <c:otherwise>
         <a href="${pageContext.request.contextPath}/controller?command=show_login">${loginLink}</a>
+        <br>
+        <a href="${pageContext.request.contextPath}/controller?command=show_signup">${signupLink}</a>
     </c:otherwise>
 </c:choose>
 </body>

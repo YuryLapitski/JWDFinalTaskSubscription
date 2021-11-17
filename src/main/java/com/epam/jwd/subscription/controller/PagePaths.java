@@ -6,6 +6,7 @@ public enum PagePaths {
     ACCOUNTS("/WEB-INF/jsp/accounts.jsp"),
     EDITIONS("/WEB-INF/jsp/editions.jsp"),
     LOGIN("/WEB-INF/jsp/login.jsp"),
+    SIGNUP("/WEB-INF/jsp/signup.jsp"),
     USERS("/WEB-INF/jsp/users.jsp"),
     ERROR("/WEB-INF/jsp/error.jsp");
 
