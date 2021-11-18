@@ -55,10 +55,9 @@ public class SignUpCommand implements Command {
             //todo: error - account alredy logged in
             return null;
         }
-        AccountValidator validator = new AccountValidator();
         final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
         final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
-        if (validator.validateAll(login, password)) {
+        if (AccountValidator.getInstance().validateAll(login, password)) {
             Account newAccount = new Account(login, password, USER_ROLE_ID);
             accountService.create(newAccount);
             return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
