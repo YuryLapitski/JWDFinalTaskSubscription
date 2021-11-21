@@ -22,8 +22,9 @@ public class Application {
     private static final String LAST_NAME_COLUMN_NAME = "last_name";
     private static final String AGE_COLUMN_NAME = "age";
     private static final String EMAIL_COLUMN_NAME = "email";
+    private static final String ACC_ID_COLUMN_NAME = "acc_id";
     private static final String SELECT_ALL_SQL = "Select id as id, first_name as first_name," +
-            " last_name as last_name, age as age, email as email from user";
+            " last_name as last_name, age as age, email as email, acc_id as acc_id from user";
 
     private static final ConnectionPool CONNECTION_POOL = ConnectionPool.instance();
 
@@ -114,7 +115,8 @@ public class Application {
                     resultSet.getString(FIRST_NAME_COLUMN_NAME),
                     resultSet.getString(LAST_NAME_COLUMN_NAME),
                     resultSet.getInt(AGE_COLUMN_NAME),
-                    resultSet.getString(EMAIL_COLUMN_NAME));
+                    resultSet.getString(EMAIL_COLUMN_NAME),
+                    resultSet.getLong(ACC_ID_COLUMN_NAME));
         } catch (SQLException e) {
             LOG.error("could not extract value from result set", e);
             throw new EntityExtractionFailedException("failed to extract user");

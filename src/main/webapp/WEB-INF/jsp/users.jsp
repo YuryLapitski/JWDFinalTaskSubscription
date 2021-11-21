@@ -12,6 +12,7 @@
         <th>Name</th>
         <th>Age</th>
         <th>Email</th>
+        <th>Account Id</th>
     </tr>
     <c:forEach var="user" items="${requestScope.users}">
         <tr>
@@ -19,6 +20,7 @@
             <td>${user.firstName} ${user.lastName}</td>
             <td>${user.age}</td>
             <td>${user.email}</td>
+            <td>${user.accId}</td>
         </tr>
     </c:forEach>
 </table>
