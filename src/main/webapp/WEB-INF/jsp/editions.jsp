@@ -20,37 +20,29 @@
     <c:forEach var="edition" items="${requestScope.editions}">
         <tr>
             <td>${edition.id}</td>
-<%--            <c:choose>--%>
-<%--                <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">--%>
-<%--                    <td><a href="${pageContext.request.contextPath}/controller?command=show_price&id=${edition.id}">${edition.name}</a></td>--%>
-<%--                </c:when>--%>
-<%--                <c:otherwise>--%>
-<%--                    <td>${edition.name}</td>--%>
-<%--                </c:otherwise>--%>
-<%--            </c:choose>--%>
             <td>${edition.name}</td>
             <td>${edition.category}</td>
             <td>${edition.threeMonthsPrice}</td>
             <td>${edition.sixMonthsPrice}</td>
             <td>${edition.twelveMonthsPrice}</td>
-            <c:choose>
+            <td>
+                <c:choose>
                 <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">
-                    <td><input type="submit" value="Choose"/></td>
+                    <form name="choose_edition" action="${pageContext.request.contextPath}
+                    /controller?command=choose_edition" method="post">
+                        <input type="hidden" name="name" value="${edition.name}"/>
+                        <input type="submit" value="Choose"/>
+                    </form>
                 </c:when>
                 <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
-                    <td></td>
                 </c:when>
                 <c:otherwise>
-                    <td>Log in to choose</td>
+                    Log in to choose
                 </c:otherwise>
             </c:choose>
+            </td>
         </tr>
     </c:forEach>
 </table>
-<%--<ul>--%>
-<%--    <c:forEach var="edition" items="${requestScope.editions}">--%>
-<%--        <li>${edition.name}</li>--%>
-<%--    </c:forEach>--%>
-<%--</ul>--%>
 </body>
 </html>

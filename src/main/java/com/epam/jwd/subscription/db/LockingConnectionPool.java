@@ -96,13 +96,9 @@ public class LockingConnectionPool implements ConnectionPool {
             }
             final ProxyConnection connection = availableConnections.poll();
             LOG.trace("{} take connection...", Thread.currentThread().getName());
-            LOG.trace("available connection size {}", availableConnections.size());
             givenAwayConnections.add(connection);
-            LOG.trace("given away connection size {}", givenAwayConnections.size());
             int currentSize = availableConnections.size() + givenAwayConnections.size();
-            LOG.trace("current size {}", currentSize);
             if (availableConnections.size() < CONNECTION_INCREASE_FACTOR * currentSize) {
-                LOG.warn("need to initialize new connections");
                 initializeConnections(initialPoolSizeFromProperties(readProperties()), true);
             }
             return connection;
@@ -138,16 +134,12 @@ public class LockingConnectionPool implements ConnectionPool {
             LOCK.lock();
             if (givenAwayConnections.remove(connection)) {
                 availableConnections.add((ProxyConnection) connection);
-                LOG.trace("{} return connection...", Thread.currentThread().getName());
-                LOG.trace("available connection size {}", availableConnections.size());
-                LOG.trace("given away connection size {}", givenAwayConnections.size());
+                LOG.trace("{} return connection.", Thread.currentThread().getName());
                 int currentSize = availableConnections.size() + givenAwayConnections.size();
-                LOG.trace("current size {}", currentSize);
                 if (availableConnections.size() > initialPoolSizeFromProperties(readProperties())) {
-                    LOG.warn("need to decrease connections");
                     availableConnections.remove(connection);
                     int currentSize1 = availableConnections.size() + givenAwayConnections.size();
-                    LOG.trace("current size {}", currentSize1);
+                    LOG.trace("decreased connections. current size {}", currentSize1);
                 }
                 CONDITION.signalAll();
             } else {

@@ -20,6 +20,7 @@ public enum CommandRegistry {
     SHOW_USERS(ShowUsersPageCommand.getInstance(), "show_users", ADMIN),
     SHOW_USER_DATA(ShowUserDataPageCommand.getInstance(), "show_user_data", USER),
     USER_DATA_SUBMIT(UserDataSubmitCommand.getInstance(), "user_data", USER),
+    CHOOSE_EDITION(ChooseEditionCommand.getInstance(), "choose_edition", USER),
     ERROR(ShowErrorPageCommand.getInstance(), "show_error"),
     DEFAULT(ShowMainPageCommand.getInstance(), "");
 

@@ -13,9 +13,9 @@ public class SignUpCommand implements Command {
 
     private static final String INDEX_PAGE = "page.index";
     private static final String SIGNUP_PAGE = "page.signup";
-    private static final String ERROR_SIGNUP_ATRIBUTE = "errorSignUpMessage";
+    private static final String ERROR_SIGNUP_ATTRIBUTE = "errorSignUpMessage";
     private static final String ERROR_SIGNUP_MESSAGE = "Invalid login or password";
-    private static final String ACCOUNT_SESSION_ATRIBUTE_NAME = "account";
+    private static final String ACCOUNT_SESSION_ATTRIBUTE_NAME = "account";
     private static final String LOGIN_REQUEST_PARAM_NAME = "signup";
     private static final String PASSWORD_REQUEST_PARAM_NAME = "password";
     private static final Integer USER_ROLE_ID = 1;
@@ -51,7 +51,7 @@ public class SignUpCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) {
-        if (request.sessionExists() && request.retrieveFromSession(ACCOUNT_SESSION_ATRIBUTE_NAME).isPresent()) {
+        if (request.sessionExists() && request.retrieveFromSession(ACCOUNT_SESSION_ATTRIBUTE_NAME).isPresent()) {
             //todo: error - account alredy logged in
             return null;
         }
@@ -62,7 +62,7 @@ public class SignUpCommand implements Command {
             accountService.create(newAccount);
             return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
         } else {
-            request.addAttributeToJsp(ERROR_SIGNUP_ATRIBUTE, ERROR_SIGNUP_MESSAGE);
+            request.addAttributeToJsp(ERROR_SIGNUP_ATTRIBUTE, ERROR_SIGNUP_MESSAGE);
             return requestFactory.createForwardResponse(propertyContext.get(SIGNUP_PAGE));
         }
     }

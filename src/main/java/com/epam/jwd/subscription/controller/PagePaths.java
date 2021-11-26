@@ -9,6 +9,7 @@ public enum PagePaths {
     SIGNUP("/WEB-INF/jsp/signup.jsp"),
     USERS("/WEB-INF/jsp/users.jsp"),
     USER_DATA("/WEB-INF/jsp/user_data.jsp"),
+    SUBSCRIBE("/WEB-INF/jsp/subscribe.jsp"),
     ERROR("/WEB-INF/jsp/error.jsp");
 
     private final String path;
