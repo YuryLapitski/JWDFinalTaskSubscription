@@ -85,7 +85,7 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
                     rs.getString(EMAIL_FIELD_NAME),
                     rs.getLong(ACC_ID_FIELD_NAME));
         } catch (SQLException e) {
-            LOG.error("sql exception occured extracting user from ResultSet", e);
+            LOG.error("sql exception occurred extracting user from ResultSet", e);
             throw new EntityExtractionFailedException("could not extract entity", e);
         }
     }

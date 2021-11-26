@@ -5,6 +5,7 @@ import com.epam.jwd.subscription.dao.AccountDao;
 import com.epam.jwd.subscription.entity.Account;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,11 @@ public class SimpleAccountService implements AccountService {
     @Override
     public List<Account> findAll() {
         return accountDao.read();
+    }
+
+    @Override
+    public List<Account> findAllById(String id) {
+        return Collections.emptyList();
     }
 
     @Override

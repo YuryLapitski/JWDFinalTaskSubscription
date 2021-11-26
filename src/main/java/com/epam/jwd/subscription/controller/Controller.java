@@ -24,16 +24,6 @@ public class Controller extends HttpServlet {
 
     private final RequestFactory requestFactory = RequestFactory.getInstance();
 
-//    @Override
-//    public void init() {
-//        ConnectionPool.instance().init();
-//    }
-//
-//    @Override
-//    public void destroy() {
-//        ConnectionPool.instance().shutDown();
-//    }
-
     @Override
     protected void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         LOG.trace("caught req and resp in doGet method");

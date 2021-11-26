@@ -3,6 +3,7 @@ package com.epam.jwd.subscription.service;
 import com.epam.jwd.subscription.dao.EditionDao;
 import com.epam.jwd.subscription.entity.Edition;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,11 @@ public class EditionService implements EntityService<Edition> {
     @Override
     public List<Edition> findAll() {
         return editionDao.read();
+    }
+
+    @Override
+    public List<Edition> findAllById(String id) {
+        return Collections.emptyList();
     }
 
     @Override

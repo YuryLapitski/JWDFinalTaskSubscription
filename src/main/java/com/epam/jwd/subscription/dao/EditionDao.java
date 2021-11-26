@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface EditionDao extends EntityDao<Edition> {
 
-    List<Edition> findByName(String model);
+    List<Edition> findByName(String name);
 
     Optional<Long> findUserIdByEditionId(Long id);
 

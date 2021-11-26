@@ -3,6 +3,7 @@ package com.epam.jwd.subscription.service;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.epam.jwd.subscription.dao.AccountDao;
 import com.epam.jwd.subscription.dao.EditionDao;
+import com.epam.jwd.subscription.dao.PriceDao;
 import com.epam.jwd.subscription.dao.UserDao;
 import com.epam.jwd.subscription.entity.Entity;
 
@@ -43,6 +44,8 @@ public class SimpleServiceFactory implements ServiceFactory {
                     return new EditionService(EditionDao.instance());
                 case "User":
                     return new UserService(UserDao.instance());
+                case "Price":
+                    return new PriceService(PriceDao.instance());
                 default:
                     throw new IllegalArgumentException(String.format(SERVICE_NOT_FOUND, className));
             }

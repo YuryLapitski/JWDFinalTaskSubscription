@@ -2,6 +2,7 @@ package com.epam.jwd.subscription.service;
 
 import com.epam.jwd.subscription.entity.Account;
 import com.epam.jwd.subscription.entity.Entity;
+import com.epam.jwd.subscription.entity.Price;
 import com.epam.jwd.subscription.entity.User;
 
 public interface ServiceFactory {
@@ -14,6 +15,10 @@ public interface ServiceFactory {
 
     default UserService userService() {
         return (UserService) serviceFor(User.class);
+    }
+
+    default PriceService priceService() {
+        return (PriceService) serviceFor(Price.class);
     }
 
     static SimpleServiceFactory instance() {

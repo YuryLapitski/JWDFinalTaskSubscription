@@ -20,7 +20,6 @@ public class WelcomeTag extends TagSupport {
     private static final String PARAGRAPH_TAGS = "<p>%s, %s</p>";
     private static final String ACCOUNT_SESSION_PARAM_NAME = "account";
 
-
     private String text;
 
     @Override

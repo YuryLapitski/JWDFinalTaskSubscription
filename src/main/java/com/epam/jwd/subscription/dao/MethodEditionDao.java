@@ -3,10 +3,12 @@ package com.epam.jwd.subscription.dao;
 import com.epam.jwd.subscription.db.ConnectionPool;
 import com.epam.jwd.subscription.entity.Category;
 import com.epam.jwd.subscription.entity.Edition;
+import com.epam.jwd.subscription.entity.Price;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,13 +20,17 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
     private static final Logger LOG = LogManager.getLogger(MethodEditionDao.class);
 
-    private static final String EDITION_TABLE_NAME = "edition e join category c on c.id = e.cat_id";
-    private static final String ID_FIELD_NAME = "e.id";
-    private static final String NAME_FIELD_NAME = "e.name";
-    private static final String CATEGORY_FIELD_NAME = "c.cat_name";
+    private static final String EDITION_TABLE_NAME = "edition e join category c on c.cat_id = e.cat_id";
+    private static final String EDITION_ID_FIELD_NAME = "ed_id";
+    private static final String NAME_FIELD_NAME = "ed_name";
+    private static final String CATEGORY_FIELD_NAME = "cat_name";
+    private static final Integer THREE_MONTHS_TERM_ID = 1;
+    private static final Integer SIX_MONTHS_TERM_ID = 2;
+    private static final Integer TWELVE_MONTHS_TERM_ID = 3;
 
     private static final List<String> FIELDS = Arrays.asList(
-            ID_FIELD_NAME, NAME_FIELD_NAME, CATEGORY_FIELD_NAME
+            EDITION_ID_FIELD_NAME, NAME_FIELD_NAME,
+            CATEGORY_FIELD_NAME
     );
 
     private MethodEditionDao(ConnectionPool pool) {
@@ -51,19 +57,31 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
     @Override
     protected String getIdFieldName() {
-        return ID_FIELD_NAME;
+        return EDITION_ID_FIELD_NAME;
+    }
+
+    private BigDecimal priceValue(Long editionId, Integer termId) {
+        final List<Price> prices = PriceDao.instance().findPricesByEditionId(editionId);
+        for (Price price : prices) {
+            if (price.getTermId().equals(termId)) {
+                return price.getValue();
+            }
+        }
+        return null;
     }
 
     @Override
     protected Edition extractResult(ResultSet rs) throws EntityExtractionFailedException {
-
         try {
             return new Edition(
-                    rs.getLong(ID_FIELD_NAME),
+                    rs.getLong(EDITION_ID_FIELD_NAME),
                     rs.getString(NAME_FIELD_NAME),
-                    Category.of(rs.getString(CATEGORY_FIELD_NAME)));
+                    Category.of(rs.getString(CATEGORY_FIELD_NAME)),
+                    priceValue(rs.getLong(EDITION_ID_FIELD_NAME), THREE_MONTHS_TERM_ID),
+                    priceValue(rs.getLong(EDITION_ID_FIELD_NAME), SIX_MONTHS_TERM_ID),
+                    priceValue(rs.getLong(EDITION_ID_FIELD_NAME), TWELVE_MONTHS_TERM_ID));
         } catch (SQLException e) {
-            LOG.error("sql exception occured extracting edition from ResultSet", e);
+            LOG.error("sql exception occurred extracting edition from ResultSet", e);
             throw new EntityExtractionFailedException("could not extract entity", e);
         }
     }
@@ -74,7 +92,7 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     @Override
-    public List<Edition> findByName(String model) {
+    public List<Edition> findByName(String name) {
         return null;
     }
 

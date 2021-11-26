@@ -129,7 +129,7 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
                     rs.getInt(ROLE_ID_FIELD_NAME),
                     Role.of(rs.getString(ROLE_FIELD_NAME)));
         } catch (SQLException e) {
-            LOG.error("sql exception occured extracting edition from ResultSet", e);
+            LOG.error("sql exception occurred extracting edition from ResultSet", e);
             throw new EntityExtractionFailedException("could not extract entity", e);
         }
     }

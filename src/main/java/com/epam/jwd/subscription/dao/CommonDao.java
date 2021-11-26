@@ -28,8 +28,8 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
     protected static final String SPACE = " ";
 
     protected final ConnectionPool pool;
-    private final String selectAllExpression;
-    private final String selectByIdExpression;
+    protected final String selectAllExpression;
+    protected final String selectByIdExpression;
     private final String insertSql;
     private final Logger logger;
 
@@ -83,7 +83,7 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
         return Collections.emptyList();
     }
 
-    private List<T> executePreparededForEntities (String sql,
+    protected List<T> executePreparedForEntities (String sql,
                                        ResultSetExtractor<T> extractor,
                                        StatementPreparator statementPreparation) throws InterruptedException {
         try (final Connection connection = pool.takeConnection();
