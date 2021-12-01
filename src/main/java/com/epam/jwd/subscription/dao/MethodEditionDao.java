@@ -24,9 +24,9 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     private static final String EDITION_ID_FIELD_NAME = "ed_id";
     private static final String NAME_FIELD_NAME = "ed_name";
     private static final String CATEGORY_FIELD_NAME = "cat_name";
-    private static final Integer THREE_MONTHS_TERM_ID = 1;
-    private static final Integer SIX_MONTHS_TERM_ID = 2;
-    private static final Integer TWELVE_MONTHS_TERM_ID = 3;
+    private static final Long THREE_MONTHS_TERM_ID = 1L;
+    private static final Long SIX_MONTHS_TERM_ID = 2L;
+    private static final Long TWELVE_MONTHS_TERM_ID = 3L;
 
     private static final List<String> FIELDS = Arrays.asList(
             EDITION_ID_FIELD_NAME, NAME_FIELD_NAME,
@@ -60,7 +60,7 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
         return EDITION_ID_FIELD_NAME;
     }
 
-    private BigDecimal priceValue(Long editionId, Integer termId) {
+    private BigDecimal priceValue(Long editionId, Long termId) {
         final List<Price> prices = PriceDao.instance().findPricesByEditionId(editionId);
         for (Price price : prices) {
             if (price.getTermId().equals(termId)) {
@@ -97,8 +97,16 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     @Override
-    public Optional<Long> findUserIdByEditionId(Long id) {
-        return Optional.empty();
+    public Optional<Edition> findEditionById(Long id) {
+        try {
+            return executePreparedForGenericEntity(selectByIdExpression,
+                    this::extractResultCatchingException,
+                    st -> st.setLong(1, id));
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        }
     }
 
     @Override

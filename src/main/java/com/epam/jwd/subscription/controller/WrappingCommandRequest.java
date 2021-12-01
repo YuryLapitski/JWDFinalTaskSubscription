@@ -58,4 +58,10 @@ public class WrappingCommandRequest implements CommandRequest {
     public void createSession() {
         request.getSession(true);
     }
+
+    @Override
+    public String[] getParameters (String name) {
+        return request.getParameterValues(name);
+    }
+
 }

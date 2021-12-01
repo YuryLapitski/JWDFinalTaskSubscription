@@ -3,7 +3,7 @@ package com.epam.jwd.subscription.command;
 import com.epam.jwd.subscription.controller.PropertyContext;
 import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.Edition;
-import com.epam.jwd.subscription.service.EntityService;
+import com.epam.jwd.subscription.service.EditionService;
 import com.epam.jwd.subscription.service.ServiceFactory;
 
 import java.util.List;
@@ -17,13 +17,13 @@ public class ShowEditionsPageCommand implements Command {
     private static ShowEditionsPageCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final EntityService<Edition> service;
+    private final EditionService editionService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
-    private ShowEditionsPageCommand(EntityService<Edition> service, RequestFactory requestFactory,
+    private ShowEditionsPageCommand(EditionService editionService, RequestFactory requestFactory,
                                     PropertyContext propertyContext) {
-        this.service = service;
+        this.editionService = editionService;
         this.requestFactory = requestFactory;
         this.propertyContext = propertyContext;
     }
@@ -33,7 +33,7 @@ public class ShowEditionsPageCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowEditionsPageCommand(ServiceFactory.instance().serviceFor(Edition.class),
+                    instance = new ShowEditionsPageCommand(ServiceFactory.instance().editionService(),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {
@@ -45,7 +45,7 @@ public class ShowEditionsPageCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) {
-        final List<Edition> editions = service.findAll();
+        final List<Edition> editions = editionService.findAll();
         request.addAttributeToJsp(EDITIONS_ATTRIBUTE_NAME, editions);
         return requestFactory.createForwardResponse(propertyContext.get(EDITIONS_PAGE));
     }

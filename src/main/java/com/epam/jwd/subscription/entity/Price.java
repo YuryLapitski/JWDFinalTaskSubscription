@@ -5,20 +5,24 @@ import java.util.Objects;
 
 public class Price implements Entity {
 
-    private static final long serialVersionUID = 7313880770846891551L;
+    private static final long serialVersionUID = 8525936767029143302L;
     private final Long id;
     private final Long editionId;
-    private final Integer termId;
+    private final Long termId;
     private final BigDecimal value;
 
-    public Price(Long id, Long editionId, Integer termId, BigDecimal value) {
+    public Price(Long id, Long editionId, Long termId, BigDecimal value) {
         this.id = id;
         this.editionId = editionId;
         this.termId = termId;
         this.value = value;
     }
 
-    public Price(Long editionId, Integer termId, BigDecimal value) {
+    public Price (Long editionId, Long termId) {
+        this(null, editionId, termId, null);
+    }
+
+    public Price(Long editionId, Long termId, BigDecimal value) {
         this(null, editionId, termId, value);
     }
 
@@ -26,7 +30,7 @@ public class Price implements Entity {
         return editionId;
     }
 
-    public Integer getTermId() {
+    public Long getTermId() {
         return termId;
     }
 

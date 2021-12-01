@@ -3,7 +3,6 @@ package com.epam.jwd.subscription.service;
 import com.epam.jwd.subscription.dao.UserDao;
 import com.epam.jwd.subscription.entity.User;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +20,8 @@ public class UserService implements EntityService<User> {
     }
 
     @Override
-    public List<User> findAllById(String id) {
-        return Collections.emptyList();
+    public Optional<User> findById(Long id) {
+        return userDao.readUserByAccountId(id);
     }
 
     @Override

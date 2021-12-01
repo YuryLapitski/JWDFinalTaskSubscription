@@ -5,33 +5,21 @@
     <title>Subscribe</title>
 </head>
 <body>
-<h3>Please enter data to subscribe to "${requestScope.editionName}":</h3>
-<p>First Name</p>
-<p>Last Name</p>
-<p>Email</p>
+<h3>Please check data to subscription to "${requestScope.edition.name}":</h3>
+<p>First Name: ${requestScope.user.firstName}</p>
+<p>Last Name: ${requestScope.user.lastName}</p>
+<p>Email: ${requestScope.user.email}</p>
+<br>
+<p>Delivery address:</p>
+<p>City: ${requestScope.address.city}</p>
+<p>Street: ${requestScope.address.street}</p>
+<p>House: ${requestScope.address.house}</p>
+<p>Flat: ${requestScope.address.flat}</p>
+<br>
+<p>Subscription term: ${requestScope.term.months} months</p>
+<p>Price: ${requestScope.price.value}</p>
 <form name="subscription" action="${pageContext.request.contextPath}/controller?command=subscribe" method="post">
-    <label for="city-input">City:</label>
-    <input id="city-input" type="text" name="city" value=""/>
-    <br>
-    <label for="street-input">Street:</label>
-    <input id="street-input" type="text" name="street" value=""/>
-    <br>
-    <label for="house-input">House:</label>
-    <input id="house-input" type="number" name="house" value=""/>
-    <br>
-    <label for="flat-input">Flat:</label>
-    <input id="flat-input" type="number" name="flat" value=""/>
-    <br>
-    <label for="term-input">Term:</label>
-    <input id="term-input" type="radio" name="term" value=""/>3 months
-    <input id="term-input" type="radio" name="term" value=""/>6 months
-    <input id="term-input" type="radio" name="term" value=""/>12 months
-    <br/>
-    <c:if test="${not empty requestScope.errorUserDataMessage}">
-        <b>${requestScope.errorUserDataMessage}</b>
-        <br>
-    </c:if>
-    <input type="submit" value="Submit"/>
+    <input type="submit" value="Add to shopping card"/>
 </form>
 </body>
 </html>

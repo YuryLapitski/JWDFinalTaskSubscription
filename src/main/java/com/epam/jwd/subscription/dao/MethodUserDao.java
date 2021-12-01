@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.String.format;
-import static java.lang.String.join;
+import static java.lang.String.*;
 
 public class MethodUserDao extends CommonDao<User> implements UserDao {
 
@@ -42,12 +41,15 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
     );
 
     private final String selectByEmailExpression;
+    private final String selectByAccountIdExpression;
     private final String insertSql;
 
     private MethodUserDao(ConnectionPool pool) {
         super(pool, LOG);
         this.selectByEmailExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELD, EMAIL_FIELD_NAME);
+        this.selectByAccountIdExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
+                getTableName() + SPACE + format(WHERE_FIELD, ACC_ID_FIELD_NAME);
         this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields()));
     }
 
@@ -113,9 +115,22 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public Optional<User> readUserByAccountId(Long accId) {
         try {
-            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, entity));
+            return executePreparedForGenericEntity(selectByAccountIdExpression,
+                    this::extractResultCatchingException,
+                    st -> st.setLong(1, accId));
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public User create(User user) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, user));
             if (rowsUpdated > 0) {
 //                read() //todo: read by unique param
                 return null;

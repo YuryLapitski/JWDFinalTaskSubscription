@@ -13,9 +13,9 @@ public class LoginCommand implements Command {
 
     private static final String INDEX_PAGE = "page.index";
     private static final String LOGIN_PAGE = "page.login";
-    private static final String ERROR_LOGIN_PASS_ATRIBUTE = "errorLoginPassMessage";
+    private static final String ERROR_LOGIN_PASS_ATTRIBUTE = "errorLoginPassMessage";
     private static final String ERROR_LOGIN_PASS_MESSAGE = "Invalid login or password";
-    private static final String ACCOUNT_SESSION_ATRIBUTE_NAME = "account";
+    private static final String ACCOUNT_SESSION_ATTRIBUTE_NAME = "account";
     private static final String LOGIN_REQUEST_PARAM_NAME = "login";
     private static final String PASSWORD_REQUEST_PARAM_NAME = "password";
 
@@ -50,7 +50,7 @@ public class LoginCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) {
-        if (request.sessionExists() && request.retrieveFromSession(ACCOUNT_SESSION_ATRIBUTE_NAME).isPresent()) {
+        if (request.sessionExists() && request.retrieveFromSession(ACCOUNT_SESSION_ATTRIBUTE_NAME).isPresent()) {
             //todo: error - account alredy logged in
             return null;
         }
@@ -58,12 +58,12 @@ public class LoginCommand implements Command {
         final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
         final Optional<Account> account = accountService.authenticate(login, password);
         if (!account.isPresent()) {
-            request.addAttributeToJsp(ERROR_LOGIN_PASS_ATRIBUTE, ERROR_LOGIN_PASS_MESSAGE);
+            request.addAttributeToJsp(ERROR_LOGIN_PASS_ATTRIBUTE, ERROR_LOGIN_PASS_MESSAGE);
             return requestFactory.createForwardResponse(propertyContext.get(LOGIN_PAGE));
         }
         request.clearSession();
         request.createSession();
-        request.addToSession(ACCOUNT_SESSION_ATRIBUTE_NAME, account.get());
+        request.addToSession(ACCOUNT_SESSION_ATTRIBUTE_NAME, account.get());
         return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
     }
 }

@@ -1,9 +1,6 @@
 package com.epam.jwd.subscription.service;
 
-import com.epam.jwd.subscription.entity.Account;
-import com.epam.jwd.subscription.entity.Entity;
-import com.epam.jwd.subscription.entity.Price;
-import com.epam.jwd.subscription.entity.User;
+import com.epam.jwd.subscription.entity.*;
 
 public interface ServiceFactory {
 
@@ -17,8 +14,20 @@ public interface ServiceFactory {
         return (UserService) serviceFor(User.class);
     }
 
-    default PriceService priceService() {
-        return (PriceService) serviceFor(Price.class);
+    default EditionService editionService() {
+        return (EditionService) serviceFor(Edition.class);
+    }
+
+    default SimplePriceService priceService() {
+        return (SimplePriceService) serviceFor(Price.class);
+    }
+
+    default AddressService addressService() {
+        return (AddressService) serviceFor(Address.class);
+    }
+
+    default TermService termService() {
+        return (TermService) serviceFor(Term.class);
     }
 
     static SimpleServiceFactory instance() {

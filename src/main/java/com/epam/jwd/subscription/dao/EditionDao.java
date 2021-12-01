@@ -9,10 +9,9 @@ public interface EditionDao extends EntityDao<Edition> {
 
     List<Edition> findByName(String name);
 
-    Optional<Long> findUserIdByEditionId(Long id);
+    Optional<Edition> findEditionById(Long id);
 
     static EditionDao instance() {
         return MethodEditionDao.getInstance();
     }
-
 }

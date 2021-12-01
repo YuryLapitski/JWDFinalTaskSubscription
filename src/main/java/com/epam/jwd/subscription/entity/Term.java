@@ -1,39 +1,46 @@
 package com.epam.jwd.subscription.entity;
 
-import com.sun.org.apache.bcel.internal.classfile.Unknown;
-import org.omg.CORBA.UNKNOWN;
+import java.util.Objects;
 
-import java.util.Arrays;
-import java.util.List;
+public class Term implements Entity {
 
-public enum Term {
+    private static final long serialVersionUID = 3245611316538132503L;
+    private final Long id;
+    private final Integer months;
 
-    THREE (3),
-    SIX (6),
-    TWELVE (12);
-
-    private static final List<Term> ALL_AVAILABLE_TERMS = Arrays.asList(values());
-
-    private final int months;
-
-    Term(int months) {
+    public Term(Long id, Integer months) {
+        this.id = id;
         this.months = months;
     }
 
-    public int getMonths() {
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getMonths() {
         return months;
     }
 
-    public static List<Term> valuesAsList() {
-        return ALL_AVAILABLE_TERMS;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Term term = (Term) o;
+        return Objects.equals(id, term.id) &&
+                Objects.equals(months, term.months);
     }
 
-    public static Term of(int months) {
-        for (Term term : values()) {
-            if (term.getMonths() == months) {
-                return term;
-            }
-        }
-        return null;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, months);
+    }
+
+    @Override
+    public String toString() {
+        return "Term{" +
+                "id=" + id +
+                ", months=" + months +
+                '}';
     }
 }
