@@ -23,6 +23,7 @@ public enum CommandRegistry {
     SHOW_ADDRESS_DATA(ShowAddressDataCommand.getInstance(), "show_address", USER),
     SHOW_TERM_DATA(ShowTermDataCommand.getInstance(),"show_term", USER),
     SHOW_SUBSCRIPTION_DATA(ShowSubscriptionDataCommand.getInstance(), "show_subscription", USER),
+    ADD_TO_SHOPPING_CARD(AddToShoppingCardCommand.getInstance(), "add_to_shopping_card", USER),
     ERROR(ShowErrorPageCommand.getInstance(), "show_error"),
     DEFAULT(ShowMainPageCommand.getInstance(), "");
 

@@ -33,6 +33,10 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
             CATEGORY_FIELD_NAME
     );
 
+    private static final List<String> FIELDS_FOR_INSERT = Arrays.asList(
+            NAME_FIELD_NAME, CATEGORY_FIELD_NAME
+    );
+
     private MethodEditionDao(ConnectionPool pool) {
         super(pool, LOG);
     }
@@ -51,8 +55,23 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     @Override
+    protected String getInsertTableName() {
+        return null;
+    }
+
+    @Override
     protected List<String> getFields() {
         return FIELDS;
+    }
+
+    @Override
+    protected List<String> getInsertFields() {
+        return FIELDS_FOR_INSERT;
+    }
+
+    @Override
+    protected String getValues() {
+        return null;
     }
 
     @Override

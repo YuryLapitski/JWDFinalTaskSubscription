@@ -29,7 +29,8 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     private static final String ROLE_ID_FIELD_NAME = "a.role_id";
     private static final String INSERT_ROLE_ID_FIELD_NAME = "role_id";
     private static final String ROLE_FIELD_NAME = "r.role_name";
-    private static final String INSERT_INTO = "insert %s (%s) values (?, ?, ?)";
+//    private static final String INSERT_INTO = "insert %s (%s)";
+    private static final String VALUES = "values (?, ?, ?)";
     private static final String COMMA = ", ";
 
     private static final List<String> FIELDS = Arrays.asList(
@@ -43,13 +44,13 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     );
 
     private final String selectByLoginExpression;
-    private final String insertSql;
+//    private final String insertSql;
 
     private MethodAccountDao(ConnectionPool pool) {
         super(pool, LOG);
         this.selectByLoginExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELD, LOGIN_FIELD_NAME);
-        this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields()));
+//        this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields()));
     }
 
     private static class Holder {
@@ -60,29 +61,36 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
         return MethodAccountDao.Holder.INSTANCE;
     }
 
+    @Override
     protected List<String> getInsertFields() {
         return FIELDS_FOR_INSERT;
     }
 
+    @Override
+    protected String getValues() {
+        return VALUES;
+    }
+
+    @Override
     protected String getInsertTableName() {
         return ACCOUNT_INSERT_TABLE_NAME;
     }
 
-    @Override
-    public Account create(Account account) {
-        try {
-            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, account));
-            if (rowsUpdated > 0) {
-//                read() //todo: read by unique param
-                return null;
-            }
-            return null; //todo: throw exc
-        } catch (InterruptedException e) {
-            LOG.info("takeConnection interrupted", e);
-            Thread.currentThread().interrupt();
-            return null;
-        }
-    }
+//    @Override
+//    public Account create(Account account) {
+//        try {
+//            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, account));
+//            if (rowsUpdated > 0) {
+////                read() //todo: read by unique param
+//                return null;
+//            }
+//            return null; //todo: throw exc
+//        } catch (InterruptedException e) {
+//            LOG.info("takeConnection interrupted", e);
+//            Thread.currentThread().interrupt();
+//            return null;
+//        }
+//    }
 
     @Override
     protected void fillEntity(PreparedStatement statement, Account account) throws SQLException {

@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -27,6 +28,10 @@ public class MethodTermDao extends CommonDao<Term> implements TermDao {
 
     private static final List<String> FIELDS = Arrays.asList(
             ID_FIELD_NAME, MONTHS_FIELD_NAME
+    );
+
+    private static final List<String> FIELDS_FOR_INSERT = Collections.singletonList(
+            MONTHS_FIELD_NAME
     );
 
     private MethodTermDao(ConnectionPool pool) {
@@ -52,8 +57,23 @@ public class MethodTermDao extends CommonDao<Term> implements TermDao {
     }
 
     @Override
+    protected String getInsertTableName() {
+        return null;
+    }
+
+    @Override
     protected List<String> getFields() {
         return FIELDS;
+    }
+
+    @Override
+    protected List<String> getInsertFields() {
+        return FIELDS_FOR_INSERT;
+    }
+
+    @Override
+    protected String getValues() {
+        return null;
     }
 
     @Override

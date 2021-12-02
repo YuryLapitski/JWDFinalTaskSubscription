@@ -38,6 +38,10 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
             TERM_ID_FIELD_NAME, VALUE_FIELD_NAME
     );
 
+    private static final List<String> FIELDS_FOR_INSERT = Arrays.asList(
+            EDITION_ID_FIELD_NAME, TERM_ID_FIELD_NAME, VALUE_FIELD_NAME
+    );
+
     protected final String selectByEditionIdExpression;
     private final String selectByEditionIdTermIdExpression;
 
@@ -68,8 +72,23 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
     }
 
     @Override
+    protected String getInsertTableName() {
+        return null;
+    }
+
+    @Override
     protected List<String> getFields() {
         return FIELDS;
+    }
+
+    @Override
+    protected List<String> getInsertFields() {
+        return FIELDS_FOR_INSERT;
+    }
+
+    @Override
+    protected String getValues() {
+        return null;
     }
 
     @Override

@@ -76,8 +76,14 @@ public class ShowTermDataCommand implements Command {
             if (!addressService.findByCSHF(city, street, house, flat).isPresent()) {
                 Address address = new Address(city, street, house, flat);
                 addressService.create(address);
-                request.addAttributeToJsp(ADDRESS_ATTRIBUTE_NAME, address);
-                return requestFactory.createForwardResponse(propertyContext.get(TERM_PAGE));
+                Optional<Address> optionalAddress = addressService.findByCSHF(city, street, house, flat);
+                if (optionalAddress.isPresent()) {
+                    Address newAddress = optionalAddress.get();
+                    request.addAttributeToJsp(ADDRESS_ATTRIBUTE_NAME, newAddress);
+                    return requestFactory.createForwardResponse(propertyContext.get(TERM_PAGE));
+                } else {
+                    return null;
+                }
             } else {
                 Address address = addressService.findByCSHF(city, street, house, flat).get();
                 request.addAttributeToJsp(ADDRESS_ATTRIBUTE_NAME, address);

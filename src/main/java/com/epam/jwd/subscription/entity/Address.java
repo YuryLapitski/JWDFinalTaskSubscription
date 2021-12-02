@@ -25,7 +25,7 @@ public class Address implements Entity {
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
     public String getCity() {
