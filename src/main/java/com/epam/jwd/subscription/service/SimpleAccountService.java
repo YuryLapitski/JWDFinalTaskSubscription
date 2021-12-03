@@ -32,7 +32,7 @@ public class SimpleAccountService implements AccountService {
 
     @Override
     public Optional<Account> findById(Long id) {
-        return Optional.empty();
+        return accountDao.read(id);
     }
 
     @Override

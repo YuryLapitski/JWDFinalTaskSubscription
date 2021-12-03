@@ -47,6 +47,8 @@ public class SimpleServiceFactory implements ServiceFactory {
                     return new SimpleAddressService(AddressDao.instance());
                 case "Term":
                     return new TermService(TermDao.instance());
+                case "Status":
+                    return new StatusService(StatusDao.instance());
                 case "Subscription":
                     return new SubscriptionService(SubscriptionDao.instance());
                 default:

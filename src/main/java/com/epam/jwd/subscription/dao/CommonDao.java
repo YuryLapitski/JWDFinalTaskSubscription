@@ -38,7 +38,8 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
         this.logger = logger;
         selectAllExpression = format(SELECT_ALL_FROM, String.join(", ", getFields())) + getTableName();
         this.selectByIdExpression = selectAllExpression + SPACE + format(WHERE_FIELD, getIdFieldName());
-        this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields())) + SPACE + getValues();
+        this.insertSql = format(INSERT_INTO, getInsertTableName(),
+                join(COMMA, getInsertFields())) + SPACE + getValues();
     }
 
     @Override

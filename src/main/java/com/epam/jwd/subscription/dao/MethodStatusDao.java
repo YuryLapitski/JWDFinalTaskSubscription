@@ -1,8 +1,8 @@
 package com.epam.jwd.subscription.dao;
 
 import com.epam.jwd.subscription.db.ConnectionPool;
+import com.epam.jwd.subscription.entity.Status;
 import com.epam.jwd.subscription.entity.Term;
-import com.epam.jwd.subscription.entity.User;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,35 +15,35 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class MethodTermDao extends CommonDao<Term> implements TermDao {
+public class MethodStatusDao extends CommonDao<Status> implements StatusDao {
 
-    private static final Logger LOG = LogManager.getLogger(MethodTermDao.class);
+    private static final Logger LOG = LogManager.getLogger(StatusDao.class);
 
-    private static MethodTermDao instance = null;
+    private static MethodStatusDao instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private static final String TERM_TABLE_NAME = "term";
+    private static final String STATUS_TABLE_NAME = "status";
     private static final String ID_FIELD_NAME = "id";
-    private static final String MONTHS_FIELD_NAME = "months";
+    private static final String STATUS_FIELD_NAME = "status_name";
 
     private static final List<String> FIELDS = Arrays.asList(
-            ID_FIELD_NAME, MONTHS_FIELD_NAME
+            ID_FIELD_NAME, STATUS_FIELD_NAME
     );
 
     private static final List<String> FIELDS_FOR_INSERT = Collections.singletonList(
-            MONTHS_FIELD_NAME
+            STATUS_FIELD_NAME
     );
 
-    private MethodTermDao(ConnectionPool pool) {
+    private MethodStatusDao(ConnectionPool pool) {
         super(pool, LOG);
     }
 
-    public static MethodTermDao getInstance(){
+    public static MethodStatusDao getInstance(){
         if(instance == null) {
             try {
                 LOCK.lock();
                 if(instance == null) {
-                    instance = new MethodTermDao(ConnectionPool.instance());
+                    instance = new MethodStatusDao(ConnectionPool.instance());
                 }
             } finally {
                 LOCK.unlock();
@@ -53,12 +53,12 @@ public class MethodTermDao extends CommonDao<Term> implements TermDao {
 
     @Override
     protected String getTableName() {
-        return TERM_TABLE_NAME;
+        return STATUS_TABLE_NAME;
     }
 
     @Override
     protected String getInsertTableName() {
-        return TERM_TABLE_NAME;
+        return STATUS_TABLE_NAME;
     }
 
     @Override
@@ -82,11 +82,11 @@ public class MethodTermDao extends CommonDao<Term> implements TermDao {
     }
 
     @Override
-    protected Term extractResult(ResultSet rs) throws SQLException, EntityExtractionFailedException {
+    protected Status extractResult(ResultSet rs) throws SQLException, EntityExtractionFailedException {
         try {
-            return new Term(
+            return new Status(
                     rs.getLong(ID_FIELD_NAME),
-                    rs.getInt(MONTHS_FIELD_NAME));
+                    rs.getString(STATUS_FIELD_NAME));
         } catch (SQLException e) {
             LOG.error("sql exception occurred extracting user from ResultSet", e);
             throw new EntityExtractionFailedException("could not extract entity", e);
@@ -94,12 +94,12 @@ public class MethodTermDao extends CommonDao<Term> implements TermDao {
     }
 
     @Override
-    protected void fillEntity(PreparedStatement statement, Term entity) throws SQLException {
+    protected void fillEntity(PreparedStatement statement, Status entity) throws SQLException {
 
     }
 
     @Override
-    public Term update(Term entity) {
+    public Status update(Status entity) {
         return null;
     }
 

@@ -15,6 +15,7 @@
 <fmt:message bundle="${loc}" key="label.link.logout" var="logoutLink" />
 <fmt:message bundle="${loc}" key="label.link.signup" var="signupLink" />
 <fmt:message bundle="${loc}" key="label.link.user_data" var="user_dataLink" />
+<fmt:message bundle="${loc}" key="label.link.shopping_card" var="shopping_cardLink" />
 <html>
 <head>
     <title>${pageTitle}</title>
@@ -32,6 +33,8 @@
 </c:if>
 <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">
     <a href="${pageContext.request.contextPath}/controller?command=show_user_data">${user_dataLink}</a>
+    <br>
+    <a href="${pageContext.request.contextPath}/controller?command=show_shopping_card">${shopping_cardLink}</a>
     <br>
 </c:if>
 <c:choose>

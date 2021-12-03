@@ -26,7 +26,7 @@ public class SimpleAddressService implements AddressService {
 
     @Override
     public Optional<Address> findById(Long id) {
-        return Optional.empty();
+        return addressDao.read(id);
     }
 
     @Override

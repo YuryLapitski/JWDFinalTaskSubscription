@@ -24,66 +24,6 @@
             <td>${edition.id}</td>
             <td>${edition.name}</td>
             <td>${edition.category}</td>
-<%--            <td>--%>
-<%--                <c:choose>--%>
-<%--                    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">--%>
-<%--                        <form name="choose_edition" action="${pageContext.request.contextPath}--%>
-<%--                    /controller?command=choose_edition" method="post">--%>
-<%--                            <input type="hidden" name="id" value="${edition.id}"/>--%>
-<%--                            <label>--%>
-<%--                                <input type="checkbox" name="price"--%>
-<%--                                        value=${edition.threeMonthsPrice} />${edition.threeMonthsPrice}--%>
-<%--                            </label>--%>
-<%--&lt;%&ndash;                        </form>&ndash;%&gt;--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">--%>
-<%--                        ${edition.threeMonthsPrice}--%>
-<%--                    </c:when>--%>
-<%--                    <c:otherwise>--%>
-<%--                        ${edition.threeMonthsPrice} Log in to choose--%>
-<%--                    </c:otherwise>--%>
-<%--                </c:choose>--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                <c:choose>--%>
-<%--                    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">--%>
-<%--                        <form name="choose_edition" action="${pageContext.request.contextPath}--%>
-<%--                    /controller?command=choose_edition" method="post">--%>
-<%--                            <input type="hidden" name="id" value="${edition.id}"/>--%>
-<%--                            <label>--%>
-<%--                                <input type="checkbox" name="price"--%>
-<%--                                        value=${edition.sixMonthsPrice} />${edition.sixMonthsPrice}--%>
-<%--                            </label>--%>
-<%--&lt;%&ndash;                        </form>&ndash;%&gt;--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">--%>
-<%--                        ${edition.sixMonthsPrice}--%>
-<%--                    </c:when>--%>
-<%--                    <c:otherwise>--%>
-<%--                        ${edition.sixMonthsPrice} Log in to choose--%>
-<%--                    </c:otherwise>--%>
-<%--                </c:choose>--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                <c:choose>--%>
-<%--                    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">--%>
-<%--                        <form name="choose_edition" action="${pageContext.request.contextPath}--%>
-<%--                    /controller?command=choose_edition" method="post">--%>
-<%--                            <input type="hidden" name="id" value="${edition.id}"/>--%>
-<%--                            <label>--%>
-<%--                                <input type="checkbox" name="price"--%>
-<%--                                        value=${edition.twelveMonthsPrice} />${edition.twelveMonthsPrice}--%>
-<%--                            </label>--%>
-<%--&lt;%&ndash;                        </form>&ndash;%&gt;--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">--%>
-<%--                        ${edition.twelveMonthsPrice}--%>
-<%--                    </c:when>--%>
-<%--                    <c:otherwise>--%>
-<%--                        ${edition.twelveMonthsPrice} Log in to choose--%>
-<%--                    </c:otherwise>--%>
-<%--                </c:choose>--%>
-<%--            </td>--%>
             <td>${edition.threeMonthsPrice}</td>
             <td>${edition.sixMonthsPrice}</td>
             <td>${edition.twelveMonthsPrice}</td>
@@ -100,7 +40,6 @@
                         </c:if>
                         <input type="submit" value="Choose"/>
                     </form>
-
                 </c:when>
                 <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
                 </c:when>
@@ -112,21 +51,5 @@
         </tr>
     </c:forEach>
 </table>
-<%--<br>--%>
-<%--<c:choose>--%>
-<%--    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">--%>
-<%--        <form name="choose_edition" action="${pageContext.request.contextPath}--%>
-<%--                    /controller?command=choose_edition" method="post">--%>
-<%--&lt;%&ndash;            <input type="hidden" name="name" value="${edition.name}"/>&ndash;%&gt;--%>
-<%--            <input type="submit" value="Subscribe"/>--%>
-<%--        </form>--%>
-<%--    </c:when>--%>
-<%--    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">--%>
-<%--    </c:when>--%>
-<%--    <c:otherwise>--%>
-<%--        Log in to choose--%>
-<%--    </c:otherwise>--%>
-<%--</c:choose>--%>
-<%--</form>--%>
 </body>
 </html>

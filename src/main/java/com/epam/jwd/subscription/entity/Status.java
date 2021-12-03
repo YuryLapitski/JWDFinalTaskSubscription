@@ -1,26 +1,46 @@
 package com.epam.jwd.subscription.entity;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 
-public enum Status {
+public class Status implements Entity {
 
-    ORDERING,
-    ACTIVE,
-    FINISHED;
+    private static final long serialVersionUID = 1376900759940314447L;
+    private final Long id;
+    private final String status;
 
-    private static final List<Status> ALL_AVAILABLE_STATUSES = Arrays.asList(values());
-
-    public static List<Status> valuesAsList() {
-        return ALL_AVAILABLE_STATUSES;
+    public Status(Long id, String status) {
+        this.id = id;
+        this.status = status;
     }
 
-    public static Status of(String name) {
-        for (Status status : values()) {
-            if (status.name().equalsIgnoreCase(name)) {
-                return status;
-            }
-        }
-        return null;
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Status status1 = (Status) o;
+        return Objects.equals(id, status1.id) &&
+                Objects.equals(status, status1.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, status);
+    }
+
+    @Override
+    public String toString() {
+        return "Status{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

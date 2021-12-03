@@ -30,6 +30,10 @@ public interface ServiceFactory {
         return (TermService) serviceFor(Term.class);
     }
 
+    default StatusService statusService() {
+        return (StatusService) serviceFor(Status.class);
+    }
+
     default SubscriptionService subscriptionService() {
         return (SubscriptionService) serviceFor(Subscription.class);
     }
