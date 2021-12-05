@@ -16,7 +16,7 @@ public class SimpleAddressService implements AddressService {
 
     @Override
     public Optional<Address> findByCSHF(String city, String street, String house, Integer flat) {
-        return addressDao.selectByCSHFExpression(city, street, house, flat);
+        return addressDao.selectByCSHF(city, street, house, flat);
     }
 
     @Override

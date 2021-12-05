@@ -19,5 +19,7 @@ public interface CommandRequest {
 
     void createSession();
 
+    void removeFromSession(String name);
+
     String[] getParameters (String name);
 }

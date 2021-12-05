@@ -19,18 +19,19 @@ import static java.lang.String.join;
 public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
 
     private static final String INSERT_INTO = "insert into %s (%s)";
-    private static final String ID_FIELD_NAME = "id";
     private static final String COMMA = ", ";
 
     private static final Logger LOG = LogManager.getLogger(CommonDao.class);
     protected static final String SELECT_ALL_FROM = "select %s from ";
     protected static final String WHERE_FIELD = "where %s = ?";
+
     protected static final String SPACE = " ";
 
     protected final ConnectionPool pool;
     protected final String selectAllExpression;
     protected final String selectByIdExpression;
     private final String insertSql;
+
     private final Logger logger;
 
     protected CommonDao(ConnectionPool pool, Logger logger) {

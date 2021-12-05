@@ -10,8 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ShowShoppingCardCommand implements Command {
 
     private static final String SHOPPING_CARD_PAGE = "page.shopping_card";
-    private static final String SUBSCRIPTION_SESSION_ATTRIBUTE_NAME = "subscription";
-    private static final String SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME = "subscriptions";
+    private static final String SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME = "subscrshows";
     private static final String TOTAL_PRICE_ATTRIBUTE_NAME = "totalPrice";
     private static final String ERROR_SUBSCRIPTION_ATTRIBUTE = "errorLoginPassMessage";
     private static final String ERROR_SUBSCRIPTION_MESSAGE = "No subscriptions found";
@@ -45,15 +44,15 @@ public class ShowShoppingCardCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) {
-        if (request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
-            ArrayList<SubscrShow> subscriptions =
-                    (ArrayList<SubscrShow>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();
+        if (request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).isPresent()) {
+            ArrayList<SubscrShow> subscrShows =
+                    (ArrayList<SubscrShow>) request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).get();
             double sum = 0.0;
-            for (SubscrShow subscr : subscriptions) {
+            for (SubscrShow subscr : subscrShows) {
                 sum += subscr.getPrice().doubleValue();
             }
             request.addAttributeToJsp(TOTAL_PRICE_ATTRIBUTE_NAME, sum);
-            request.addAttributeToJsp(SUBSCRIPTION_SESSION_ATTRIBUTE_NAME, subscriptions);
+            request.addAttributeToJsp(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME, subscrShows);
         } else {
             request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE);
         }

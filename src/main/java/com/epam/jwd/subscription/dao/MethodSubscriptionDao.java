@@ -2,7 +2,6 @@ package com.epam.jwd.subscription.dao;
 
 import com.epam.jwd.subscription.db.ConnectionPool;
 import com.epam.jwd.subscription.entity.Subscription;
-import com.epam.jwd.subscription.entity.User;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,11 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.String.format;
-import static java.lang.String.join;
 
 public class MethodSubscriptionDao extends CommonDao<Subscription> implements SubscriptionDao {
 
@@ -32,9 +31,9 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
     private static final String TERM_ID_FIELD_NAME = "term_id";
     private static final String PRICE_ID_FIELD_NAME = "price_id";
     private static final String STATUS_ID_FIELD_NAME = "status_id";
-//    private static final String INSERT_INTO = "insert %s (%s)";
+    private static final String UPDATE = "update %s set %s = ? where %s = ?";
     private static final String VALUES = "values (?, ?, ?, ?, ?, ?)";
-    protected static final String WHERE_FIELDS = "where %s = ? and %s = ?";
+    protected static final String WHERE_FIELDS = "where %s = ? and %s = ?  and %s = ? and %s = ? and %s = ? and %s = ?";
     private static final String COMMA = ", ";
 
     private static final List<String> FIELDS = Arrays.asList(
@@ -48,10 +47,15 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
     );
 
 //    private final String insertSql;
+    protected final String updateSql;
+    private final String findIdByAllExpression;
 
     private MethodSubscriptionDao(ConnectionPool pool) {
         super(pool, LOG);
-//        this.insertSql = format(INSERT_INTO, getTableName(), join(COMMA, getInsertFields()));
+        this.updateSql = format(UPDATE, getTableName(), STATUS_ID_FIELD_NAME, ID_FIELD_NAME);
+        this.findIdByAllExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
+                getTableName() + SPACE + format(WHERE_FIELDS, USER_ID_FIELD_NAME, ADDRESS_ID_FIELD_NAME,
+                EDITION_ID_FIELD_NAME, TERM_ID_FIELD_NAME, PRICE_ID_FIELD_NAME, STATUS_ID_FIELD_NAME);
     }
 
     public static MethodSubscriptionDao getInstance(){
@@ -113,22 +117,6 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
         }
     }
 
-//    @Override
-//    public Subscription create(Subscription entity) {
-//        try {
-//            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, entity));
-//            if (rowsUpdated > 0) {
-////                read() //todo: read by unique param
-//                return null;
-//            }
-//            return null; //todo: throw exc
-//        } catch (InterruptedException e) {
-//            LOG.info("takeConnection interrupted", e);
-//            Thread.currentThread().interrupt();
-//            return null;
-//        }
-//    }
-
     @Override
     protected void fillEntity(PreparedStatement statement, Subscription subscription) throws SQLException {
         statement.setLong(1, subscription.getUserId());
@@ -147,5 +135,51 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
     @Override
     public boolean delete(Long id) {
         return false;
+    }
+
+    @Override
+    public List<Subscription> findIdByAll(Long userId, Long addressId, Long editionId, Long termId,
+                                          Long priceId, Long statusId) {
+        try {
+            return executePreparedForEntities(findIdByAllExpression,
+                    this::extractResultCatchingException,
+                    st -> fillAllParameters(st, userId, addressId, editionId, termId, priceId, statusId));
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public void updateStatus(Long statusId, Long subscriptionId) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(updateSql,
+                    st -> fillParameters(st, statusId, subscriptionId));
+            if (rowsUpdated > 0) {
+                LOG.info("Updated successfully. New status id for subscriptionId {} is {}",
+                        subscriptionId, statusId);
+            } else {
+                LOG.error("Update error occurred");
+            }
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void fillParameters(PreparedStatement statement, Long statusId, Long subscriptionId) throws SQLException {
+        statement.setLong(1, statusId);
+        statement.setLong(2, subscriptionId);
+    }
+
+    private void fillAllParameters(PreparedStatement statement, Long userId, Long addressId, Long editionId,
+                                   Long termId, Long priceId, Long statusId) throws SQLException {
+        statement.setLong(1, userId);
+        statement.setLong(2, addressId);
+        statement.setLong(3, editionId);
+        statement.setLong(4, termId);
+        statement.setLong(5, priceId);
+        statement.setLong(6, statusId);
     }
 }

@@ -16,12 +16,13 @@ public class AddToShoppingCardCommand implements Command {
     private static final String ERROR_LOGIN_NOT_EXIST_ATTRIBUTE = "errorLoginNotExistMessage";
     private static final String ERROR_LOGIN_NOT_EXIST_MESSAGE = "Please log in";
     private static final String ACCOUNT_SESSION_ATTRIBUTE_NAME = "account";
+    private static final String SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME = "subscrshows";
     private static final String SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME = "subscriptions";
 
     private static AddToShoppingCardCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final SubscriptionService subscriptionService;
+    private final SimpleSubscriptionService subscriptionService;
     private final UserService userService;
     private final AddressService addressService;
     private final EditionService editionService;
@@ -31,7 +32,7 @@ public class AddToShoppingCardCommand implements Command {
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
-    private AddToShoppingCardCommand(SubscriptionService subscriptionService,
+    private AddToShoppingCardCommand(SimpleSubscriptionService subscriptionService,
                                      UserService userService,
                                      AddressService addressService,
                                      EditionService editionService,
@@ -77,19 +78,26 @@ public class AddToShoppingCardCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
         if (request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
-            final List<SubscrShow> subscriptions =
-                    (ArrayList<SubscrShow>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();
+            final List<SubscrShow> subscrShows =
+                    (ArrayList<SubscrShow>) request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).get();
+            final List<Subscription> subscriptions =
+                    (ArrayList<Subscription>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();
             Subscription subscription = createSubscription(request);
+            subscriptions.add(subscription);
             SubscrShow subscrShow = createSubscrShow(subscription);
-            subscriptions.add(subscrShow);
+            subscrShows.add(subscrShow);
             request.addToSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME, subscriptions);
+            request.addToSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME, subscrShows);
             return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
         } else {
-            final List<SubscrShow> subscriptions = new ArrayList<>();
+            final List<SubscrShow> subscrShows = new ArrayList<>();
+            final List<Subscription> subscriptions = new ArrayList<>();
             Subscription subscription = createSubscription(request);
+            subscriptions.add(subscription);
             SubscrShow subscrShow = createSubscrShow(subscription);
-            subscriptions.add(subscrShow);
+            subscrShows.add(subscrShow);
             request.addToSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME, subscriptions);
+            request.addToSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME, subscrShows);
             return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
         }
     }

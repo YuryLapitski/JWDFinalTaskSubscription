@@ -50,7 +50,9 @@ public class SimpleServiceFactory implements ServiceFactory {
                 case "Status":
                     return new StatusService(StatusDao.instance());
                 case "Subscription":
-                    return new SubscriptionService(SubscriptionDao.instance());
+                    return new SimpleSubscriptionService(SubscriptionDao.instance());
+                case "Card":
+                    return new SimpleCardService(CardDao.instance());
                 default:
                     throw new IllegalArgumentException(String.format(SERVICE_NOT_FOUND, className));
             }

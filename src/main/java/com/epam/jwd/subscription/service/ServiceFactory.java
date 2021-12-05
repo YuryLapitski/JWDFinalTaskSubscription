@@ -34,8 +34,12 @@ public interface ServiceFactory {
         return (StatusService) serviceFor(Status.class);
     }
 
-    default SubscriptionService subscriptionService() {
-        return (SubscriptionService) serviceFor(Subscription.class);
+    default SimpleSubscriptionService subscriptionService() {
+        return (SimpleSubscriptionService) serviceFor(Subscription.class);
+    }
+
+    default SimpleCardService cardService() {
+        return (SimpleCardService) serviceFor(Card.class);
     }
 
     static SimpleServiceFactory instance() {

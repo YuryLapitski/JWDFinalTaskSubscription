@@ -60,6 +60,12 @@ public class WrappingCommandRequest implements CommandRequest {
     }
 
     @Override
+    public void removeFromSession(String name) {
+        HttpSession session = request.getSession();
+        session.removeAttribute(name);
+    }
+
+    @Override
     public String[] getParameters (String name) {
         return request.getParameterValues(name);
     }

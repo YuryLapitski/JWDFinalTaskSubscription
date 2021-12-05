@@ -13,6 +13,7 @@ public enum PagePaths {
     TERM("/WEB-INF/jsp/term.jsp"),
     SUBSCRIBE("/WEB-INF/jsp/subscribe.jsp"),
     SHOPPING_CARD("/WEB-INF/jsp/shopping_card.jsp"),
+    CONFIRMATION("/WEB-INF/jsp/confirmation.jsp"),
     ERROR("/WEB-INF/jsp/error.jsp");
 
     private final String path;

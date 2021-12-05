@@ -42,12 +42,10 @@ public class MethodAddressDao extends CommonDao<Address> implements AddressDao {
             HOUSE_FIELD_NAME, FLAT_FIELD_NAME
     );
 
-//    private final String insertSql;
     private final String selectByCSHFExpression;
 
     private MethodAddressDao(ConnectionPool pool) {
         super(pool, LOG);
-//        this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields()));
         this.selectByCSHFExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELDS, CITY_FIELD_NAME, STREET_FIELD_NAME,
                 HOUSE_FIELD_NAME, FLAT_FIELD_NAME);
@@ -106,24 +104,8 @@ public class MethodAddressDao extends CommonDao<Address> implements AddressDao {
         }
     }
 
-//    @Override
-//    public Address create(Address address) {
-//        try {
-//            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, address));
-//            if (rowsUpdated > 0) {
-////                read() //todo: read by unique param
-//                return null;
-//            }
-//            return null; //todo: throw exc
-//        } catch (InterruptedException e) {
-//            LOG.info("takeConnection interrupted", e);
-//            Thread.currentThread().interrupt();
-//            return null;
-//        }
-//    }
-
     @Override
-    public Optional<Address> selectByCSHFExpression(String city, String street, String house, Integer flat) {
+    public Optional<Address> selectByCSHF(String city, String street, String house, Integer flat) {
         try {
             Address address = new Address(city, street, house, flat);
             return executePreparedForGenericEntity(selectByCSHFExpression,

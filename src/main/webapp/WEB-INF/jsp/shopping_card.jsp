@@ -16,7 +16,7 @@
         <th>Status</th>
         <%--        <th></th>--%>
     </tr>
-    <c:forEach var="subscription" items="${sessionScope.subscriptions}">
+    <c:forEach var="subscription" items="${sessionScope.subscrshows}">
         <tr>
             <td>${subscription.editionName}</td>
             <td>${subscription.firstName}</td>
@@ -27,6 +27,23 @@
         </tr>
     </c:forEach>
 </table>
+<br>
 <a>Total price: ${requestScope.totalPrice}</a>
+<br><br>
+<form name="payment" action="${pageContext.request.contextPath}/controller?command=confirmation" method="post">
+    <label for="card-name">Card Name:</label>
+    <input id="card-name" type="text" name="card_name" value=""/>
+    <br><br>
+    <label for="card-number">Card Number:</label>
+    <input id="card-number" type="text" name="card_number" value=""/>
+    <br><br>
+    <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
+    <br/>
+<c:if test="${not empty requestScope.errorAddressMessage}">
+    <b>${requestScope.errorAddressMessage}</b>
+    <br>
+</c:if>
+    <input type="submit" value="Pay"/>
+</form>
 </body>
 </html>
