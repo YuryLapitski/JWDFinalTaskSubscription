@@ -42,7 +42,7 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     private static class Holder {
-        public static final EditionDao INSTANCE = new MethodEditionDao(ConnectionPool.instance());
+        public static final EditionDao INSTANCE = new MethodEditionDao(ConnectionPool.lockingInstance());
     }
 
     static EditionDao getInstance() {

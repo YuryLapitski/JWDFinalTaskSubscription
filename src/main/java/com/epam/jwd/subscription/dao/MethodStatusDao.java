@@ -2,7 +2,6 @@ package com.epam.jwd.subscription.dao;
 
 import com.epam.jwd.subscription.db.ConnectionPool;
 import com.epam.jwd.subscription.entity.Status;
-import com.epam.jwd.subscription.entity.Term;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +42,7 @@ public class MethodStatusDao extends CommonDao<Status> implements StatusDao {
             try {
                 LOCK.lock();
                 if(instance == null) {
-                    instance = new MethodStatusDao(ConnectionPool.instance());
+                    instance = new MethodStatusDao(ConnectionPool.lockingInstance());
                 }
             } finally {
                 LOCK.unlock();

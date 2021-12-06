@@ -63,7 +63,7 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
             try {
                 LOCK.lock();
                 if(instance == null) {
-                    instance = new MethodSubscriptionDao(ConnectionPool.instance());
+                    instance = new MethodSubscriptionDao(ConnectionPool.lockingInstance());
                 }
             } finally {
                 LOCK.unlock();

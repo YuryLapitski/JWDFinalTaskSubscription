@@ -39,6 +39,7 @@ public class SimpleCardService implements CardService {
     }
 
     @Override
+    @Transactional
     public void transferMoney(Card from, Card to, BigDecimal amount) {
         lock.lock();
         try {

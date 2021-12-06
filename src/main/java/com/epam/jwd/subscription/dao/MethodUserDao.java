@@ -167,7 +167,7 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
     }
 
     private static class Holder {
-        public static final UserDao INSTANCE = new MethodUserDao(ConnectionPool.instance());
+        public static final UserDao INSTANCE = new MethodUserDao(ConnectionPool.lockingInstance());
     }
 
     static UserDao getInstance() {

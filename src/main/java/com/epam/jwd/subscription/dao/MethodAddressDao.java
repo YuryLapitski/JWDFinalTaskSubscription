@@ -2,7 +2,6 @@ package com.epam.jwd.subscription.dao;
 
 import com.epam.jwd.subscription.db.ConnectionPool;
 import com.epam.jwd.subscription.entity.Address;
-import com.epam.jwd.subscription.entity.User;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,7 +51,7 @@ public class MethodAddressDao extends CommonDao<Address> implements AddressDao {
     }
 
     private static class Holder {
-        public static final AddressDao INSTANCE = new MethodAddressDao(ConnectionPool.instance());
+        public static final AddressDao INSTANCE = new MethodAddressDao(ConnectionPool.lockingInstance());
     }
 
     static AddressDao getInstance() {

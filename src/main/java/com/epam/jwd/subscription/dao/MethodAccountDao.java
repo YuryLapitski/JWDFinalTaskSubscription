@@ -54,7 +54,7 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     }
 
     private static class Holder {
-        public static final AccountDao INSTANCE = new MethodAccountDao(ConnectionPool.instance());
+        public static final AccountDao INSTANCE = new MethodAccountDao(ConnectionPool.lockingInstance());
     }
 
     static AccountDao getInstance() {
@@ -75,22 +75,6 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     protected String getInsertTableName() {
         return ACCOUNT_INSERT_TABLE_NAME;
     }
-
-//    @Override
-//    public Account create(Account account) {
-//        try {
-//            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, account));
-//            if (rowsUpdated > 0) {
-////                read() //todo: read by unique param
-//                return null;
-//            }
-//            return null; //todo: throw exc
-//        } catch (InterruptedException e) {
-//            LOG.info("takeConnection interrupted", e);
-//            Thread.currentThread().interrupt();
-//            return null;
-//        }
-//    }
 
     @Override
     protected void fillEntity(PreparedStatement statement, Account account) throws SQLException {

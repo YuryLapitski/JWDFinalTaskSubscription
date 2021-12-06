@@ -26,7 +26,7 @@ public class Application {
     private static final String SELECT_ALL_SQL = "Select id as id, first_name as first_name," +
             " last_name as last_name, age as age, email as email, acc_id as acc_id from user";
 
-    private static final ConnectionPool CONNECTION_POOL = ConnectionPool.instance();
+    private static final ConnectionPool CONNECTION_POOL = ConnectionPool.lockingInstance();
 
     public static void main(String[] args) {
         Thread thread1 = new JThread("Thread1");
@@ -131,7 +131,7 @@ public class Application {
 class JThread extends Thread {
 
     private static final Logger LOG = LogManager.getLogger(JThread.class);
-    private static final ConnectionPool CONNECTION_POOL = ConnectionPool.instance();
+    private static final ConnectionPool CONNECTION_POOL = ConnectionPool.lockingInstance();
 
     JThread(String name){
         super(name);

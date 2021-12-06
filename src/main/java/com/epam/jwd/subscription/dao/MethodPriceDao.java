@@ -1,7 +1,6 @@
 package com.epam.jwd.subscription.dao;
 
 import com.epam.jwd.subscription.db.ConnectionPool;
-import com.epam.jwd.subscription.entity.Address;
 import com.epam.jwd.subscription.entity.Price;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
@@ -58,7 +57,7 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
             try {
                 LOCK.lock();
                 if(instance == null) {
-                    instance = new MethodPriceDao(ConnectionPool.instance());
+                    instance = new MethodPriceDao(ConnectionPool.lockingInstance());
                 }
             } finally {
                 LOCK.unlock();

@@ -9,11 +9,11 @@ public class ConnectionPoolInitializeListener implements ServletContextListener 
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ConnectionPool.instance().init();
+        ConnectionPool.transactionInstance().init();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        ConnectionPool.instance().shutDown();
+        ConnectionPool.transactionInstance().shutDown();
     }
 }

@@ -58,7 +58,7 @@ public class MethodCardDao extends CommonDao<Card> implements CardDao  {
             try {
                 LOCK.lock();
                 if(instance == null) {
-                    instance = new MethodCardDao(ConnectionPool.instance());
+                    instance = new MethodCardDao(ConnectionPool.lockingInstance());
                 }
             } finally {
                 LOCK.unlock();
