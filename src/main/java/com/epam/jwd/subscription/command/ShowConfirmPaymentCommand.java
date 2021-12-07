@@ -32,14 +32,14 @@ public class ShowConfirmPaymentCommand implements Command {
     private static final ReentrantLock LOCK = new ReentrantLock();
 
     private final CardService cardService;
-    private final SimpleSubscriptionService subscriptionService;
+    private final SubscriptionService subscriptionService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
     private ShowConfirmPaymentCommand(CardService cardService,
-                                      SimpleSubscriptionService subscriptionService,
-                                     RequestFactory requestFactory,
-                                     PropertyContext propertyContext) {
+                                      SubscriptionService subscriptionService,
+                                      RequestFactory requestFactory,
+                                      PropertyContext propertyContext) {
         this.cardService = cardService;
         this.subscriptionService = subscriptionService;
         this.requestFactory = requestFactory;
@@ -110,6 +110,7 @@ public class ShowConfirmPaymentCommand implements Command {
         return optionalCard.orElse(null);
     }
 
+    @SuppressWarnings("unchecked")
     private List<Subscription> subscriptions(CommandRequest request) {
         if (request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
             return (ArrayList<Subscription>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();

@@ -2,10 +2,9 @@ package com.epam.jwd.subscription.command;
 
 import com.epam.jwd.subscription.controller.PropertyContext;
 import com.epam.jwd.subscription.controller.RequestFactory;
-import com.epam.jwd.subscription.entity.SubscrShow;
 import com.epam.jwd.subscription.entity.Subscription;
 import com.epam.jwd.subscription.service.ServiceFactory;
-import com.epam.jwd.subscription.service.SimpleSubscriptionService;
+import com.epam.jwd.subscription.service.SubscriptionService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +15,14 @@ public class LogoutCommand implements Command {
     private static final String INDEX_PAGE = "page.index";
     private static final String SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME = "subscriptions";
 
-    private final SimpleSubscriptionService subscriptionService;
+    private final SubscriptionService subscriptionService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
     private static LogoutCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private LogoutCommand(SimpleSubscriptionService subscriptionService,
+    private LogoutCommand(SubscriptionService subscriptionService,
                           RequestFactory requestFactory, PropertyContext propertyContext) {
         this.subscriptionService = subscriptionService;
         this.requestFactory = requestFactory;
@@ -46,6 +45,7 @@ public class LogoutCommand implements Command {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public CommandResponse execute(CommandRequest request) {
         if (noLoggedInUserPresent(request)) {
             //todo: error - no user found cannot logout
@@ -54,14 +54,7 @@ public class LogoutCommand implements Command {
         if (request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
             final List<Subscription> subscriptions =
                     (ArrayList<Subscription>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();
-            for (Subscription subscription : subscriptions) {
-                List<Subscription> allSubscriptions = subscriptionService.findIdByAll(subscription.getUserId(),
-                        subscription.getAddressId(), subscription.getEditionId(), subscription.getTermId(),
-                        subscription.getPriceId(), subscription.getStatusId());
-                for (Subscription newSubscription : allSubscriptions) {
-                    subscriptionService.delete(newSubscription.getId());
-                }
-            }
+            subscriptionService.deleteAllSubscriptions(subscriptions);
         }
         request.clearSession();
         return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));

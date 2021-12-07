@@ -22,7 +22,7 @@ public class AddToShoppingCardCommand implements Command {
     private static AddToShoppingCardCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final SimpleSubscriptionService subscriptionService;
+    private final SubscriptionService subscriptionService;
     private final UserService userService;
     private final AddressService addressService;
     private final EditionService editionService;
@@ -32,7 +32,7 @@ public class AddToShoppingCardCommand implements Command {
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
-    private AddToShoppingCardCommand(SimpleSubscriptionService subscriptionService,
+    private AddToShoppingCardCommand(SubscriptionService subscriptionService,
                                      UserService userService,
                                      AddressService addressService,
                                      EditionService editionService,
@@ -76,6 +76,7 @@ public class AddToShoppingCardCommand implements Command {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public CommandResponse execute(CommandRequest request) {
         if (request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).isPresent()
                 && request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
@@ -130,20 +131,6 @@ public class AddToShoppingCardCommand implements Command {
         subscriptionService.create(subscription);
         return subscription;
     }
-//        if (subscriptionService.findIdByAll(userId, addressId, editionId, termId, priceId, statusId).isEmpty()) {
-//            Subscription subscription = new Subscription(userId, addressId, editionId, termId, priceId, statusId);
-//            subscriptionService.create(subscription);
-//            return subscription;
-//        } else {
-//            final List<Subscription> subscriptions = subscriptionService.findIdByAll(userId, addressId, editionId,
-//                    termId, priceId, statusId);
-//            Subscription subscription = subscriptions.get(0);
-//            for (int i = 1; i < subscriptions.size(); i++) {
-//                subscriptionService.delete(subscriptions.get(i).getId());
-//            }
-//            return subscription;
-//        }
-//    }
 
     private User findUser(Long userId) {
         Optional<User> optionalUser = userService.findById(userId);

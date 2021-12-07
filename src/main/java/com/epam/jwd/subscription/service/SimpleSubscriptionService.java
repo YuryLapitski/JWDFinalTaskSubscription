@@ -3,6 +3,7 @@ package com.epam.jwd.subscription.service;
 import com.epam.jwd.subscription.dao.SubscriptionDao;
 import com.epam.jwd.subscription.entity.Subscription;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,5 +43,17 @@ public class SimpleSubscriptionService implements SubscriptionService{
     @Override
     public void updateStatus(Long statusId, Long subscriptionId) {
         subscriptionDao.updateStatus(statusId, subscriptionId);
+    }
+
+    @Override
+    public void deleteAllSubscriptions (List<Subscription> subscriptions) {
+        for (Subscription subscription : subscriptions) {
+            List<Subscription> allSubscriptions = findIdByAll(subscription.getUserId(),
+                    subscription.getAddressId(), subscription.getEditionId(), subscription.getTermId(),
+                    subscription.getPriceId(), subscription.getStatusId());
+            for (Subscription newSubscription : allSubscriptions) {
+                delete(newSubscription.getId());
+            }
+        }
     }
 }

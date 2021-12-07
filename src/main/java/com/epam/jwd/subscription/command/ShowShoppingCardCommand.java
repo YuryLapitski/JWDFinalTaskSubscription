@@ -43,6 +43,7 @@ public class ShowShoppingCardCommand implements Command {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public CommandResponse execute(CommandRequest request) {
         if (request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).isPresent()) {
             ArrayList<SubscrShow> subscrShows =
