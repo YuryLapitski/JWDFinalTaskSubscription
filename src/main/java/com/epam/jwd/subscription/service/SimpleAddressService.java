@@ -33,4 +33,9 @@ public class SimpleAddressService implements AddressService {
     public Optional<Address> create(Address entity) {
         return Optional.ofNullable(addressDao.create(entity));
     }
+
+    @Override
+    public boolean delete(Long id) {
+        return addressDao.delete(id);
+    }
 }

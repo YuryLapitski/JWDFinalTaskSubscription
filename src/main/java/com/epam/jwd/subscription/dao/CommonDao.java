@@ -24,13 +24,14 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
     private static final Logger LOG = LogManager.getLogger(CommonDao.class);
     protected static final String SELECT_ALL_FROM = "select %s from ";
     protected static final String WHERE_FIELD = "where %s = ?";
-
+    protected static final String DELETE_FROM = "delete from %s where %s = ?";
     protected static final String SPACE = " ";
 
     protected final ConnectionPool pool;
     protected final String selectAllExpression;
     protected final String selectByIdExpression;
-    private final String insertSql;
+    protected final String insertSql;
+    protected final String deleteSql;
 
     private final Logger logger;
 
@@ -41,6 +42,7 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
         this.selectByIdExpression = selectAllExpression + SPACE + format(WHERE_FIELD, getIdFieldName());
         this.insertSql = format(INSERT_INTO, getInsertTableName(),
                 join(COMMA, getInsertFields())) + SPACE + getValues();
+        this.deleteSql = format(DELETE_FROM, getTableName(), getIdFieldName());
     }
 
     @Override
@@ -64,6 +66,22 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
             logger.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(deleteSql, st -> st.setLong(1, id));
+            if (rowsUpdated > 0) {
+//                read() //todo: read by unique param
+                return true;
+            }
+            return false; //todo: throw exc
+        } catch (InterruptedException e) {
+            logger.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return false;
         }
     }
 

@@ -28,4 +28,9 @@ public class EditionService implements EntityService<Edition> {
     public Optional<Edition> create(Edition entity) {
         return Optional.empty();
     }
+
+    @Override
+    public boolean delete(Long id) {
+        return editionDao.delete(id);
+    }
 }

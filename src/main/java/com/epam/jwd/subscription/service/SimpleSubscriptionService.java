@@ -30,6 +30,11 @@ public class SimpleSubscriptionService implements SubscriptionService{
     }
 
     @Override
+    public boolean delete(Long id) {
+        return subscriptionDao.delete(id);
+    }
+
+    @Override
     public List<Subscription> findIdByAll(Long userId, Long addressId, Long editionId, Long termId, Long priceId, Long statusId) {
         return subscriptionDao.findIdByAll(userId, addressId,editionId,termId,priceId,statusId);
     }

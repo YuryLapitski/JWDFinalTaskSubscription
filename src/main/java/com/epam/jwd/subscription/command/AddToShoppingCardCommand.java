@@ -77,29 +77,29 @@ public class AddToShoppingCardCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) {
-        if (request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
+        if (request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).isPresent()
+                && request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
             final List<SubscrShow> subscrShows =
                     (ArrayList<SubscrShow>) request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).get();
             final List<Subscription> subscriptions =
                     (ArrayList<Subscription>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();
-            Subscription subscription = createSubscription(request);
-            subscriptions.add(subscription);
-            SubscrShow subscrShow = createSubscrShow(subscription);
-            subscrShows.add(subscrShow);
-            request.addToSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME, subscriptions);
-            request.addToSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME, subscrShows);
-            return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
+            return getCommandResponse(request, subscrShows, subscriptions);
         } else {
             final List<SubscrShow> subscrShows = new ArrayList<>();
             final List<Subscription> subscriptions = new ArrayList<>();
-            Subscription subscription = createSubscription(request);
-            subscriptions.add(subscription);
-            SubscrShow subscrShow = createSubscrShow(subscription);
-            subscrShows.add(subscrShow);
-            request.addToSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME, subscriptions);
-            request.addToSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME, subscrShows);
-            return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
+            return getCommandResponse(request, subscrShows, subscriptions);
         }
+    }
+
+    private CommandResponse getCommandResponse(CommandRequest request, List<SubscrShow> subscrShows,
+                                               List<Subscription> subscriptions) {
+        Subscription subscription = createSubscription(request);
+        subscriptions.add(subscription);
+        SubscrShow subscrShow = createSubscrShow(subscription);
+        subscrShows.add(subscrShow);
+        request.addToSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME, subscriptions);
+        request.addToSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME, subscrShows);
+        return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
     }
 
     private SubscrShow createSubscrShow(Subscription subscription) {
@@ -130,6 +130,20 @@ public class AddToShoppingCardCommand implements Command {
         subscriptionService.create(subscription);
         return subscription;
     }
+//        if (subscriptionService.findIdByAll(userId, addressId, editionId, termId, priceId, statusId).isEmpty()) {
+//            Subscription subscription = new Subscription(userId, addressId, editionId, termId, priceId, statusId);
+//            subscriptionService.create(subscription);
+//            return subscription;
+//        } else {
+//            final List<Subscription> subscriptions = subscriptionService.findIdByAll(userId, addressId, editionId,
+//                    termId, priceId, statusId);
+//            Subscription subscription = subscriptions.get(0);
+//            for (int i = 1; i < subscriptions.size(); i++) {
+//                subscriptionService.delete(subscriptions.get(i).getId());
+//            }
+//            return subscription;
+//        }
+//    }
 
     private User findUser(Long userId) {
         Optional<User> optionalUser = userService.findById(userId);

@@ -34,6 +34,11 @@ public class SimpleCardService implements CardService {
     }
 
     @Override
+    public boolean delete(Long id) {
+        return cardDao.delete(id);
+    }
+
+    @Override
     public Optional<Card> readCardByNumber(String cardNumber) {
         return cardDao.readCardByNumber(cardNumber);
     }

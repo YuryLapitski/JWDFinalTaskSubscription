@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class AddressValidator {
     private static final Pattern CITY_PATTERN = Pattern.compile("^[A-za-z]{2,50}$");
-    private static final Pattern STREET_PATTERN = Pattern.compile("^[A-za-z.]{2,100}$");
+    private static final Pattern STREET_PATTERN = Pattern.compile("^[A-za-z0-9.-]{2,100}$");
 
     private static AddressValidator instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();

@@ -25,6 +25,11 @@ public class SimplePriceService implements PriceService {
     }
 
     @Override
+    public boolean delete(Long id) {
+        return priceDao.delete(id);
+    }
+
+    @Override
     public Optional<Price> findById(Long id) {
        return priceDao.read(id);
     }

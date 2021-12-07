@@ -133,11 +133,6 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
-    }
-
-    @Override
     public List<Subscription> findIdByAll(Long userId, Long addressId, Long editionId, Long termId,
                                           Long priceId, Long statusId) {
         try {

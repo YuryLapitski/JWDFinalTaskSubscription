@@ -25,6 +25,8 @@ public class ShowTermDataCommand implements Command {
     private static final String ERROR_ADDRESS_ATTRIBUTE = "errorAddressMessage";
     private static final String ERROR_ADDRESS_MESSAGE = "Invalid address";
     private static final String ADDRESS_ATTRIBUTE_NAME = "address";
+    private static final Integer DEFAULT_FLAT_NUMBER = 0;
+    private static final String EMPTY_STRING = "";
 
     private static ShowTermDataCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
@@ -71,7 +73,12 @@ public class ShowTermDataCommand implements Command {
         final String city = request.getParameter(CITY_REQUEST_PARAM_NAME);
         final String street = request.getParameter(STREET_REQUEST_PARAM_NAME);
         final String house = request.getParameter(HOUSE_REQUEST_PARAM_NAME);
-        final Integer flat = Integer.parseInt(request.getParameter(FLAT_REQUEST_PARAM_NAME));
+        Integer flat;
+        if (request.getParameter(FLAT_REQUEST_PARAM_NAME).equals(EMPTY_STRING)) {
+            flat = DEFAULT_FLAT_NUMBER;
+        } else {
+            flat = Integer.parseInt(request.getParameter(FLAT_REQUEST_PARAM_NAME));
+        }
         if (AddressValidator.getInstance().validateAll(city, street, house)) {
             if (!addressService.findByCSHF(city, street, house, flat).isPresent()) {
                 Address address = new Address(city, street, house, flat);

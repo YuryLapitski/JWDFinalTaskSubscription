@@ -5,11 +5,11 @@
 </head>
 <body>
 <h3>Please select a subscription period to "${requestScope.edition.name}":</h3>
-<h3>Address id: "${requestScope.address.id}":</h3>
 <form name="subscription"
       action="${pageContext.request.contextPath}/controller?command=show_subscription" method="post">
     <label>Term:</label>
-    <label><input type="radio" name="monthsTerm" value="${requestScope.edition.threeMonthsPrice}"/>3 months</label>
+    <label><input type="radio" name="monthsTerm" value="${requestScope.edition.threeMonthsPrice}" checked/>
+        3 months</label>
     <label><input type="radio" name="monthsTerm" value="${requestScope.edition.sixMonthsPrice}"/>6 months</label>
     <label><input type="radio" name="monthsTerm" value="${requestScope.edition.twelveMonthsPrice}"/>12 months</label>
     <br><br>

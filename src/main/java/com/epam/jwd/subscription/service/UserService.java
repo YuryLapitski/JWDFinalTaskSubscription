@@ -28,4 +28,9 @@ public class UserService implements EntityService<User> {
     public Optional<User> create(User entity) {
         return Optional.ofNullable(userDao.create(entity));
     }
+
+    @Override
+    public boolean delete(Long id) {
+        return userDao.delete(id);
+    }
 }

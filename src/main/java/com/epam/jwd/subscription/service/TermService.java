@@ -28,4 +28,9 @@ public class TermService implements EntityService<Term> {
     public Optional<Term> create(Term entity) {
         return Optional.empty();
     }
+
+    @Override
+    public boolean delete(Long id) {
+        return termDao.delete(id);
+    }
 }

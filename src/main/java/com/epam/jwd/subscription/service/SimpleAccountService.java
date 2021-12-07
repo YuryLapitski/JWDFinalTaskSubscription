@@ -43,6 +43,11 @@ public class SimpleAccountService implements AccountService {
     }
 
     @Override
+    public boolean delete(Long id) {
+        return accountDao.delete(id);
+    }
+
+    @Override
     public Optional<Account> authenticate(String login, String password) {
         if (login == null || password == null) {
             return Optional.empty();

@@ -13,7 +13,7 @@
     <input id="street-input" type="text" name="street" value=""/>
     <br><br>
     <label for="house-input">House:</label>
-    <input id="house-input" type="number" name="house" value=""/>
+    <input id="house-input" type="text" name="house" value=""/>
     <br><br>
     <label for="flat-input">Flat:</label>
     <input id="flat-input" type="number" name="flat" value=""/>

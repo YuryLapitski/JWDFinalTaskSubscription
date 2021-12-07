@@ -13,4 +13,6 @@ public interface EntityService<T extends Entity> {
 
     Optional<T> create(T entity);
 
+    boolean delete(Long id);
+
 }

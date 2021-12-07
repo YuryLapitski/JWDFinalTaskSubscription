@@ -28,4 +28,9 @@ public class StatusService implements EntityService<Status> {
     public Optional<Status> create(Status entity) {
         return Optional.empty();
     }
+
+    @Override
+    public boolean delete(Long id) {
+        return statusDao.delete(id);
+    }
 }
