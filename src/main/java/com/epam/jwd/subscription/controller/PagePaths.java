@@ -14,6 +14,7 @@ public enum PagePaths {
     SUBSCRIBE("/WEB-INF/jsp/subscribe.jsp"),
     SHOPPING_CARD("/WEB-INF/jsp/shopping_card.jsp"),
     CONFIRMATION("/WEB-INF/jsp/confirmation.jsp"),
+    UPDATE_EDITION("/WEB-INF/jsp/update_edition.jsp"),
     ERROR("/WEB-INF/jsp/error.jsp");
 
     private final String path;

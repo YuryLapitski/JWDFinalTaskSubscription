@@ -9,16 +9,16 @@
 <h3>Please enter your details:</h3>
 <form name="user_data-form" action="${pageContext.request.contextPath}/controller?command=user_data" method="post">
     <label for="first_name-input">First Name:</label>
-    <input id="first_name-input" type="text" name="first_name" value=""/>
+    <input id="first_name-input" type="text" name="first_name" value="${requestScope.user.firstName}"/>
     <br>
     <label for="last_name-input">Last Name:</label>
-    <input id="last_name-input" type="text" name="last_name" value=""/>
+    <input id="last_name-input" type="text" name="last_name" value="${requestScope.user.lastName}"/>
     <br>
     <label for="age-input">Age:</label>
-    <input id="age-input" type="number" name="age" value=""/>
+    <input id="age-input" type="number" name="age" value="${requestScope.user.age}"/>
     <br>
     <label for="email-input">Email:</label>
-    <input id="email-input" type="text" name="email" value=""/>
+    <input id="email-input" type="text" name="email" value="${requestScope.user.email}"/>
     <br/>
     <c:if test="${not empty requestScope.errorUserDataMessage}">
         <b style="color: red">${requestScope.errorUserDataMessage}</b>

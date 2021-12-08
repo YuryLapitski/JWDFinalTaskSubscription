@@ -3,6 +3,7 @@ package com.epam.jwd.subscription.service;
 import com.epam.jwd.subscription.dao.PriceDao;
 import com.epam.jwd.subscription.entity.Price;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,5 +38,10 @@ public class SimplePriceService implements PriceService {
     @Override
     public Optional<Price> findByEditionIdTermID(Long editionId, Long termId) {
         return priceDao.findByEditionIdTermID(editionId, termId);
+    }
+
+    @Override
+    public void updateValue(BigDecimal value, Long editionId, Long termId) {
+        priceDao.updateValue(value, editionId, termId);
     }
 }

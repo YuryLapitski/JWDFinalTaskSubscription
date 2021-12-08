@@ -2,6 +2,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.epam.jwd.subscription.entity.Role" %>
 <%@include file="header.jsp" %>
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="locale.main" var="loc" />
+<fmt:message bundle="${loc}" key="label.title" var="pageTitle" />
+<fmt:message bundle="${loc}" key="label.subscription" var="subscriptionMessage" />
+<fmt:message bundle="${loc}" key="label.welcome" var="welcomeMessage" />
+<fmt:message bundle="${loc}" key="label.link.editions" var="editionsLink" />
+<fmt:message bundle="${loc}" key="label.link.users" var="usersLink" />
+<fmt:message bundle="${loc}" key="label.link.accounts" var="accountsLink" />
+<fmt:message bundle="${loc}" key="label.link.login" var="loginLink" />
+<fmt:message bundle="${loc}" key="label.link.logout" var="logoutLink" />
+<fmt:message bundle="${loc}" key="label.link.signup" var="signupLink" />
+<fmt:message bundle="${loc}" key="label.link.user_data" var="user_dataLink" />
+<fmt:message bundle="${loc}" key="label.link.shopping_card" var="shopping_cardLink" />
 <html>
 <head>
     <title>Editions</title>
@@ -43,14 +56,47 @@
                     </form>
                 </c:when>
                 <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
+                    <form name="delete_edition" action="${pageContext.request.contextPath}
+                    /controller?command=delete_edition" method="post">
+                        <input type="hidden" name="editionId" value="${edition.id}"/>
+                        <input type="hidden" name="name" value="${edition.name}"/>
+                        <c:if test="${not empty requestScope.errorFindUserMessage}">
+                            <b>${requestScope.errorFindUserMessage}</b>
+                            <br>
+                        </c:if>
+                        <input type="submit" value="Delete"/>
+                    </form>
                 </c:when>
                 <c:otherwise>
-                    Log in to choose
                 </c:otherwise>
             </c:choose>
+            </td>
+            <td>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">
+                    </c:when>
+                    <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
+                        <form name="update_edition" action="${pageContext.request.contextPath}
+                        /controller?command=show_update_edition" method="post">
+                            <input type="hidden" name="editionId" value="${edition.id}"/>
+                            <input type="hidden" name="name" value="${edition.name}"/>
+                            <c:if test="${not empty requestScope.errorFindUserMessage}">
+                                <b>${requestScope.errorFindUserMessage}</b>
+                                <br>
+                            </c:if>
+                            <input type="submit" value="Update"/>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        Log in to choose
+                    </c:otherwise>
+                </c:choose>
             </td>
         </tr>
     </c:forEach>
 </table>
+<form name="add_edition" action="${pageContext.request.contextPath}/controller?command=add_edition" method="post">
+    <input type="submit" value="Add edition"/>
+</form>
 </body>
 </html>

@@ -6,6 +6,7 @@ import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +32,7 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
     private static final String VALUE_FIELD_NAME = "pr_value";
     protected static final String WHERE_FIELDS = "where %s = ? and %s = ?";
     private static final String COMMA = ", ";
+    private static final String UPDATE = "update %s set %s = ? where %s = ? and %s = ?";
 
     private static final List<String> FIELDS = Arrays.asList(
             ID_FIELD_NAME, EDITION_ID_FIELD_NAME,
@@ -41,8 +43,9 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
             EDITION_ID_FIELD_NAME, TERM_ID_FIELD_NAME, VALUE_FIELD_NAME
     );
 
-    protected final String selectByEditionIdExpression;
+    private final String selectByEditionIdExpression;
     private final String selectByEditionIdTermIdExpression;
+    private final String updateValueSql;
 
     private MethodPriceDao(ConnectionPool pool) {
         super(pool, LOG);
@@ -50,6 +53,8 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
                 + format(WHERE_FIELD, getEditionIdFieldName());
         this.selectByEditionIdTermIdExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELDS, EDITION_ID_FIELD_NAME, TERM_ID_FIELD_NAME);
+        this.updateValueSql = format(UPDATE, getTableName(), VALUE_FIELD_NAME, EDITION_ID_FIELD_NAME,
+                TERM_ID_FIELD_NAME);
     }
 
     public static MethodPriceDao getInstance(){
@@ -155,6 +160,29 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
             Thread.currentThread().interrupt();
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void updateValue(BigDecimal value, Long editionId, Long termId) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(updateValueSql,
+                    st -> fillParameters(st, value, editionId, termId));
+            if (rowsUpdated > 0) {
+                LOG.info("Updated price value {} for edition id {} successfully.", value, editionId);
+            } else {
+                LOG.error("Update error occurred");
+            }
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void fillParameters(PreparedStatement statement, BigDecimal value,
+                                Long editionId, Long termId) throws SQLException {
+        statement.setBigDecimal(1, value);
+        statement.setLong(2, editionId);
+        statement.setLong(3, termId);
     }
 
     private void fillEditionIdTermID(PreparedStatement statement, Price price) throws SQLException {

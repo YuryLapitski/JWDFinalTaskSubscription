@@ -16,17 +16,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.String.format;
+
 public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
     private static final Logger LOG = LogManager.getLogger(MethodEditionDao.class);
 
-    private static final String EDITION_TABLE_NAME = "edition e join category c on c.cat_id = e.cat_id";
+    private static final String EDITION_CAT_TABLE_NAME = "edition e join category c on c.cat_id = e.cat_id";
+    private static final String EDITION_TABLE_NAME = "edition";
     private static final String EDITION_ID_FIELD_NAME = "ed_id";
     private static final String NAME_FIELD_NAME = "ed_name";
+    private static final String CATEGORY_ID_FIELD_NAME = "cat_id";
     private static final String CATEGORY_FIELD_NAME = "cat_name";
     private static final Long THREE_MONTHS_TERM_ID = 1L;
     private static final Long SIX_MONTHS_TERM_ID = 2L;
     private static final Long TWELVE_MONTHS_TERM_ID = 3L;
+    private static final String UPDATE = "update %s set %s = ?, %s = ? where %s = ?";
 
     private static final List<String> FIELDS = Arrays.asList(
             EDITION_ID_FIELD_NAME, NAME_FIELD_NAME,
@@ -37,8 +42,12 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
             NAME_FIELD_NAME, CATEGORY_FIELD_NAME
     );
 
+    private final String updateByEditionIdSql;
+
     private MethodEditionDao(ConnectionPool pool) {
         super(pool, LOG);
+        this.updateByEditionIdSql = format(UPDATE, EDITION_TABLE_NAME, NAME_FIELD_NAME, CATEGORY_ID_FIELD_NAME,
+                EDITION_ID_FIELD_NAME);
     }
 
     private static class Holder {
@@ -51,7 +60,7 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
     @Override
     protected String getTableName() {
-        return EDITION_TABLE_NAME;
+        return EDITION_CAT_TABLE_NAME;
     }
 
     @Override
@@ -129,13 +138,30 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     @Override
-    public Edition create(Edition entity) {
-        return null;
+    public void updateByEditionId(String name, Long catId, Long editionId) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(updateByEditionIdSql,
+                    st -> fillParameters(st, name, catId, editionId));
+            if (rowsUpdated > 0) {
+                LOG.info("Updated edition for id {} successfully.", editionId);
+            } else {
+                LOG.error("Update error occurred");
+            }
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void fillParameters(PreparedStatement statement, String name, Long catId, Long editionId) throws SQLException {
+        statement.setString(1, name);
+        statement.setLong(2, catId);
+        statement.setLong(3, editionId);
     }
 
     @Override
-    public Optional<Edition> read(Long id) {
-        return Optional.empty();
+    public Edition create(Edition entity) {
+        return null;
     }
 
     @Override

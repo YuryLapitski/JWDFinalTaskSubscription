@@ -14,8 +14,8 @@ public interface ServiceFactory {
         return (SimpleUserService) serviceFor(User.class);
     }
 
-    default EditionService editionService() {
-        return (EditionService) serviceFor(Edition.class);
+    default SimpleEditionService editionService() {
+        return (SimpleEditionService) serviceFor(Edition.class);
     }
 
     default SimplePriceService priceService() {

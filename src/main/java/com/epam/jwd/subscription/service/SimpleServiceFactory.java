@@ -38,7 +38,7 @@ public class SimpleServiceFactory implements ServiceFactory {
                 case "Account":
                     return new SimpleAccountService(AccountDao.instance(), BCrypt.withDefaults(), BCrypt.verifyer());
                 case "Edition":
-                    return new EditionService(EditionDao.instance());
+                    return new SimpleEditionService(EditionDao.instance());
                 case "User":
                     return new SimpleUserService(UserDao.instance());
                 case "Price":

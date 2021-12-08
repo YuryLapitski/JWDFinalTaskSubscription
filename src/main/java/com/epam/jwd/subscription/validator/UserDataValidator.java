@@ -13,7 +13,9 @@ public class UserDataValidator {
 
     private static final Pattern FIRST_NAME_PATTERN = Pattern.compile("^[A-za-z]{2,45}$");
     private static final Pattern LAST_NAME_PATTERN = Pattern.compile("^[A-za-z]{2,45}$");
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("(\\w){3,80}\\@(\\w){2,15}\\.(com|ru|by|net|)");
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]" +
+            "+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+//    private static final Pattern EMAIL_PATTERN = Pattern.compile("(\\w)(\\.)(-){3,80}\\@(\\w){2,15}\\.(com|ru|by|net|)");
 
     private static UserDataValidator instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
@@ -60,12 +62,7 @@ public class UserDataValidator {
             return false;
         }
         Matcher matcher = EMAIL_PATTERN.matcher(email);
-        if (matcher.matches()) {
-            Optional<User> possibleCollision = UserDao.instance().readUserByEmail(email);
-            return !possibleCollision.isPresent();
-        } else {
-            return false;
-        }
+        return matcher.matches();
     }
 
     public boolean validateAll(String firstName, String lastName, int age, String email){

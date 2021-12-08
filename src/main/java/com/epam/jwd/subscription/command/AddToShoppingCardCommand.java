@@ -25,7 +25,7 @@ public class AddToShoppingCardCommand implements Command {
     private final SubscriptionService subscriptionService;
     private final SimpleUserService userService;
     private final AddressService addressService;
-    private final EditionService editionService;
+    private final SimpleEditionService editionService;
     private final PriceService priceService;
     private final TermService termService;
     private final StatusService statusService;
@@ -35,7 +35,7 @@ public class AddToShoppingCardCommand implements Command {
     private AddToShoppingCardCommand(SubscriptionService subscriptionService,
                                      SimpleUserService userService,
                                      AddressService addressService,
-                                     EditionService editionService,
+                                     SimpleEditionService editionService,
                                      PriceService priceService,
                                      TermService termService,
                                      StatusService statusService,

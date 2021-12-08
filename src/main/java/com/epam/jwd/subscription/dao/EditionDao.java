@@ -11,6 +11,8 @@ public interface EditionDao extends EntityDao<Edition> {
 
     Optional<Edition> findEditionById(Long id);
 
+    void updateByEditionId(String name, Long catId, Long editionId);
+
     static EditionDao instance() {
         return MethodEditionDao.getInstance();
     }

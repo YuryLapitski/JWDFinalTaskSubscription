@@ -25,6 +25,7 @@ public class UserDataSubmitCommand implements Command {
     private static final String ERROR_USER_DATA_MESSAGE = "Invalid user data";
     private static final String ERROR_SESSION_DOES_NOT_EXIST_MESSAGE = "Please log in";
     private static final String ACCOUNT_SESSION_ATTRIBUTE_NAME = "account";
+    private static final String JSP_USER_ATTRIBUTE_NAME = "user";
     private static final String FIRST_NAME_REQUEST_PARAM_NAME = "first_name";
     private static final String LAST_NAME_REQUEST_PARAM_NAME = "last_name";
     private static final String AGE_REQUEST_PARAM_NAME = "age";
@@ -75,6 +76,10 @@ public class UserDataSubmitCommand implements Command {
             }
             return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
         } else {
+            if (userService.readUserByAccountId(accId).isPresent()) {
+                User user = userService.readUserByAccountId(accId).get();
+                request.addAttributeToJsp(JSP_USER_ATTRIBUTE_NAME, user);
+            }
             request.addAttributeToJsp(ERROR_USER_DATA_ATTRIBUTE, ERROR_USER_DATA_MESSAGE);
             return requestFactory.createForwardResponse(propertyContext.get(USER_DATA_PAGE));
         }

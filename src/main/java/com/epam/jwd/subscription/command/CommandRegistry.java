@@ -27,6 +27,9 @@ public enum CommandRegistry {
     SHOPPING_CARD(ShowShoppingCardCommand.getInstance(), "show_shopping_card", USER),
     SHOW_CONFIRMATION_PAYMENT(ShowConfirmPaymentCommand.getInstance(), "confirmation", USER),
     CHANGE_LANGUAGE(ChangeLanguageCommand.getInstance(), "change_language"),
+    DELETE_EDITION(DeleteEditionCommand.getInstance(), "delete_edition", ADMIN),
+    SHOW_UPDATE_EDITION(ShowUpdateEditionPageCommand.getInstance(), "show_update_edition", ADMIN),
+    UPDATE_EDITION(UpdateEditionCommand.getInstance(), "update_edition", ADMIN),
     ERROR(ShowErrorPageCommand.getInstance(), "show_error"),
     DEFAULT(ShowMainPageCommand.getInstance(), "");
 

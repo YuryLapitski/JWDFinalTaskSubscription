@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="header.jsp" %>
 <html>
@@ -5,7 +6,7 @@
     <title>Address</title>
 </head>
 <body>
-<h3>Please enter enter delivery address to "${requestScope.edition.name}":</h3>
+<h3>Please enter delivery address to "${requestScope.edition.name}":</h3>
 <form name="subscription" action="${pageContext.request.contextPath}/controller?command=show_term" method="post">
     <label for="city-input">City:</label>
     <input id="city-input" type="text" name="city" value=""/>
@@ -28,6 +29,7 @@
     <c:if test="${not empty requestScope.errorAddressMessage}">
     <b>${requestScope.errorAddressMessage}</b>
     <br>
+    </c:if>
     <input type="submit" value="Submit"/>
 </form>
 </body>

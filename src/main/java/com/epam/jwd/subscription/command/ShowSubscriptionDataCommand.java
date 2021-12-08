@@ -41,14 +41,14 @@ public class ShowSubscriptionDataCommand implements Command {
 
     private final SimpleUserService userService;
     private final AddressService addressService;
-    private final EditionService editionService;
+    private final SimpleEditionService editionService;
     private final PriceService priceService;
     private final TermService termService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
     private ShowSubscriptionDataCommand(SimpleUserService userService,
                                         AddressService addressService,
-                                        EditionService editionService,
+                                        SimpleEditionService editionService,
                                         PriceService priceService,
                                         TermService termService,
                                         RequestFactory requestFactory,
