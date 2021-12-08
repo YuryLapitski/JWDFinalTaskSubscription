@@ -10,8 +10,8 @@ public interface ServiceFactory {
         return (AccountService) serviceFor(Account.class);
     }
 
-    default UserService userService() {
-        return (UserService) serviceFor(User.class);
+    default SimpleUserService userService() {
+        return (SimpleUserService) serviceFor(User.class);
     }
 
     default EditionService editionService() {
@@ -22,8 +22,8 @@ public interface ServiceFactory {
         return (SimplePriceService) serviceFor(Price.class);
     }
 
-    default AddressService addressService() {
-        return (AddressService) serviceFor(Address.class);
+    default SimpleAddressService addressService() {
+        return (SimpleAddressService) serviceFor(Address.class);
     }
 
     default TermService termService() {

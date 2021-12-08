@@ -23,7 +23,7 @@ public class AddToShoppingCardCommand implements Command {
     private static final ReentrantLock LOCK = new ReentrantLock();
 
     private final SubscriptionService subscriptionService;
-    private final UserService userService;
+    private final SimpleUserService userService;
     private final AddressService addressService;
     private final EditionService editionService;
     private final PriceService priceService;
@@ -33,7 +33,7 @@ public class AddToShoppingCardCommand implements Command {
     private final PropertyContext propertyContext;
 
     private AddToShoppingCardCommand(SubscriptionService subscriptionService,
-                                     UserService userService,
+                                     SimpleUserService userService,
                                      AddressService addressService,
                                      EditionService editionService,
                                      PriceService priceService,

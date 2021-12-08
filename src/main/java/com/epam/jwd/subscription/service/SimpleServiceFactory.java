@@ -40,7 +40,7 @@ public class SimpleServiceFactory implements ServiceFactory {
                 case "Edition":
                     return new EditionService(EditionDao.instance());
                 case "User":
-                    return new UserService(UserDao.instance());
+                    return new SimpleUserService(UserDao.instance());
                 case "Price":
                     return new SimplePriceService(PriceDao.instance());
                 case "Address":

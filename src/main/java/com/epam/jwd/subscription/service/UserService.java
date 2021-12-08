@@ -1,36 +1,13 @@
 package com.epam.jwd.subscription.service;
 
-import com.epam.jwd.subscription.dao.UserDao;
 import com.epam.jwd.subscription.entity.User;
 
-import java.util.List;
 import java.util.Optional;
 
-public class UserService implements EntityService<User> {
+public interface UserService extends EntityService<User> {
 
-    private final UserDao userDao;
+    Optional<User> readUserByAccountId(Long accId);
 
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return userDao.read();
-    }
-
-    @Override
-    public Optional<User> findById(Long id) {
-        return userDao.readUserByAccountId(id);
-    }
-
-    @Override
-    public Optional<User> create(User entity) {
-        return Optional.ofNullable(userDao.create(entity));
-    }
-
-    @Override
-    public boolean delete(Long id) {
-        return userDao.delete(id);
-    }
+    void updateByAccountId (String firstName, String lastName,
+                            Integer age, String email, Long accountId);
 }

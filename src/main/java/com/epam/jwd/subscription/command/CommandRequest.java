@@ -1,5 +1,6 @@
 package com.epam.jwd.subscription.command;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
@@ -22,4 +23,6 @@ public interface CommandRequest {
     void removeFromSession(String name);
 
     String[] getParameters (String name);
+
+    Cookie[] findCookies();
 }

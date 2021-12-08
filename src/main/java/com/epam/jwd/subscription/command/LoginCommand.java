@@ -61,8 +61,6 @@ public class LoginCommand implements Command {
             request.addAttributeToJsp(ERROR_LOGIN_PASS_ATTRIBUTE, ERROR_LOGIN_PASS_MESSAGE);
             return requestFactory.createForwardResponse(propertyContext.get(LOGIN_PAGE));
         }
-        request.clearSession();
-        request.createSession();
         request.addToSession(ACCOUNT_SESSION_ATTRIBUTE_NAME, account.get());
         return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
     }

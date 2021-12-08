@@ -2,6 +2,7 @@ package com.epam.jwd.subscription.controller;
 
 import com.epam.jwd.subscription.command.CommandRequest;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -68,6 +69,11 @@ public class WrappingCommandRequest implements CommandRequest {
     @Override
     public String[] getParameters (String name) {
         return request.getParameterValues(name);
+    }
+
+    @Override
+    public Cookie[] findCookies() {
+        return request.getCookies();
     }
 
 }

@@ -26,6 +26,7 @@ public enum CommandRegistry {
     ADD_TO_SHOPPING_CARD(AddToShoppingCardCommand.getInstance(), "add_to_shopping_card", USER),
     SHOPPING_CARD(ShowShoppingCardCommand.getInstance(), "show_shopping_card", USER),
     SHOW_CONFIRMATION_PAYMENT(ShowConfirmPaymentCommand.getInstance(), "confirmation", USER),
+    CHANGE_LANGUAGE(ChangeLanguageCommand.getInstance(), "change_language"),
     ERROR(ShowErrorPageCommand.getInstance(), "show_error"),
     DEFAULT(ShowMainPageCommand.getInstance(), "");
 

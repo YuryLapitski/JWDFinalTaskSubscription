@@ -3,7 +3,8 @@
 <%@ taglib prefix="jwds" uri="subscription.jwd.epam.com" %>
 <%@ page import="com.epam.jwd.subscription.entity.Role" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<fmt:setLocale value="${cookie.lang.value}" />
+<%@include file="header.jsp" %>
+<fmt:setLocale value="${sessionScope.lang}" />
 <fmt:setBundle basename="locale.main" var="loc" />
 <fmt:message bundle="${loc}" key="label.title" var="pageTitle" />
 <fmt:message bundle="${loc}" key="label.subscription" var="subscriptionMessage" />

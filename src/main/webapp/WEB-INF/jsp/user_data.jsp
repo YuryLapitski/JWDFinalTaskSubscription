@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="header.jsp" %>
 <html>
 <head>
     <title>User data</title>
@@ -20,7 +21,7 @@
     <input id="email-input" type="text" name="email" value=""/>
     <br/>
     <c:if test="${not empty requestScope.errorUserDataMessage}">
-        <b>${requestScope.errorUserDataMessage}</b>
+        <b style="color: red">${requestScope.errorUserDataMessage}</b>
         <br>
     </c:if>
     <input type="submit" value="Submit"/>

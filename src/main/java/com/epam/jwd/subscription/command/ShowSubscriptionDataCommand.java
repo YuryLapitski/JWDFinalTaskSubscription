@@ -39,14 +39,14 @@ public class ShowSubscriptionDataCommand implements Command {
     private static ShowSubscriptionDataCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final UserService userService;
+    private final SimpleUserService userService;
     private final AddressService addressService;
     private final EditionService editionService;
     private final PriceService priceService;
     private final TermService termService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
-    private ShowSubscriptionDataCommand(UserService userService,
+    private ShowSubscriptionDataCommand(SimpleUserService userService,
                                         AddressService addressService,
                                         EditionService editionService,
                                         PriceService priceService,

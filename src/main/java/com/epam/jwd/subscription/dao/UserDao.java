@@ -10,6 +10,9 @@ public interface UserDao extends EntityDao<User> {
 
     Optional<User> readUserByAccountId(Long accId);
 
+    void updateByAccountId (String firstName, String lastName,
+                            Integer age, String email, Long accountId);
+
     static UserDao instance() {
         return MethodUserDao.getInstance();
     }

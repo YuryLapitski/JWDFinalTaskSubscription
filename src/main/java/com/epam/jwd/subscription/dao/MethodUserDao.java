@@ -30,6 +30,7 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
 //    private static final String INSERT_INTO = "insert %s (%s) values (?, ?, ?, ?, ?)";
     private static final String VALUES = "values (?, ?, ?, ?, ?)";
     private static final String COMMA = ", ";
+    private static final String UPDATE = "update %s set %s = ?, %s = ?, %s = ?, %s = ? where %s = ?";
 
     private static final List<String> FIELDS = Arrays.asList(
             ID_FIELD_NAME, FIRST_NAME_FIELD_NAME, LAST_NAME_FIELD_NAME,
@@ -43,7 +44,7 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
 
     private final String selectByEmailExpression;
     private final String selectByAccountIdExpression;
-//    private final String insertSql;
+    private final String updateByAccIdSql;
 
     private MethodUserDao(ConnectionPool pool) {
         super(pool, LOG);
@@ -51,7 +52,8 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
                 getTableName() + SPACE + format(WHERE_FIELD, EMAIL_FIELD_NAME);
         this.selectByAccountIdExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELD, ACC_ID_FIELD_NAME);
-//        this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields()));
+        this.updateByAccIdSql = format(UPDATE, getTableName(), FIRST_NAME_FIELD_NAME, LAST_NAME_FIELD_NAME,
+                AGE_FIELD_NAME, EMAIL_FIELD_NAME, ACC_ID_FIELD_NAME);
     }
 
     @Override
@@ -133,6 +135,32 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
             Thread.currentThread().interrupt();
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void updateByAccountId(String firstName, String lastName,
+                                  Integer age, String email, Long accId) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(updateByAccIdSql,
+                    st -> fillParameters(st, firstName, lastName, age, email, accId));
+            if (rowsUpdated > 0) {
+                LOG.info("Updated user for account {} successfully.", accId);
+            } else {
+                LOG.error("Update error occurred");
+            }
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void fillParameters(PreparedStatement statement, String firstName, String lastName,
+                                Integer age, String email, Long accId) throws SQLException {
+        statement.setString(1, firstName);
+        statement.setString(2, lastName);
+        statement.setInt(3, age);
+        statement.setString(4, email);
+        statement.setLong(5, accId);
     }
 
 //    @Override
