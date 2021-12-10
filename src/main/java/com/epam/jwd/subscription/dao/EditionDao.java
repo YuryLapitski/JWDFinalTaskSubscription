@@ -7,11 +7,13 @@ import java.util.Optional;
 
 public interface EditionDao extends EntityDao<Edition> {
 
-    List<Edition> findByName(String name);
+    Optional<Edition> findByName(String name);
 
     Optional<Edition> findEditionById(Long id);
 
     void updateByEditionId(String name, Long catId, Long editionId);
+
+    void addEdition(String name, Long catId);
 
     static EditionDao instance() {
         return MethodEditionDao.getInstance();

@@ -25,7 +25,6 @@
 <%--                    /controller?command=choose_edition" method="post">--%>
 <table>
     <tr>
-        <th>Id</th>
         <th>Name</th>
         <th>Category</th>
         <th>3 months</th>
@@ -35,7 +34,6 @@
     </tr>
     <c:forEach var="edition" items="${requestScope.editions}">
         <tr>
-            <td>${edition.id}</td>
             <td>${edition.name}</td>
             <td>${edition.category}</td>
             <td>${edition.threeMonthsPrice}</td>
@@ -95,8 +93,10 @@
         </tr>
     </c:forEach>
 </table>
-<form name="add_edition" action="${pageContext.request.contextPath}/controller?command=add_edition" method="post">
+<c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
+    <form name="add_edition" action="${pageContext.request.contextPath}/controller?command=show_add_edition" method="post">
     <input type="submit" value="Add edition"/>
+</c:if>
 </form>
 </body>
 </html>

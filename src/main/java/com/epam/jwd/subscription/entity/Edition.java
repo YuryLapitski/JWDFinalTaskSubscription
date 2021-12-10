@@ -25,6 +25,11 @@ public class Edition implements Entity {
         this.twelveMonthsPrice = twelveMonthsPrice;
     }
 
+    public Edition(String name, Category category, BigDecimal threeMonthsPrice,
+                   BigDecimal sixMonthsPrice, BigDecimal twelveMonthsPrice) {
+        this(null, name, category, threeMonthsPrice, sixMonthsPrice, twelveMonthsPrice);
+    }
+
     @Override
     public Long getId() {
         return id;

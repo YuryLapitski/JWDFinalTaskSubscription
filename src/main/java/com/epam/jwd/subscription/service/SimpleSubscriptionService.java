@@ -41,6 +41,11 @@ public class SimpleSubscriptionService implements SubscriptionService{
     }
 
     @Override
+    public List<Subscription> findByEditionId(Long editionId) {
+        return subscriptionDao.findByEditionId(editionId);
+    }
+
+    @Override
     public void updateStatus(Long statusId, Long subscriptionId) {
         subscriptionDao.updateStatus(statusId, subscriptionId);
     }

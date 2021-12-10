@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
+import static java.lang.String.join;
 
 public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
@@ -32,6 +33,9 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     private static final Long SIX_MONTHS_TERM_ID = 2L;
     private static final Long TWELVE_MONTHS_TERM_ID = 3L;
     private static final String UPDATE = "update %s set %s = ?, %s = ? where %s = ?";
+    private static final String INSERT_INTO = "insert into %s (%s)";
+    private static final String COMMA = ", ";
+    private static final String VALUES = "values (?, ?)";
 
     private static final List<String> FIELDS = Arrays.asList(
             EDITION_ID_FIELD_NAME, NAME_FIELD_NAME,
@@ -39,15 +43,22 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     );
 
     private static final List<String> FIELDS_FOR_INSERT = Arrays.asList(
-            NAME_FIELD_NAME, CATEGORY_FIELD_NAME
+            NAME_FIELD_NAME, CATEGORY_ID_FIELD_NAME
     );
 
     private final String updateByEditionIdSql;
+    private final String insertSql;
+    private final String deleteSql;
+    private final String selectByNameExpression;
 
     private MethodEditionDao(ConnectionPool pool) {
         super(pool, LOG);
         this.updateByEditionIdSql = format(UPDATE, EDITION_TABLE_NAME, NAME_FIELD_NAME, CATEGORY_ID_FIELD_NAME,
                 EDITION_ID_FIELD_NAME);
+        this.insertSql = format(INSERT_INTO, getInsertTableName(),
+                join(COMMA, getInsertFields())) + SPACE + getValues();
+        this.selectByNameExpression = selectAllExpression + SPACE + format(WHERE_FIELD, NAME_FIELD_NAME);
+        this.deleteSql = format(DELETE_FROM, EDITION_TABLE_NAME, getIdFieldName());
     }
 
     private static class Holder {
@@ -65,7 +76,7 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
     @Override
     protected String getInsertTableName() {
-        return null;
+        return EDITION_TABLE_NAME;
     }
 
     @Override
@@ -80,7 +91,7 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
 
     @Override
     protected String getValues() {
-        return null;
+        return VALUES;
     }
 
     @Override
@@ -115,13 +126,37 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     @Override
+    public boolean delete(Long id) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(deleteSql, st -> st.setLong(1, id));
+            if (rowsUpdated > 0) {
+//                read() //todo: read by unique param
+                return true;
+            }
+            return false; //todo: throw exc
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+
+    @Override
     protected void fillEntity(PreparedStatement statement, Edition entity) throws SQLException {
 
     }
 
     @Override
-    public List<Edition> findByName(String name) {
-        return null;
+    public Optional<Edition> findByName(String name) {
+        try {
+            return executePreparedForGenericEntity(selectByNameExpression,
+                    this::extractResultCatchingException,
+                    st -> st.setString(1, name));
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -160,17 +195,28 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     @Override
-    public Edition create(Edition entity) {
-        return null;
+    public void addEdition(String name, Long catId) {
+        try {
+            final int rowsUpdated = executePreparedUpdate(insertSql,
+                    st -> fillAddParameters(st, name, catId));
+            if (rowsUpdated > 0) {
+                LOG.info("Add new edition {} successfully.", name);
+            } else {
+                LOG.error("Update error occurred");
+            }
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void fillAddParameters(PreparedStatement statement, String name, Long catId) throws SQLException {
+        statement.setString(1, name);
+        statement.setLong(2, catId);
     }
 
     @Override
     public Edition update(Edition entity) {
         return null;
-    }
-
-    @Override
-    public boolean delete(Long id) {
-        return false;
     }
 }

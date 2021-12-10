@@ -34,6 +34,7 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
     private static final String UPDATE = "update %s set %s = ? where %s = ?";
     private static final String VALUES = "values (?, ?, ?, ?, ?, ?)";
     protected static final String WHERE_FIELDS = "where %s = ? and %s = ?  and %s = ? and %s = ? and %s = ? and %s = ?";
+    protected static final String WHERE_ONE_FIELD = "where %s = ?";
     private static final String COMMA = ", ";
 
     private static final List<String> FIELDS = Arrays.asList(
@@ -47,8 +48,9 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
     );
 
 //    private final String insertSql;
-    protected final String updateSql;
+    private final String updateSql;
     private final String findIdByAllExpression;
+    private final String findByEditionIdSql;
 
     private MethodSubscriptionDao(ConnectionPool pool) {
         super(pool, LOG);
@@ -56,6 +58,8 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
         this.findIdByAllExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELDS, USER_ID_FIELD_NAME, ADDRESS_ID_FIELD_NAME,
                 EDITION_ID_FIELD_NAME, TERM_ID_FIELD_NAME, PRICE_ID_FIELD_NAME, STATUS_ID_FIELD_NAME);
+        this.findByEditionIdSql = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
+                getTableName() + SPACE + format(WHERE_ONE_FIELD, EDITION_ID_FIELD_NAME);
     }
 
     public static MethodSubscriptionDao getInstance(){
@@ -139,6 +143,19 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
             return executePreparedForEntities(findIdByAllExpression,
                     this::extractResultCatchingException,
                     st -> fillAllParameters(st, userId, addressId, editionId, termId, priceId, statusId));
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Subscription> findByEditionId(Long editionId) {
+        try {
+            return executePreparedForEntities(findByEditionIdSql,
+                    this::extractResultCatchingException,
+                    st -> st.setLong(1, editionId));
         } catch (InterruptedException e) {
             LOG.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();

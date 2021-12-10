@@ -30,6 +30,8 @@ public enum CommandRegistry {
     DELETE_EDITION(DeleteEditionCommand.getInstance(), "delete_edition", ADMIN),
     SHOW_UPDATE_EDITION(ShowUpdateEditionPageCommand.getInstance(), "show_update_edition", ADMIN),
     UPDATE_EDITION(UpdateEditionCommand.getInstance(), "update_edition", ADMIN),
+    SHOW_ADD_EDITION(ShowAddEditionPageCommand.getInstance(), "show_add_edition", ADMIN),
+    ADD_EDITION(AddEditionCommand.getInstance(), "add_edition", ADMIN),
     ERROR(ShowErrorPageCommand.getInstance(), "show_error"),
     DEFAULT(ShowMainPageCommand.getInstance(), "");
 

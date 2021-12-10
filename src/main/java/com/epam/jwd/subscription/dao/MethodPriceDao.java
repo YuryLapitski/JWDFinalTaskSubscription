@@ -31,6 +31,7 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
     private static final String TERM_ID_FIELD_NAME = "term_id";
     private static final String VALUE_FIELD_NAME = "pr_value";
     protected static final String WHERE_FIELDS = "where %s = ? and %s = ?";
+    private static final String VALUES = "values (?, ?, ?)";
     private static final String COMMA = ", ";
     private static final String UPDATE = "update %s set %s = ? where %s = ? and %s = ?";
 
@@ -77,7 +78,7 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
 
     @Override
     protected String getInsertTableName() {
-        return null;
+        return PRICE_TABLE_NAME;
     }
 
     @Override
@@ -92,7 +93,7 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
 
     @Override
     protected String getValues() {
-        return null;
+        return VALUES;
     }
 
     @Override
@@ -124,11 +125,6 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
     @Override
     public Price update(Price entity) {
         return null;
-    }
-
-    @Override
-    public boolean delete(Long id) {
-        return false;
     }
 
     protected String getEditionIdFieldName() {

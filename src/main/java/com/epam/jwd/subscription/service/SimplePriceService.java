@@ -22,7 +22,7 @@ public class SimplePriceService implements PriceService {
 
     @Override
     public Optional<Price> create(Price entity) {
-        return Optional.empty();
+        return Optional.ofNullable(priceDao.create(entity));
     }
 
     @Override
@@ -38,6 +38,11 @@ public class SimplePriceService implements PriceService {
     @Override
     public Optional<Price> findByEditionIdTermID(Long editionId, Long termId) {
         return priceDao.findByEditionIdTermID(editionId, termId);
+    }
+
+    @Override
+    public List<Price> findPricesByEditionId(Long editionId) {
+        return priceDao.findPricesByEditionId(editionId);
     }
 
     @Override

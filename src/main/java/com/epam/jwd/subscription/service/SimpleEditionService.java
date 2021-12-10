@@ -26,7 +26,7 @@ public class SimpleEditionService implements EditionService {
 
     @Override
     public Optional<Edition> create(Edition entity) {
-        return Optional.empty();
+        return Optional.ofNullable(editionDao.create(entity));
     }
 
     @Override
@@ -37,5 +37,15 @@ public class SimpleEditionService implements EditionService {
     @Override
     public void updateByEditionId(String name, Long catId, Long editionId) {
         editionDao.updateByEditionId(name, catId, editionId);
+    }
+
+    @Override
+    public void addEdition(String name, Long catId) {
+        editionDao.addEdition(name, catId);
+    }
+
+    @Override
+    public Optional<Edition> findByName(String name) {
+        return editionDao.findByName(name);
     }
 }
