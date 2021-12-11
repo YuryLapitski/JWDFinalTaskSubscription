@@ -20,9 +20,20 @@
             <td>${account.id}</td>
             <td>${account.login}</td>
             <td>${account.password}</td>
-            <c:if test="${account.role eq Role.USER}">
-                <td>${account.role}</td>
-            </c:if>
+            <td>${account.role}</td>
+            <td>
+                <c:if test="${account.role eq Role.USER}">
+                    <form name="delete_account" action="${pageContext.request.contextPath}
+                    /controller?command=delete_account" method="post">
+                        <input type="hidden" name="accId" value="${account.id}"/>
+                        <c:if test="${not empty requestScope.errorFindAccountMessage}">
+                            <b>${requestScope.errorFindAccountMessage}</b>
+                            <br>
+                        </c:if>
+                        <input type="submit" value="Delete"/>
+                    </form>
+                </c:if>
+            </td>
         </tr>
     </c:forEach>
 </table>

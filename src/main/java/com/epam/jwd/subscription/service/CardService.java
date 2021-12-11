@@ -9,5 +9,5 @@ public interface CardService extends EntityService<Card> {
 
     Optional<Card> readCardByNumber(String cardNumber);
 
-    void transferMoney (Card from, Card to, BigDecimal amount);
+    boolean transferMoney (Card from, Card to, double amount);
 }

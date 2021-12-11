@@ -47,10 +47,10 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
             TERM_ID_FIELD_NAME, PRICE_ID_FIELD_NAME, STATUS_ID_FIELD_NAME
     );
 
-//    private final String insertSql;
     private final String updateSql;
     private final String findIdByAllExpression;
     private final String findByEditionIdSql;
+    private final String findByUserIdSql;
 
     private MethodSubscriptionDao(ConnectionPool pool) {
         super(pool, LOG);
@@ -60,6 +60,8 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
                 EDITION_ID_FIELD_NAME, TERM_ID_FIELD_NAME, PRICE_ID_FIELD_NAME, STATUS_ID_FIELD_NAME);
         this.findByEditionIdSql = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_ONE_FIELD, EDITION_ID_FIELD_NAME);
+        this.findByUserIdSql = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
+                getTableName() + SPACE + format(WHERE_ONE_FIELD, USER_ID_FIELD_NAME);
     }
 
     public static MethodSubscriptionDao getInstance(){
@@ -156,6 +158,19 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
             return executePreparedForEntities(findByEditionIdSql,
                     this::extractResultCatchingException,
                     st -> st.setLong(1, editionId));
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Subscription> findByUserId(Long userId) {
+        try {
+            return executePreparedForEntities(findByUserIdSql,
+                    this::extractResultCatchingException,
+                    st -> st.setLong(1, userId));
         } catch (InterruptedException e) {
             LOG.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();

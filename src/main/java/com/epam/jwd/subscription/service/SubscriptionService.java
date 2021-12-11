@@ -12,6 +12,8 @@ public interface SubscriptionService extends EntityService<Subscription> {
 
     List<Subscription> findByEditionId (Long editionId);
 
+    List<Subscription> findByUserId (Long userId);
+
     void updateStatus(Long statusId, Long subscriptionId);
 
     void deleteAllSubscriptions (List<Subscription> subscriptions);

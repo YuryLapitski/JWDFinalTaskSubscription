@@ -42,6 +42,10 @@ public interface ServiceFactory {
         return (SimpleCardService) serviceFor(Card.class);
     }
 
+    default SimpleArchiveService archiveService() {
+        return (SimpleArchiveService) serviceFor(Archive.class);
+    }
+
     static SimpleServiceFactory instance() {
         return SimpleServiceFactory.getInstance();
     }

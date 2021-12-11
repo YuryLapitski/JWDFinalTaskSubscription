@@ -8,14 +8,14 @@ public class Account implements Entity {
 
     private static final long serialVersionUID = -8575163775068072134L;
     private static final Integer USER_ROLE_ID = 1;
-    private Long accId;
+    private Long id;
     private String login;
     private String password;
     private Integer roleId;
     private Role role;
 
-    public Account(Long accId, String login, String password, Integer roleId, Role role) {
-        this.accId = accId;
+    public Account(Long id, String login, String password, Integer roleId, Role role) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.roleId = roleId;
@@ -34,7 +34,7 @@ public class Account implements Entity {
 
     @Override
     public Long getId() {
-        return accId;
+        return id;
     }
 
     public String getLogin() {
@@ -54,7 +54,7 @@ public class Account implements Entity {
     }
 
     public Account withPassword(String password) {
-        return new Account(accId, login, password);
+        return new Account(id, login, password);
     }
 
     private Account() {
@@ -69,7 +69,7 @@ public class Account implements Entity {
         }
 
         public Builder withId(Long id) {
-            account.accId = id;
+            account.id = id;
             return this;
         }
 
@@ -98,7 +98,7 @@ public class Account implements Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(accId, account.accId) &&
+        return Objects.equals(id, account.id) &&
                 Objects.equals(login, account.login) &&
                 Objects.equals(password, account.password) &&
                 role == account.role;
@@ -106,13 +106,13 @@ public class Account implements Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accId, login, password, role);
+        return Objects.hash(id, login, password, role);
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "accId=" + accId +
+                "accId=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", roleId=" + roleId +

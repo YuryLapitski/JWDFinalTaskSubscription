@@ -13,7 +13,7 @@
         <th>First Name</th>
         <th>Last Name</th>
         <th>Term</th>
-        <th>Price</th>
+        <th>Price,$</th>
         <th>Status</th>
         <%--        <th></th>--%>
     </tr>
@@ -44,11 +44,16 @@
     <br><br>
     <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
     <br/>
-<c:if test="${not empty requestScope.errorCardMessage}">
-    <b style="color: red">${requestScope.errorCardMessage}</b>
-    <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
-    <br>
-</c:if>
+    <c:if test="${not empty requestScope.errorCardMessage}">
+        <b style="color: red">${requestScope.errorCardMessage}</b>
+        <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
+        <br>
+    </c:if>
+    <c:if test="${not empty requestScope.errorAmountMessage}">
+        <b style="color: red">${requestScope.errorAmountMessage}</b>
+        <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
+        <br>
+    </c:if>
     <input type="submit" value="Pay"/>
 </form>
 </body>

@@ -16,6 +16,8 @@ public enum PagePaths {
     CONFIRMATION("/WEB-INF/jsp/confirmation.jsp"),
     UPDATE_EDITION("/WEB-INF/jsp/update_edition.jsp"),
     ADD_EDITION("/WEB-INF/jsp/add_edition.jsp"),
+    ARCHIVE("/WEB-INF/jsp/archive.jsp"),
+    MY_ARCHIVE("/WEB-INF/jsp/my_archive.jsp"),
     ERROR("/WEB-INF/jsp/error.jsp");
 
     private final String path;

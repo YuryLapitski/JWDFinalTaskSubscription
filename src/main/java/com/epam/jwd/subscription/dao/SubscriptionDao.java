@@ -11,6 +11,8 @@ public interface SubscriptionDao extends EntityDao<Subscription> {
 
     List<Subscription> findByEditionId (Long editionId);
 
+    List<Subscription> findByUserId (Long userId);
+
     void updateStatus (Long statusId, Long subscriptionId);
 
     static SubscriptionDao instance() {

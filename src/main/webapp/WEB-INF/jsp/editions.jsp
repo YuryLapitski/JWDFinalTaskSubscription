@@ -27,9 +27,9 @@
     <tr>
         <th>Name</th>
         <th>Category</th>
-        <th>3 months</th>
-        <th>6 months</th>
-        <th>12 months</th>
+        <th>3 months,$</th>
+        <th>6 months,$</th>
+        <th>12 months,$</th>
 <%--        <th></th>--%>
     </tr>
     <c:forEach var="edition" items="${requestScope.editions}">

@@ -45,15 +45,20 @@ public class SimpleCardService implements CardService {
 
     @Override
     @Transactional
-    public void transferMoney(Card from, Card to, BigDecimal amount) {
+    public boolean transferMoney(Card from, Card to, double amount) {
         lock.lock();
         try {
             double amountFrom = from.getAmount().doubleValue();
             double amountTo = to.getAmount().doubleValue();
-            amountFrom -= amount.doubleValue();
-            amountTo += amount.doubleValue();
-            cardDao.updateAmount(BigDecimal.valueOf(amountFrom), from.getCardNumber());
-            cardDao.updateAmount(BigDecimal.valueOf(amountTo), to.getCardNumber());
+            if (amountFrom >= amount) {
+                amountFrom -= amount;
+                amountTo += amount;
+                cardDao.updateAmount(BigDecimal.valueOf(amountFrom), from.getCardNumber());
+                cardDao.updateAmount(BigDecimal.valueOf(amountTo), to.getCardNumber());
+                return true;
+            } else {
+                return false;
+            }
         } finally {
             lock.unlock();
         }

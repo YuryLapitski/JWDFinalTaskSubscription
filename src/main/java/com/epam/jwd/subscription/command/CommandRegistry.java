@@ -28,10 +28,13 @@ public enum CommandRegistry {
     SHOW_CONFIRMATION_PAYMENT(ShowConfirmPaymentCommand.getInstance(), "confirmation", USER),
     CHANGE_LANGUAGE(ChangeLanguageCommand.getInstance(), "change_language"),
     DELETE_EDITION(DeleteEditionCommand.getInstance(), "delete_edition", ADMIN),
+    DELETE_ACCOUNT(DeleteAccountCommand.getInstance(), "delete_account", ADMIN),
     SHOW_UPDATE_EDITION(ShowUpdateEditionPageCommand.getInstance(), "show_update_edition", ADMIN),
     UPDATE_EDITION(UpdateEditionCommand.getInstance(), "update_edition", ADMIN),
     SHOW_ADD_EDITION(ShowAddEditionPageCommand.getInstance(), "show_add_edition", ADMIN),
     ADD_EDITION(AddEditionCommand.getInstance(), "add_edition", ADMIN),
+    SHOW_ARCHIVE(ShowArchiveCommand.getInstance(), "show_archive", ADMIN),
+    SHOW_MY_ARCHIVE(ShowMySubscriptionsCommand.getInstance(), "show_my_archive", USER),
     ERROR(ShowErrorPageCommand.getInstance(), "show_error"),
     DEFAULT(ShowMainPageCommand.getInstance(), "");
 

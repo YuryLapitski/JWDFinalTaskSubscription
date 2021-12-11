@@ -20,7 +20,9 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     private static final Logger LOG = LogManager.getLogger(MethodAccountDao.class);
 
     private static final String ACCOUNT_TABLE_NAME = "account a join role r on r.id = a.role_id";
+    private static final String ACCOUNT_DELETE_TABLE_NAME = "account";
     private static final String ACCOUNT_INSERT_TABLE_NAME = "account";
+    private static final String ACC_ID_FIELD_NAME = "id";
     private static final String ID_FIELD_NAME = "a.id";
     private static final String LOGIN_FIELD_NAME = "a.login";
     private static final String INSERT_LOGIN_FIELD_NAME = "login";
@@ -44,12 +46,14 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     );
 
     private final String selectByLoginExpression;
+    protected final String deleteSql;
 //    private final String insertSql;
 
     private MethodAccountDao(ConnectionPool pool) {
         super(pool, LOG);
         this.selectByLoginExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELD, LOGIN_FIELD_NAME);
+        this.deleteSql = format(DELETE_FROM, ACCOUNT_DELETE_TABLE_NAME, ACC_ID_FIELD_NAME);
 //        this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields()));
     }
 
@@ -138,6 +142,17 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        try {
+            final int rowsUpdated = executePreparedUpdate(deleteSql, st -> st.setLong(1, id));
+            if (rowsUpdated > 0) {
+//                read() //todo: read by unique param
+                return true;
+            }
+            return false; //todo: throw exc
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return false;
+        }
     }
 }

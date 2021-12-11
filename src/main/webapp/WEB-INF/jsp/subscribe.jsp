@@ -19,7 +19,7 @@
 <p>Flat: ${requestScope.address.flat}</p>
 <br>
 <p>Subscription term: ${requestScope.term.months} months</p>
-<p>Price: ${requestScope.price.value}</p>
+<p>Price: $${requestScope.price.value}$</p>
 <form name="subscription" action="${pageContext.request.contextPath}/controller?command=add_to_shopping_card" method="post">
     <input type="hidden" name="userId" value="${requestScope.user.id}"/>
     <input type="hidden" name="addressId" value="${requestScope.address.id}"/>

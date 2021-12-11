@@ -17,6 +17,7 @@
 <fmt:message bundle="${loc}" key="label.link.user_data" var="user_dataLink" />
 <fmt:message bundle="${loc}" key="label.link.shopping_card" var="shopping_cardLink" />
 <fmt:message bundle="${loc}" key="label.link.home_page" var="home_pageLink" />
+<fmt:message bundle="${loc}" key="label.link.my_archive" var="my_archiveLink" />
 <html>
 <head>
     <title></title>
@@ -41,6 +42,9 @@
         <option>English</option>
         <option>Russian</option>
     </select></label> |
+    <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">
+        <a href="${pageContext.request.contextPath}/controller?command=show_my_archive">${my_archiveLink}</a>
+    </c:if>
     <c:choose>
         <c:when test="${not empty sessionScope.account}">
             <a href="${pageContext.request.contextPath}/controller?command=logout">${logoutLink}</a> |

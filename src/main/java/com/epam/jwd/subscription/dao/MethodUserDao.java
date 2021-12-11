@@ -185,11 +185,6 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
-    }
-
-    @Override
     public User update(User entity) {
         return null;
     }
