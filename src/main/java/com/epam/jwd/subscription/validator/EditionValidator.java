@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 public class EditionValidator {
 
-    private static final Pattern NAME_PATTERN = Pattern.compile("^[A-za-z.,-]{2,100}$");
-    private static final Pattern PRICE_PATTERN = Pattern.compile("(\\d){1,4}\\.(\\d){2}");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[A-za-z0-9.,!?&-]{2,100}$");
+    private static final Pattern PRICE_PATTERN = Pattern.compile("^[0-9]{1,4}[.,]?[0-9]+$");
 
     private static EditionValidator instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();

@@ -146,18 +146,21 @@ public class MethodCardDao extends CommonDao<Card> implements CardDao  {
     }
 
     @Override
-    public void updateAmount (BigDecimal amount, String cardNumber) {
+    public boolean updateAmount (BigDecimal amount, String cardNumber) {
         try {
             final int rowsUpdated = executePreparedUpdate(updateSql,
                     st -> fillParameters(st, amount, cardNumber));
             if (rowsUpdated > 0) {
                 LOG.info("Updated successfully. New amount for card {} is {}", cardNumber, amount);
+                return true;
             } else {
                 LOG.error("Update error occurred");
+                return false;
             }
         } catch (InterruptedException e) {
             LOG.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();
+            return false;
         }
     }
 

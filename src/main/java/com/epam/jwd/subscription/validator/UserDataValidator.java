@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 
 public class UserDataValidator {
 
-    private static final Pattern FIRST_NAME_PATTERN = Pattern.compile("^[A-za-z]{2,45}$");
-    private static final Pattern LAST_NAME_PATTERN = Pattern.compile("^[A-za-z]{2,45}$");
+    private static final Pattern FIRST_NAME_PATTERN = Pattern.compile("^[A-Za-z]{2,45}$");
+    private static final Pattern LAST_NAME_PATTERN = Pattern.compile("^[A-Za-z]{2,45}$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]" +
             "+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 //    private static final Pattern EMAIL_PATTERN = Pattern.compile("(\\w)(\\.)(-){3,80}\\@(\\w){2,15}\\.(com|ru|by|net|)");

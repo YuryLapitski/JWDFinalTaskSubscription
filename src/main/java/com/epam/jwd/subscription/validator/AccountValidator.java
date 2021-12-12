@@ -44,16 +44,18 @@ public class AccountValidator {
             return false;
         }
         Matcher matcher = LOGIN_PATTERN.matcher(login.replaceAll("\\s+", ""));
-        if (matcher.matches()) {
-            Optional<Account> possibleCollision = AccountDao.instance().readAccountByLogin(login);
-            return !possibleCollision.isPresent();
-        } else {
-            return false;
-        }
+        return matcher.matches();
+
+//        if (matcher.matches()) {
+//            Optional<Account> possibleCollision = AccountDao.instance().readAccountByLogin(login);
+//            return !possibleCollision.isPresent();
+//        } else {
+//            return false;
+//        }
     }
 
     public boolean isPasswordCorrect(String password){
-        if (password==null){
+        if (password == null){
             return false;
         }
         return !password.isEmpty();

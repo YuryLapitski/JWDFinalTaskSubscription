@@ -9,7 +9,7 @@ public interface CardDao extends EntityDao<Card> {
 
     Optional<Card> readCardByNumber(String cardNumber);
 
-    void updateAmount (BigDecimal amount, String cardNumber);
+    boolean updateAmount (BigDecimal amount, String cardNumber);
 
     static CardDao instance() {
         return MethodCardDao.getInstance();
