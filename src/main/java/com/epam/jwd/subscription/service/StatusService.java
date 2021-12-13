@@ -16,7 +16,7 @@ public class StatusService implements EntityService<Status> {
 
     @Override
     public List<Status> findAll() {
-        return null;
+        return statusDao.read();
     }
 
     @Override
