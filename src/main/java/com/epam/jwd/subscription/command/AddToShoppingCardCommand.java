@@ -94,9 +94,9 @@ public class AddToShoppingCardCommand implements Command {
 
     private CommandResponse getCommandResponse(CommandRequest request, List<SubscrShow> subscrShows,
                                                List<Subscription> subscriptions) {
-        Subscription subscription = createSubscription(request);
-        subscriptions.add(subscription);
-        SubscrShow subscrShow = createSubscrShow(subscription);
+        Subscription sub = createSubscription(request);
+        subscriptions.add(sub);
+        SubscrShow subscrShow = createSubscrShow(sub);
         subscrShows.add(subscrShow);
         request.addToSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME, subscriptions);
         request.addToSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME, subscrShows);
@@ -127,6 +127,11 @@ public class AddToShoppingCardCommand implements Command {
         final Long termId = Long.parseLong(request.getParameter("termId"));
         final Long priceId = Long.parseLong(request.getParameter("priceId"));
         final Long statusId = Long.parseLong(request.getParameter("statusId"));
+//        List<Subscription> foundSubscriptions = subscriptionService.findIdByAll(userId,
+//                addressId, editionId, termId, priceId, statusId);
+//        for (Subscription sub1 : foundSubscriptions) {
+//            subscriptionService.delete(sub1.getId());
+//        }
         Subscription subscription = new Subscription(userId, addressId, editionId, termId, priceId, statusId);
         subscriptionService.create(subscription);
         return subscription;

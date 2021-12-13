@@ -5,7 +5,6 @@ import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.*;
 import com.epam.jwd.subscription.service.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -105,35 +104,30 @@ public class ShowConfirmPaymentCommand implements Command {
             return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
         } else {
             final double totalPrice = Double.parseDouble(request.getParameter(TOTAL_PRICE_REQUEST_PARAM_NAME));
-            if (!cardService.transferMoney(cardFrom(request), cardTo(), totalPrice)) {
+            if (cardService.transferMoney(cardFrom(request), cardTo(), totalPrice)) {
+                final List<Subscription> subscriptions = subscriptions(request);
+                if (subscriptions != null) {
+                    for (Subscription subscription : subscriptions) {
+                        final List<Subscription> subscriptionList = subscriptionService.findIdByAll(subscription.getUserId(),
+                                subscription.getAddressId(), subscription.getEditionId(), subscription.getTermId(),
+                                subscription.getPriceId(), subscription.getStatusId());
+                        for (Subscription subscr : subscriptionList) {
+                            subscriptionService.updateStatus(ACTIVE_STATUS_ID, subscr.getId());
+                            if (subscriptionService.findById(subscr.getId()).isPresent()) {
+                                Subscription updSub = subscriptionService.findById(subscr.getId()).get();
+                                archiveService.create(addToArchive(request, updSub));
+                            }
+                        }
+                    }
+                    request.removeFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME);
+                    request.removeFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME);
+                    return requestFactory.createForwardResponse(propertyContext.get(CONFIRM_PAGE));
+                } else {
+                    request.addAttributeToJsp(ERROR_CHOOSE_ATTRIBUTE, ERROR_CHOOSE_MESSAGE);
+                    return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
+                }
+            } else {
                 request.addAttributeToJsp(ERROR_AMOUNT_ATTRIBUTE, ERROR_AMOUNT_MESSAGE);
-                return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
-            } else {
-                cardService.transferMoney(cardFrom(request), cardTo(), totalPrice);
-            }
-            final List<Subscription> subscriptions = subscriptions(request);
-            if (subscriptions != null) {
-                for (Subscription subscription : subscriptions) {
-                    final List<Subscription> subscriptionList = subscriptionService.findIdByAll(subscription.getUserId(),
-                            subscription.getAddressId(), subscription.getEditionId(), subscription.getTermId(),
-                            subscription.getPriceId(), subscription.getStatusId());
-                    for (Subscription subscr : subscriptionList) {
-                        subscriptionService.updateStatus(ACTIVE_STATUS_ID, subscr.getId());
-                    }
-                }
-                for (Subscription subscription : subscriptions) {
-                    final List<Subscription> subscriptionList = subscriptionService.findIdByAll(subscription.getUserId(),
-                            subscription.getAddressId(), subscription.getEditionId(), subscription.getTermId(),
-                            subscription.getPriceId(), ACTIVE_STATUS_ID);
-                    for (Subscription subscr : subscriptionList) {
-                        archiveService.create(addToArchive(request, subscr));
-                    }
-                }
-                request.removeFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME);
-                request.removeFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME);
-                return requestFactory.createForwardResponse(propertyContext.get(CONFIRM_PAGE));
-            } else {
-                request.addAttributeToJsp(ERROR_CHOOSE_ATTRIBUTE, ERROR_CHOOSE_MESSAGE);
                 return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
             }
         }
