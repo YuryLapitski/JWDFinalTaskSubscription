@@ -1,35 +1,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.epam.jwd.subscription.entity.Role" %>
-<%@include file="header.jsp" %>
+<%@ include file="header.jsp" %>
 <fmt:setLocale value="${sessionScope.lang}" />
 <fmt:setBundle basename="locale.main" var="loc" />
-<fmt:message bundle="${loc}" key="label.title" var="pageTitle" />
-<fmt:message bundle="${loc}" key="label.subscription" var="subscriptionMessage" />
-<fmt:message bundle="${loc}" key="label.welcome" var="welcomeMessage" />
-<fmt:message bundle="${loc}" key="label.link.editions" var="editionsLink" />
-<fmt:message bundle="${loc}" key="label.link.users" var="usersLink" />
-<fmt:message bundle="${loc}" key="label.link.accounts" var="accountsLink" />
-<fmt:message bundle="${loc}" key="label.link.login" var="loginLink" />
-<fmt:message bundle="${loc}" key="label.link.logout" var="logoutLink" />
-<fmt:message bundle="${loc}" key="label.link.signup" var="signupLink" />
-<fmt:message bundle="${loc}" key="label.link.user_data" var="user_dataLink" />
-<fmt:message bundle="${loc}" key="label.link.shopping_card" var="shopping_cardLink" />
+<fmt:message bundle="${loc}" key="label.title.editions" var="pageTitleEditions" />
+<fmt:message bundle="${loc}" key="label.editionsMessage" var="editionsMessage" />
+<fmt:message bundle="${loc}" key="label.field.edName" var="edName" />
+<fmt:message bundle="${loc}" key="label.field.edCat" var="edCat" />
+<fmt:message bundle="${loc}" key="label.field.months" var="months" />
+<fmt:message bundle="${loc}" key="label.submit.choose" var="submitChoose" />
+<fmt:message bundle="${loc}" key="label.submit.delete" var="submitDelete" />
+<fmt:message bundle="${loc}" key="label.submit.update" var="submitUpdate" />
+<fmt:message bundle="${loc}" key="label.submit.addEdition" var="submitAddEdition" />
+<fmt:message bundle="${loc}" key="label.logInToChooseMessage" var="logInToChoose" />
 <html>
 <head>
-    <title>Editions</title>
+    <title>${pageTitleEditions}</title>
 </head>
 <body>
-<h3>Editions</h3>
-<%--<form name="choose_edition" action="${pageContext.request.contextPath}--%>
-<%--                    /controller?command=choose_edition" method="post">--%>
+<h3>${editionsMessage}</h3>
 <table>
     <tr>
-        <th>Name</th>
-        <th>Category</th>
-        <th>3 months,$</th>
-        <th>6 months,$</th>
-        <th>12 months,$</th>
+        <th>${edName}</th>
+        <th>${edCat}</th>
+        <th>3 ${months},$</th>
+        <th>6 ${months},$</th>
+        <th>12 ${months},$</th>
 <%--        <th></th>--%>
     </tr>
     <c:forEach var="edition" items="${requestScope.editions}">
@@ -50,7 +47,7 @@
                             <b>${requestScope.errorFindUserMessage}</b>
                             <br>
                         </c:if>
-                        <input type="submit" value="Choose"/>
+                        <input type="submit" value="${submitChoose}"/>
                     </form>
                 </c:when>
                 <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
@@ -62,7 +59,7 @@
                             <b>${requestScope.errorFindUserMessage}</b>
                             <br>
                         </c:if>
-                        <input type="submit" value="Delete"/>
+                        <input type="submit" value="${submitDelete}"/>
                     </form>
                 </c:when>
                 <c:otherwise>
@@ -82,11 +79,11 @@
                                 <b>${requestScope.errorFindUserMessage}</b>
                                 <br>
                             </c:if>
-                            <input type="submit" value="Update"/>
+                            <input type="submit" value="${submitUpdate}"/>
                         </form>
                     </c:when>
                     <c:otherwise>
-                        Log in to choose
+                        ${logInToChoose}
                     </c:otherwise>
                 </c:choose>
             </td>
@@ -95,7 +92,7 @@
 </table>
 <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
     <form name="add_edition" action="${pageContext.request.contextPath}/controller?command=show_add_edition" method="post">
-    <input type="submit" value="Add edition"/>
+    <input type="submit" value="${submitAddEdition}"/>
 </c:if>
 </form>
 </body>

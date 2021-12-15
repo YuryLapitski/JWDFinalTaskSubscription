@@ -1,19 +1,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="header.jsp" %>
+<%@ include file="header.jsp" %>
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="locale.main" var="loc" />
+<fmt:message bundle="${loc}" key="label.title.users" var="titleUsers" />
+<fmt:message bundle="${loc}" key="label.usersMessage" var="usersMessage" />
+<fmt:message bundle="${loc}" key="label.field.userId" var="userId" />
+<fmt:message bundle="${loc}" key="label.field.userName" var="userName" />
+<fmt:message bundle="${loc}" key="label.field.userAge" var="userAge" />
+<fmt:message bundle="${loc}" key="label.field.userEmail" var="userEmail" />
+<fmt:message bundle="${loc}" key="label.field.userAccId" var="userAccId" />
 <html>
 <head>
-    <title>Title</title>
+    <title>${titleUsers}</title>
 </head>
 <body>
-<h3>Users</h3>
+<h3>${usersMessage}</h3>
 <table>
     <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Email</th>
-        <th>Account Id</th>
+        <th>${userId}</th>
+        <th>${userName}</th>
+        <th>${userAge}</th>
+        <th>${userEmail}</th>
+        <th>${userAccId}</th>
     </tr>
     <c:forEach var="user" items="${requestScope.users}">
         <tr>

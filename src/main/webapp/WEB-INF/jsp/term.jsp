@@ -1,18 +1,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="header.jsp" %>
+<%@ include file="header.jsp" %>
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="locale.main" var="loc" />
+<fmt:message bundle="${loc}" key="label.title.term" var="titleTerm" />
+<fmt:message bundle="${loc}" key="label.termMessage" var="termMessage" />
+<fmt:message bundle="${loc}" key="label.submit.term" var="submitTerm" />
+<fmt:message bundle="${loc}" key="label.term.threeMonths" var="threeMonths" />
+<fmt:message bundle="${loc}" key="label.term.sixMonths" var="sixMonths" />
+<fmt:message bundle="${loc}" key="label.term.twelveMonths" var="twelveMonths" />
+
 <html>
 <head>
-    <title>Term</title>
+    <title>${titleTerm}</title>
 </head>
 <body>
-<h3>Please select a subscription period to "${requestScope.edition.name}":</h3>
+<h3>${termMessage} "${requestScope.edition.name}":</h3>
 <form name="subscription"
       action="${pageContext.request.contextPath}/controller?command=show_subscription" method="post">
     <label>Term:</label>
     <label><input type="radio" name="monthsTerm" value="${requestScope.edition.threeMonthsPrice}" checked/>
-        3 months</label>
-    <label><input type="radio" name="monthsTerm" value="${requestScope.edition.sixMonthsPrice}"/>6 months</label>
-    <label><input type="radio" name="monthsTerm" value="${requestScope.edition.twelveMonthsPrice}"/>12 months</label>
+        ${threeMonths}</label>
+    <label><input type="radio" name="monthsTerm" value="${requestScope.edition.sixMonthsPrice}"/>
+        ${sixMonths}</label>
+    <label><input type="radio" name="monthsTerm" value="${requestScope.edition.twelveMonthsPrice}"/>
+        ${twelveMonths}</label>
     <br><br>
     <input type="hidden" name="editionId" value="${requestScope.edition.id}"/>
     <input type="hidden" name="name" value="${requestScope.edition.name}"/>
@@ -21,7 +32,7 @@
     <input type="hidden" name="street" value="${requestScope.address.street}"/>
     <input type="hidden" name="house" value="${requestScope.address.house}"/>
     <input type="hidden" name="flat" value="${requestScope.address.flat}"/>
-    <input type="submit" value="Submit"/>
+    <input type="submit" value="${submitTerm}"/>
 </form>
 </body>
 </html>

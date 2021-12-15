@@ -1,19 +1,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.epam.jwd.subscription.entity.Role" %>
-<%@include file="header.jsp" %>
+<%@ include file="header.jsp" %>
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="locale.main" var="loc" />
+<fmt:message bundle="${loc}" key="label.title.accounts" var="pageAccounts" />
+<fmt:message bundle="${loc}" key="label.accounts" var="accounts" />
+<fmt:message bundle="${loc}" key="label.field.id" var="id" />
+<fmt:message bundle="${loc}" key="label.field.login" var="login" />
+<fmt:message bundle="${loc}" key="label.field.password" var="password" />
+<fmt:message bundle="${loc}" key="label.field.role" var="role" />
+<fmt:message bundle="${loc}" key="label.button.accDelete" var="delete" />
 <html>
 <head>
-    <title>Title</title>
+    <title>${pageAccounts}</title>
 </head>
 <body>
-<h3>Accounts</h3>
+<h3>${accounts}</h3>
 <table>
     <tr>
-        <th>Id</th>
-        <th>Login</th>
-        <th>Password</th>
-        <th>Role</th>
+        <th>${id}</th>
+        <th>${login}</th>
+        <th>${password}</th>
+        <th>${role}</th>
     </tr>
     <c:forEach var="account" items="${requestScope.accounts}">
         <tr>
@@ -30,7 +39,7 @@
                             <b>${requestScope.errorFindAccountMessage}</b>
                             <br>
                         </c:if>
-                        <input type="submit" value="Delete"/>
+                        <input type="submit" value="${delete}"/>
                     </form>
                 </c:if>
             </td>

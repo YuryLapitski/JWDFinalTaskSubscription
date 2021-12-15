@@ -3,14 +3,14 @@
 <%@ include file="header.jsp" %>
 <fmt:setLocale value="${sessionScope.lang}" />
 <fmt:setBundle basename="locale.main" var="loc" />
-<fmt:message bundle="${loc}" key="label.title" var="pageTitle" />
+<fmt:message bundle="${loc}" key="label.title.login" var="pageLogin" />
 <fmt:message bundle="${loc}" key="label.login" var="login" />
 <fmt:message bundle="${loc}" key="label.password" var="password" />
 <fmt:message bundle="${loc}" key="label.submit.login" var="loginSubmit" />
 <fmt:message bundle="${loc}" key="label.login.message" var="loginMessage" />
 <html>
 <head>
-    <title>Log in</title>
+    <title>${pageLogin}</title>
 </head>
 <body>
 <h3>${loginMessage}</h3>

@@ -1,25 +1,37 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="header.jsp" %>
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="locale.main" var="loc" />
+<fmt:message bundle="${loc}" key="label.title.subscriptions" var="pageSubscriptions" />
+<fmt:message bundle="${loc}" key="label.subscriptions" var="subscriptions" />
+<fmt:message bundle="${loc}" key="label.field.accId" var="accId" />
+<fmt:message bundle="${loc}" key="label.field.edition" var="edition" />
+<fmt:message bundle="${loc}" key="label.field.term" var="term" />
+<fmt:message bundle="${loc}" key="label.field.price" var="price" />
+<fmt:message bundle="${loc}" key="label.field.address" var="address" />
+<fmt:message bundle="${loc}" key="label.field.status" var="status" />
+<fmt:message bundle="${loc}" key="label.field.subDate" var="subDate" />
+<fmt:message bundle="${loc}" key="label.months" var="months" />
 <html>
 <head>
-    <title>Subscriptions</title>
+    <title>${pageSubscriptions}</title>
 </head>
 <body>
-<h3>Subscriptions</h3>
+<h3>${subscriptions}</h3>
 <table>
     <tr>
-        <th>Edition</th>
-        <th>Term</th>
-        <th>Price</th>
-        <th>Address</th>
-        <th>Status</th>
-        <th>Subscription Date</th>
+        <th>${edition}</th>
+        <th>${term}</th>
+        <th>${price}</th>
+        <th>${address}</th>
+        <th>${status}</th>
+        <th>${subDate}</th>
     </tr>
     <c:forEach var="archive" items="${requestScope.archives}">
         <tr>
             <td>${archive.editionName}
-            <td>${archive.term}</td>
+            <td>${archive.term} ${months}</td>
             <td>$${archive.price}</td>
             <td>${archive.city}, ${archive.street}, ${archive.house}, ${archive.flat}</td>
             <td>${archive.statusName}</td>

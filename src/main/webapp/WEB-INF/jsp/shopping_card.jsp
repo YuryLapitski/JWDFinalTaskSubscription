@@ -1,20 +1,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="header.jsp" %>
+<%@ include file="header.jsp" %>
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="locale.main" var="loc" />
+<fmt:message bundle="${loc}" key="label.title.shoppingCard" var="pageShoppingCard" />
+<fmt:message bundle="${loc}" key="label.message.shoppingCard" var="shoppingCard" />
+<fmt:message bundle="${loc}" key="label.field.edition" var="edition" />
+<fmt:message bundle="${loc}" key="label.field.firstName" var="firstName" />
+<fmt:message bundle="${loc}" key="label.field.lastName" var="lastName" />
+<fmt:message bundle="${loc}" key="label.field.term" var="term" />
+<fmt:message bundle="${loc}" key="label.field.price" var="price" />
+<fmt:message bundle="${loc}" key="label.field.status" var="status" />
+<fmt:message bundle="${loc}" key="label.field.totalPrice" var="totalPrice" />
+<fmt:message bundle="${loc}" key="label.field.cardNumber" var="cardNumber" />
+<fmt:message bundle="${loc}" key="label.errorChooseMessage" var="errorChoose" />
+<fmt:message bundle="${loc}" key="label.errorAmountMessage" var="errorAmount" />
+<fmt:message bundle="${loc}" key="label.errorCardMessage" var="errorCard" />
+<fmt:message bundle="${loc}" key="label.submit.pay" var="pay" />
 <html>
 <head>
-    <title>Shopping card</title>
+    <title>${pageShoppingCard}</title>
 </head>
 <body>
-<h3>Shopping card</h3>
+<h3>${shoppingCard}</h3>
 <table>
     <tr>
-        <th>Edition</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Term</th>
-        <th>Price,$</th>
-        <th>Status</th>
+        <th>${edition}</th>
+        <th>${firstName}</th>
+        <th>${lastName}</th>
+        <th>${term}</th>
+        <th>${price},$</th>
+        <th>${status}</th>
         <%--        <th></th>--%>
     </tr>
     <c:forEach var="subscription" items="${sessionScope.subscrshows}">
@@ -29,32 +45,29 @@
     </c:forEach>
 </table>
 <c:if test="${not empty requestScope.errorChooseMessage}">
-    <b style="color: red">${requestScope.errorChooseMessage}</b>
+    <b style="color: red">${errorChoose}</b>
     <br>
 </c:if>
 <br>
-<a>Total price: ${requestScope.totalPrice}</a>
+<a>${totalPrice} ${requestScope.totalPrice}</a>
 <br><br>
 <form name="payment" action="${pageContext.request.contextPath}/controller?command=confirmation" method="post">
-<%--    <label for="card-name">Card Name:</label>--%>
-<%--    <input id="card-name" type="text" name="card_name" value=""/>--%>
-<%--    <br><br>--%>
-    <label for="card-number">Card Number:</label>
+    <label for="card-number">${cardNumber}</label>
     <input id="card-number" type="text" name="card_number" value=""/>
     <br><br>
     <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
     <br/>
     <c:if test="${not empty requestScope.errorCardMessage}">
-        <b style="color: red">${requestScope.errorCardMessage}</b>
+        <b style="color: red">${errorCard}</b>
         <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
         <br>
     </c:if>
     <c:if test="${not empty requestScope.errorAmountMessage}">
-        <b style="color: red">${requestScope.errorAmountMessage}</b>
+        <b style="color: red">${errorAmount}</b>
         <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
         <br>
     </c:if>
-    <input type="submit" value="Pay"/>
+    <input type="submit" value="${pay}"/>
 </form>
 </body>
 </html>

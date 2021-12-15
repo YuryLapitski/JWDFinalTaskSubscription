@@ -41,14 +41,4 @@
     <a href="${pageContext.request.contextPath}/controller?command=show_shopping_card">${shopping_cardLink}</a>
     <br>
 </c:if>
-<c:choose>
-    <c:when test="${not empty sessionScope.account}">
-        <a href="${pageContext.request.contextPath}/controller?command=logout">${logoutLink}</a>
-    </c:when>
-    <c:otherwise>
-        <a href="${pageContext.request.contextPath}/controller?command=show_login">${loginLink}</a>
-        <br>
-        <a href="${pageContext.request.contextPath}/controller?command=show_signup">${signupLink}</a>
-    </c:otherwise>
-</c:choose>
 </body>
