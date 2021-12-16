@@ -91,45 +91,43 @@ public class ShowConfirmPaymentCommand implements Command {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public CommandResponse execute(CommandRequest request) {
-        if (!request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).isPresent()
-                && !request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
-            request.addAttributeToJsp(ERROR_CHOOSE_ATTRIBUTE, ERROR_CHOOSE_MESSAGE);
-            return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
-        }
-        if (cardFrom(request) == null) {
-            request.addAttributeToJsp(ERROR_CARD_ATTRIBUTE, ERROR_CARD_MESSAGE);
-            final double totalPrice = Double.parseDouble(request.getParameter(TOTAL_PRICE_REQUEST_PARAM_NAME));
-            request.addAttributeToJsp(TOTAL_PRICE_ATTRIBUTE_NAME, totalPrice);
-            return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
-        } else {
-            final double totalPrice = Double.parseDouble(request.getParameter(TOTAL_PRICE_REQUEST_PARAM_NAME));
-            if (cardService.transferMoney(cardFrom(request), cardTo(), totalPrice)) {
-                final List<Subscription> subscriptions = subscriptions(request);
-                if (subscriptions != null) {
-                    for (Subscription subscription : subscriptions) {
-                        final List<Subscription> subscriptionList = subscriptionService.findIdByAll(subscription.getUserId(),
-                                subscription.getAddressId(), subscription.getEditionId(), subscription.getTermId(),
-                                subscription.getPriceId(), subscription.getStatusId());
-                        for (Subscription subscr : subscriptionList) {
-                            subscriptionService.updateStatus(ACTIVE_STATUS_ID, subscr.getId());
-                            if (subscriptionService.findById(subscr.getId()).isPresent()) {
-                                Subscription updSub = subscriptionService.findById(subscr.getId()).get();
-                                archiveService.create(addToArchive(request, updSub));
-                            }
+        if (request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).isPresent()
+                && request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
+            List<Subscription> subscriptions =
+                    (ArrayList<Subscription>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();
+            if (!subscriptions.isEmpty()) {
+                final double totalPrice = Double.parseDouble(request.getParameter(TOTAL_PRICE_REQUEST_PARAM_NAME));
+                if (cardFrom(request) != null) {
+                    if (cardService.transferMoney(cardFrom(request), cardTo(), totalPrice)) {
+                        for (Subscription sub : subscriptions) {
+
+                            Subscription subscription = new Subscription(sub.getUserId(), sub.getAddressId(),
+                                    sub.getEditionId(), sub.getTermId(), sub.getPriceId(), ACTIVE_STATUS_ID);
+                            subscriptionService.create(subscription);
+                            archiveService.create(addToArchive(request, subscription));
                         }
+                        request.removeFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME);
+                        request.removeFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME);
+                        return requestFactory.createForwardResponse(propertyContext.get(CONFIRM_PAGE));
+                    } else {
+                        request.addAttributeToJsp(ERROR_AMOUNT_ATTRIBUTE, ERROR_AMOUNT_MESSAGE);
+                        request.addAttributeToJsp(TOTAL_PRICE_ATTRIBUTE_NAME, totalPrice);
+                        return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
                     }
-                    request.removeFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME);
-                    request.removeFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME);
-                    return requestFactory.createForwardResponse(propertyContext.get(CONFIRM_PAGE));
                 } else {
-                    request.addAttributeToJsp(ERROR_CHOOSE_ATTRIBUTE, ERROR_CHOOSE_MESSAGE);
+                    request.addAttributeToJsp(ERROR_CARD_ATTRIBUTE, ERROR_CARD_MESSAGE);
+                    request.addAttributeToJsp(TOTAL_PRICE_ATTRIBUTE_NAME, totalPrice);
                     return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
                 }
             } else {
-                request.addAttributeToJsp(ERROR_AMOUNT_ATTRIBUTE, ERROR_AMOUNT_MESSAGE);
+                request.addAttributeToJsp(ERROR_CHOOSE_ATTRIBUTE, ERROR_CHOOSE_MESSAGE);
                 return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
             }
+        } else {
+            request.addAttributeToJsp(ERROR_CHOOSE_ATTRIBUTE, ERROR_CHOOSE_MESSAGE);
+            return requestFactory.createForwardResponse(propertyContext.get(SHOPPING_CARD_PAGE));
         }
     }
 
@@ -142,14 +140,6 @@ public class ShowConfirmPaymentCommand implements Command {
     private Card cardTo() {
         Optional<Card> optionalCard = cardService.readCardByNumber(ADMIN_CARD_NUMBER);
         return optionalCard.orElse(null);
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<Subscription> subscriptions(CommandRequest request) {
-        if (request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
-            return (ArrayList<Subscription>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();
-        }
-        return null;
     }
 
     private Archive addToArchive(CommandRequest request, Subscription subscription) {

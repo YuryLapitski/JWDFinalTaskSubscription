@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,8 @@ class SimpleSubscriptionServiceTest {
     @BeforeAll
     void beforeAll(){
         dao = mock(MethodSubscriptionDao.class);
-        subscription = new Subscription(1L, 1L, 1L, 1L, 1L, 1L, 1L);
+        subscription = new Subscription(1L, 1L, 1L, 1L, 1L, 1L, 1L,
+                Timestamp.valueOf("2021-12-11 18:21:12"));
         id = 1L;
         userId = 1L;
         addressId = 1L;

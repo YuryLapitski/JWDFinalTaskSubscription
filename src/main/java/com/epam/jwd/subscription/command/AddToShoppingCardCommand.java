@@ -7,7 +7,6 @@ import com.epam.jwd.subscription.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class AddToShoppingCardCommand implements Command {
@@ -16,38 +15,19 @@ public class AddToShoppingCardCommand implements Command {
     private static final String ERROR_LOGIN_NOT_EXIST_ATTRIBUTE = "errorLoginNotExistMessage";
     private static final String ERROR_LOGIN_NOT_EXIST_MESSAGE = "Please log in";
     private static final String ACCOUNT_SESSION_ATTRIBUTE_NAME = "account";
-    private static final String SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME = "subscrshows";
     private static final String SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME = "subscriptions";
 
     private static AddToShoppingCardCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
     private final SubscriptionService subscriptionService;
-    private final SimpleUserService userService;
-    private final AddressService addressService;
-    private final SimpleEditionService editionService;
-    private final PriceService priceService;
-    private final TermService termService;
-    private final StatusService statusService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
     private AddToShoppingCardCommand(SubscriptionService subscriptionService,
-                                     SimpleUserService userService,
-                                     AddressService addressService,
-                                     SimpleEditionService editionService,
-                                     PriceService priceService,
-                                     TermService termService,
-                                     StatusService statusService,
                                      RequestFactory requestFactory,
                                      PropertyContext propertyContext) {
         this.subscriptionService = subscriptionService;
-        this.userService = userService;
-        this.addressService = addressService;
-        this.editionService = editionService;
-        this.priceService = priceService;
-        this.termService = termService;
-        this.statusService = statusService;
         this.requestFactory = requestFactory;
         this.propertyContext = propertyContext;
     }
@@ -59,12 +39,6 @@ public class AddToShoppingCardCommand implements Command {
                 if (instance == null) {
                     instance = new AddToShoppingCardCommand(
                             ServiceFactory.instance().subscriptionService(),
-                            ServiceFactory.instance().userService(),
-                            ServiceFactory.instance().addressService(),
-                            ServiceFactory.instance().editionService(),
-                            ServiceFactory.instance().priceService(),
-                            ServiceFactory.instance().termService(),
-                            ServiceFactory.instance().statusService(),
                             RequestFactory.getInstance(), 
                             PropertyContext.getInstance());
                 }
@@ -78,43 +52,27 @@ public class AddToShoppingCardCommand implements Command {
     @Override
     @SuppressWarnings("unchecked")
     public CommandResponse execute(CommandRequest request) {
-        if (request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).isPresent()
-                && request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
-            final List<SubscrShow> subscrShows =
-                    (ArrayList<SubscrShow>) request.retrieveFromSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME).get();
+        if (request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).isPresent()) {
             final List<Subscription> subscriptions =
                     (ArrayList<Subscription>) request.retrieveFromSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME).get();
-            return getCommandResponse(request, subscrShows, subscriptions);
+            return getCommandResponse(request, subscriptions);
         } else {
-            final List<SubscrShow> subscrShows = new ArrayList<>();
             final List<Subscription> subscriptions = new ArrayList<>();
-            return getCommandResponse(request, subscrShows, subscriptions);
+            return getCommandResponse(request, subscriptions);
         }
     }
 
-    private CommandResponse getCommandResponse(CommandRequest request, List<SubscrShow> subscrShows,
+    private CommandResponse getCommandResponse(CommandRequest request,
                                                List<Subscription> subscriptions) {
         Subscription sub = createSubscription(request);
+        final List<Subscription> subList = subscriptionService.findIdByAll(sub.getUserId(), sub.getAddressId(),
+                sub.getEditionId(), sub.getTermId(), sub.getPriceId(), sub.getStatusId());
+        for (Subscription subscription : subList) {
+            subscriptionService.delete(subscription.getId());
+        }
         subscriptions.add(sub);
-        SubscrShow subscrShow = createSubscrShow(sub);
-        subscrShows.add(subscrShow);
         request.addToSession(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME, subscriptions);
-        request.addToSession(SUBSCRSHOWS_SESSION_ATTRIBUTE_NAME, subscrShows);
         return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
-    }
-
-    private SubscrShow createSubscrShow(Subscription subscription) {
-        return new SubscrShow(subscription.getId(),
-                findUser(subscription.getUserId()).getFirstName(),
-                findUser(subscription.getUserId()).getLastName(),
-                findAddress(subscription.getAddressId()).getCity(),
-                findAddress(subscription.getAddressId()).getStreet(),
-                findAddress(subscription.getAddressId()).getHouse(),
-                findAddress(subscription.getAddressId()).getFlat(),
-                findEdition(subscription.getEditionId()).getName(),
-                findTerm(subscription.getTermId()).getMonths(),
-                findPrice(subscription.getPriceId()).getValue(),
-                findStatus(subscription.getStatusId()).getStatus());
     }
 
     private Subscription createSubscription(CommandRequest request) {
@@ -127,43 +85,6 @@ public class AddToShoppingCardCommand implements Command {
         final Long termId = Long.parseLong(request.getParameter("termId"));
         final Long priceId = Long.parseLong(request.getParameter("priceId"));
         final Long statusId = Long.parseLong(request.getParameter("statusId"));
-//        List<Subscription> foundSubscriptions = subscriptionService.findIdByAll(userId,
-//                addressId, editionId, termId, priceId, statusId);
-//        for (Subscription sub1 : foundSubscriptions) {
-//            subscriptionService.delete(sub1.getId());
-//        }
-        Subscription subscription = new Subscription(userId, addressId, editionId, termId, priceId, statusId);
-        subscriptionService.create(subscription);
-        return subscription;
-    }
-
-    private User findUser(Long userId) {
-        Optional<User> optionalUser = userService.findById(userId);
-        return optionalUser.orElse(null);
-    }
-
-    private Address findAddress(Long addressId) {
-        Optional<Address> optionalAddress = addressService.findById(addressId);
-        return optionalAddress.orElse(null);
-    }
-
-    private Edition findEdition(Long editionId) {
-        Optional<Edition> optionalEdition = editionService.findById(editionId);
-        return optionalEdition.orElse(null);
-    }
-
-    private Term findTerm(Long termId) {
-        Optional<Term> optionalTerm = termService.findById(termId);
-        return optionalTerm.orElse(null);
-    }
-
-    private Price findPrice(Long priceId) {
-        Optional<Price> optionalPrice = priceService.findById(priceId);
-        return optionalPrice.orElse(null);
-    }
-
-    private Status findStatus(Long statusId) {
-        Optional<Status> optionalStatus = statusService.findById(statusId);
-        return optionalStatus.orElse(null);
+        return new Subscription(userId, addressId, editionId, termId, priceId, statusId);
     }
 }

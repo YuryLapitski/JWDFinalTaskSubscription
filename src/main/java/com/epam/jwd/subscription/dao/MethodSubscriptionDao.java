@@ -9,9 +9,11 @@ import org.apache.logging.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.String.format;
@@ -31,15 +33,17 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
     private static final String TERM_ID_FIELD_NAME = "term_id";
     private static final String PRICE_ID_FIELD_NAME = "price_id";
     private static final String STATUS_ID_FIELD_NAME = "status_id";
+    private static final String TIMESTAMP_FIELD_NAME = "subscr_dtm";
     private static final String UPDATE = "update %s set %s = ? where %s = ?";
     private static final String VALUES = "values (?, ?, ?, ?, ?, ?)";
-    protected static final String WHERE_FIELDS = "where %s = ? and %s = ?  and %s = ? and %s = ? and %s = ? and %s = ?";
+    protected static final String WHERE_FIELDS = "where %s = ? and %s = ? and %s = ? and %s = ? and %s = ? and %s = ?";
     protected static final String WHERE_ONE_FIELD = "where %s = ?";
+    protected static final String WHERE_TWO_FIELD = "where %s = ? and %s = ?";
     private static final String COMMA = ", ";
 
     private static final List<String> FIELDS = Arrays.asList(
             ID_FIELD_NAME, USER_ID_FIELD_NAME, ADDRESS_ID_FIELD_NAME, EDITION_ID_FIELD_NAME,
-            TERM_ID_FIELD_NAME, PRICE_ID_FIELD_NAME, STATUS_ID_FIELD_NAME
+            TERM_ID_FIELD_NAME, PRICE_ID_FIELD_NAME, STATUS_ID_FIELD_NAME, TIMESTAMP_FIELD_NAME
     );
 
     private static final List<String> FIELDS_FOR_INSERT = Arrays.asList(
@@ -51,6 +55,7 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
     private final String findIdByAllExpression;
     private final String findByEditionIdSql;
     private final String findByUserIdSql;
+    private final String findByUserIdAndTimestampExpression;
 
     private MethodSubscriptionDao(ConnectionPool pool) {
         super(pool, LOG);
@@ -62,6 +67,8 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
                 getTableName() + SPACE + format(WHERE_ONE_FIELD, EDITION_ID_FIELD_NAME);
         this.findByUserIdSql = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_ONE_FIELD, USER_ID_FIELD_NAME);
+        this.findByUserIdAndTimestampExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
+                getTableName() + SPACE + format(WHERE_TWO_FIELD, USER_ID_FIELD_NAME, TIMESTAMP_FIELD_NAME);;
     }
 
     public static MethodSubscriptionDao getInstance(){
@@ -116,7 +123,8 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
                     rs.getLong(EDITION_ID_FIELD_NAME),
                     rs.getLong(TERM_ID_FIELD_NAME),
                     rs.getLong(PRICE_ID_FIELD_NAME),
-                    rs.getLong(STATUS_ID_FIELD_NAME));
+                    rs.getLong(STATUS_ID_FIELD_NAME),
+                    rs.getTimestamp(TIMESTAMP_FIELD_NAME));
         } catch (SQLException e) {
             LOG.error("sql exception occurred extracting user from ResultSet", e);
             throw new EntityExtractionFailedException("could not extract entity", e);
@@ -176,6 +184,24 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
             Thread.currentThread().interrupt();
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public Optional<Subscription> findByUserIdAndTimestamp(Long userId, Timestamp timestamp) {
+        try {
+            return executePreparedForGenericEntity(findByUserIdAndTimestampExpression,
+                    this::extractResultCatchingException,
+                    st -> fillUserIdAndTimestamp(st, userId, timestamp));
+        } catch (InterruptedException e) {
+            LOG.info("takeConnection interrupted", e);
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        }
+    }
+
+    private void fillUserIdAndTimestamp(PreparedStatement st, Long userId, Timestamp timestamp) throws SQLException {
+        st.setLong(1, userId);
+        st.setTimestamp(2, timestamp);
     }
 
     @Override

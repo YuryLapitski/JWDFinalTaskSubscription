@@ -1,10 +1,11 @@
 package com.epam.jwd.subscription.entity;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Subscription implements Entity {
 
-    private static final long serialVersionUID = -5519848456207747189L;
+    private static final long serialVersionUID = 8389683691097272100L;
     private final Long id;
     private final Long userId;
     private final Long addressId;
@@ -12,9 +13,10 @@ public class Subscription implements Entity {
     private final Long termId;
     private final Long priceId;
     private final Long statusId;
+    private final Timestamp timestamp;
 
     public Subscription(Long id, Long userId, Long addressId, Long editionId,
-                        Long termId, Long priceId, Long statusId) {
+                        Long termId, Long priceId, Long statusId, Timestamp timestamp) {
         this.id = id;
         this.userId = userId;
         this.addressId = addressId;
@@ -22,11 +24,12 @@ public class Subscription implements Entity {
         this.termId = termId;
         this.priceId = priceId;
         this.statusId = statusId;
+        this.timestamp = timestamp;
     }
 
     public Subscription(Long userId, Long addressId, Long editionId,
                         Long termId, Long priceId, Long statusId) {
-        this(null, userId, addressId, editionId, termId, priceId, statusId);
+        this(null, userId, addressId, editionId, termId, priceId, statusId, null);
     }
 
     @Override
@@ -58,6 +61,10 @@ public class Subscription implements Entity {
         return statusId;
     }
 
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,12 +76,13 @@ public class Subscription implements Entity {
                 Objects.equals(editionId, that.editionId) &&
                 Objects.equals(termId, that.termId) &&
                 Objects.equals(priceId, that.priceId) &&
-                Objects.equals(statusId, that.statusId);
+                Objects.equals(statusId, that.statusId) &&
+                Objects.equals(timestamp, that.timestamp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, addressId, editionId, termId, priceId, statusId);
+        return Objects.hash(id, userId, addressId, editionId, termId, priceId, statusId, timestamp);
     }
 
     @Override
@@ -87,6 +95,7 @@ public class Subscription implements Entity {
                 ", termId=" + termId +
                 ", priceId=" + priceId +
                 ", statusId=" + statusId +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

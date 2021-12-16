@@ -18,6 +18,7 @@
 <fmt:message bundle="${loc}" key="label.errorAmountMessage" var="errorAmount" />
 <fmt:message bundle="${loc}" key="label.errorCardMessage" var="errorCard" />
 <fmt:message bundle="${loc}" key="label.submit.pay" var="pay" />
+<fmt:message bundle="${loc}" key="label.submit.deleteItem" var="deleteItem" />
 <html>
 <head>
     <title>${pageShoppingCard}</title>
@@ -34,7 +35,7 @@
         <th>${status}</th>
         <%--        <th></th>--%>
     </tr>
-    <c:forEach var="subscription" items="${sessionScope.subscrshows}">
+    <c:forEach var="subscription" items="${sessionScope.subscrshows}" varStatus="status">
         <tr>
             <td>${subscription.editionName}</td>
             <td>${subscription.firstName}</td>
@@ -42,6 +43,13 @@
             <td>${subscription.term}</td>
             <td>${subscription.price}</td>
             <td>${subscription.status}</td>
+            <td>
+                <form name="delete_item" action="${pageContext.request.contextPath}
+                    /controller?command=delete_from_shopping_card" method="post">
+                    <input type="hidden" name="index" value="${status.index}"/>
+                    <input type="submit" value="${deleteItem}"/>
+                </form>
+            </td>
         </tr>
     </c:forEach>
 </table>

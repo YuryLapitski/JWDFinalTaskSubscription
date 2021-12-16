@@ -25,6 +25,7 @@ public enum CommandRegistry {
     SHOW_SUBSCRIPTION_DATA(ShowSubscriptionDataCommand.getInstance(), "show_subscription", USER),
     ADD_TO_SHOPPING_CARD(AddToShoppingCardCommand.getInstance(), "add_to_shopping_card", USER),
     SHOPPING_CARD(ShowShoppingCardCommand.getInstance(), "show_shopping_card", USER),
+    DELETE_FROM_SHOPPING_CARD(DeleteFromShoppingCardCommand.getInstance(), "delete_from_shopping_card", USER),
     SHOW_CONFIRMATION_PAYMENT(ShowConfirmPaymentCommand.getInstance(), "confirmation", USER),
     CHANGE_LANGUAGE(ChangeLanguageCommand.getInstance(), "change_language"),
     DELETE_EDITION(DeleteEditionCommand.getInstance(), "delete_edition", ADMIN),

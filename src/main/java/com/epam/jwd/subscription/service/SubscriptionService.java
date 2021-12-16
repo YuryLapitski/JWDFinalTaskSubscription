@@ -2,8 +2,10 @@ package com.epam.jwd.subscription.service;
 
 import com.epam.jwd.subscription.entity.Subscription;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public interface SubscriptionService extends EntityService<Subscription> {
 
@@ -13,6 +15,8 @@ public interface SubscriptionService extends EntityService<Subscription> {
     List<Subscription> findByEditionId (Long editionId);
 
     List<Subscription> findByUserId (Long userId);
+
+    Optional<Subscription> findByUserIdAndTimestamp (Long userId, Timestamp timestamp);
 
     void updateStatus(Long statusId, Long subscriptionId);
 

@@ -3,6 +3,7 @@ package com.epam.jwd.subscription.service;
 import com.epam.jwd.subscription.dao.SubscriptionDao;
 import com.epam.jwd.subscription.entity.Subscription;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +49,11 @@ public class SimpleSubscriptionService implements SubscriptionService{
     @Override
     public List<Subscription> findByUserId(Long userId) {
         return subscriptionDao.findByUserId(userId);
+    }
+
+    @Override
+    public Optional<Subscription> findByUserIdAndTimestamp(Long userId, Timestamp timestamp) {
+        return subscriptionDao.findByUserIdAndTimestamp(userId, timestamp);
     }
 
     @Override
