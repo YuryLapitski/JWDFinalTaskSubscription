@@ -24,8 +24,13 @@
     <title>${pageShoppingCard}</title>
 </head>
 <body>
-<h3>${shoppingCard}</h3>
-<table>
+<style>
+    <%@include file="/WEB-INF/css/table.css"%>
+    <%@include file="/WEB-INF/css/text.css"%>
+    <%@include file="/WEB-INF/css/shoppingCard.css"%>
+</style>
+<h2>${shoppingCard}</h2>
+<table id="table">
     <tr>
         <th>${edition}</th>
         <th>${firstName}</th>
@@ -47,19 +52,20 @@
                 <form name="delete_item" action="${pageContext.request.contextPath}
                     /controller?command=delete_from_shopping_card" method="post">
                     <input type="hidden" name="index" value="${status.index}"/>
-                    <input type="submit" value="${deleteItem}"/>
+                    <button type="submit" >${deleteItem}</button>
                 </form>
             </td>
         </tr>
     </c:forEach>
 </table>
 <c:if test="${not empty requestScope.errorChooseMessage}">
-    <b style="color: red">${errorChoose}</b>
+    <h2 style="color: red">${errorChoose}</h2>
     <br>
 </c:if>
 <br>
-<a>${totalPrice} ${requestScope.totalPrice}</a>
+<h2>${totalPrice} ${requestScope.totalPrice}</h2>
 <br><br>
+<ul id="shoppingCard">
 <form name="payment" action="${pageContext.request.contextPath}/controller?command=confirmation" method="post">
     <label for="card-number">${cardNumber}</label>
     <input id="card-number" type="text" name="card_number" value=""/>
@@ -76,7 +82,8 @@
         <input type="hidden" name="totalPrice" value="${requestScope.totalPrice}"/>
         <br>
     </c:if>
-    <input type="submit" value="${pay}"/>
+    <button type="submit" >${pay}</button>
 </form>
+</ul>
 </body>
 </html>

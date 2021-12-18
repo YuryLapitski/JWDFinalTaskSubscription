@@ -10,6 +10,9 @@
     <title>${pageError}</title>
 </head>
 <body>
-<h3>${errorMessage}</h3>
+<style>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${errorMessage}</h2>
 </body>
 </html>

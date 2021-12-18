@@ -17,8 +17,12 @@
     <title>${pageAccounts}</title>
 </head>
 <body>
-<h3>${accounts}</h3>
-<table>
+<style>
+    <%@include file="/WEB-INF/css/table.css"%>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${accounts}</h2>
+<table id="table">
     <tr>
         <th>${id}</th>
         <th>${login}</th>
@@ -40,7 +44,7 @@
                             <b>${requestScope.errorFindAccountMessage}</b>
                             <br>
                         </c:if>
-                        <input type="submit" value="${delete}"/>
+                        <button type="submit" >${delete}</button>
                     </form>
                 </c:if>
             </td>

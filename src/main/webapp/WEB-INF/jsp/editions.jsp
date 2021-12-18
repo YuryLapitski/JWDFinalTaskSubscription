@@ -20,15 +20,18 @@
     <title>${pageTitleEditions}</title>
 </head>
 <body>
-<h3>${editionsMessage}</h3>
-<table>
+<style>
+    <%@include file="/WEB-INF/css/table.css"%>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${editionsMessage}</h2>
+<table id="table">
     <tr>
         <th>${edName}</th>
         <th>${edCat}</th>
         <th>3 ${months},$</th>
         <th>6 ${months},$</th>
         <th>12 ${months},$</th>
-<%--        <th></th>--%>
     </tr>
     <c:forEach var="edition" items="${requestScope.editions}">
         <tr>
@@ -48,7 +51,8 @@
                             <b>${requestScope.errorFindUserMessage}</b>
                             <br>
                         </c:if>
-                        <input type="submit" value="${submitChoose}"/>
+                        <button type="submit" >${submitChoose}</button>
+<%--                        <input type="submit" value="${submitChoose}"/>--%>
                     </form>
                 </c:when>
                 <c:when test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
@@ -60,7 +64,8 @@
                             <b>${requestScope.errorFindUserMessage}</b>
                             <br>
                         </c:if>
-                        <input type="submit" value="${submitDelete}"/>
+                        <button type="submit" >${submitDelete}</button>
+<%--                        <input type="submit" value="${submitDelete}"/>--%>
                     </form>
                 </c:when>
                 <c:otherwise>
@@ -80,7 +85,8 @@
                                 <b>${requestScope.errorFindUserMessage}</b>
                                 <br>
                             </c:if>
-                            <input type="submit" value="${submitUpdate}"/>
+                            <button type="submit" >${submitUpdate}</button>
+<%--                            <input type="submit" value="${submitUpdate}"/>--%>
                         </form>
                     </c:when>
                     <c:otherwise>
@@ -92,8 +98,8 @@
     </c:forEach>
 </table>
 <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
-    <form name="add_edition" action="${pageContext.request.contextPath}/controller?command=show_add_edition" method="post">
-    <input type="submit" value="${submitAddEdition}"/>
+    <form id="table" name="add_edition" action="${pageContext.request.contextPath}/controller?command=show_add_edition" method="post">
+        <button type="submit" >${submitAddEdition}</button>
 </c:if>
 </form>
 </body>

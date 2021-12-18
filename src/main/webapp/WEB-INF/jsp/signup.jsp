@@ -11,12 +11,19 @@
 <fmt:message bundle="${loc}" key="label.login.message" var="loginMessage" />
 <fmt:message bundle="${loc}" key="label.errorSignUpMessage" var="errorSignUp" />
 <fmt:message bundle="${loc}" key="label.errorPasswordMismatchMessage" var="errorPasswordMismatch" />
+<fmt:message bundle="${loc}" key="label.errorAccountExistMessage" var="errorAccountExist" />
+<fmt:message bundle="${loc}" key="label.signupMessage" var="signupMessage" />
 <html>
 <head>
     <title>${pageSignup}</title>
 </head>
 <body>
-<h3>Please sign up:</h3>
+<style>
+    <%@include file="/WEB-INF/css/login.css"%>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${signupMessage}</h2>
+<ul id="login">
 <form name="signup-form" action="${pageContext.request.contextPath}/controller?command=signup" method="post">
     <label for="signup-input">${login}</label>
     <input id="signup-input" type="text" name="signup" value=""/>
@@ -35,7 +42,12 @@
         <b style="color: red">${errorPasswordMismatch}</b>
         <br>
     </c:if>
-    <input type="submit" value="${signUpSubmit}"/>
+    <c:if test="${not empty requestScope.errorAccountExistMessage}">
+        <b style="color: red">${errorAccountExist}</b>
+        <br>
+    </c:if>
+    <button type="submit">${signUpSubmit}</button>
 </form>
+</ul>
 </body>
 </html>

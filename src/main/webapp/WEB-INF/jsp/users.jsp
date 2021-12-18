@@ -16,8 +16,12 @@
     <title>${titleUsers}</title>
 </head>
 <body>
-<h3>${usersMessage}</h3>
-<table>
+<style>
+    <%@include file="/WEB-INF/css/table.css"%>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${usersMessage}</h2>
+<table id="table">
     <tr>
         <th>${userId}</th>
         <th>${userName}</th>

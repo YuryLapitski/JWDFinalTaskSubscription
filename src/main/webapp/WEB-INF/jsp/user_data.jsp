@@ -17,7 +17,7 @@
     <title>${titleUserData}</title>
 </head>
 <body>
-<h3>${userDataMessage}</h3>
+<h2>${userDataMessage}</h2>
 <form name="user_data-form" action="${pageContext.request.contextPath}/controller?command=user_data" method="post">
     <label for="first_name-input">${firstName}:</label>
     <input id="first_name-input" type="text" name="first_name" value="${requestScope.user.firstName}"/>

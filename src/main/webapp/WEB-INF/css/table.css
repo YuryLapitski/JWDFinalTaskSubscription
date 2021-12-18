@@ -1,0 +1,108 @@
+#table body {
+    font-family: "Times New Roman";
+}
+#table style {
+    margin: 10px 0px 10px 250px;
+}
+table {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 14px;
+    border-radius: 10px;
+    border-spacing: 0;
+    text-align: center;
+    width: 100%;
+}
+table {
+    display: table;
+    padding: 0px 75px 50px 75px;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    white-space: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-size: medium;
+    font-style: normal;
+    text-align: start;
+    border-spacing: 2px;
+    border-color: grey;
+    font-variant: normal;
+}
+#table th {
+    background: #5e96b6;
+    color: white;
+    text-shadow: 0 1px 1px #2D2020;
+    padding: 10px 20px;
+}
+#table th, td {
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    border-color: white;
+}
+#table th:first-child, td:first-child {
+    text-align: left;
+}
+#table th:first-child {
+    border-top-left-radius: 10px;
+}
+#table th:last-child {
+    border-top-right-radius: 10px;
+    border-right: none;
+}
+#table td {
+    padding: 10px 20px;
+    background: #cfedf1;
+}
+#table tr:last-child td:first-child {
+    border-radius: 0 0 0 10px;
+}
+#table tr:last-child td:last-child {
+    border-radius: 0 0 10px 0;
+}
+#table tr td:last-child {
+    border-right: none;
+}
+#table button {
+    background-color: #2544ad;
+    color: white;
+    padding: 10px 10px;
+    margin: auto;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    position: relative;
+}
+
+/* Add a hover effect for buttons */
+#table button:hover {
+    opacity: 0.8;
+}
+#table .create {
+    width: 30%;
+    padding: 10px 18px;
+    background-color: #0000ff;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    font-weight: bold;
+    display:block;
+    margin:10px 500px;
+}
+
+#table form {
+    margin-top: 20px;
+}
+#table input[type=text], input[type=password] {
+    width: 95%;
+    padding: 12px 20px;
+    margin: 2%;
+    display: inline-block;
+    border: 1px solid #0b1fee;
+}

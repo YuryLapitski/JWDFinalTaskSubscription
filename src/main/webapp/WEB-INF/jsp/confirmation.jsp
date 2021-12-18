@@ -10,7 +10,9 @@
     <title>${pageConfirmation}</title>
 </head>
 <body>
-<h3>${confMessage}</h3>
-
+<style>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${confMessage}</h2>
 </body>
 </html>

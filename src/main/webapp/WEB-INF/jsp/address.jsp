@@ -17,7 +17,12 @@
     <title>${pageAddress}</title>
 </head>
 <body>
-<h3>${messageAddress} "${requestScope.edition.name}":</h3>
+<style>
+    <%@include file="/WEB-INF/css/address.css"%>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${messageAddress} "${requestScope.edition.name}":</h2>
+<ul id="address">
 <form name="subscription" action="${pageContext.request.contextPath}/controller?command=show_term" method="post">
     <label for="city-input">${cityField}</label>
     <input id="city-input" type="text" name="city" value=""/>
@@ -41,8 +46,9 @@
     <b>${errorAddress}</b>
     <br>
     </c:if>
-    <input type="submit" value="${submitAddress}"/>
+    <button type="submit">${submitAddress}</button>
 </form>
+</ul>
 </body>
 </html>
 

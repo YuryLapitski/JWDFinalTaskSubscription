@@ -9,13 +9,17 @@
 <fmt:message bundle="${loc}" key="label.term.threeMonths" var="threeMonths" />
 <fmt:message bundle="${loc}" key="label.term.sixMonths" var="sixMonths" />
 <fmt:message bundle="${loc}" key="label.term.twelveMonths" var="twelveMonths" />
-
 <html>
 <head>
     <title>${titleTerm}</title>
 </head>
 <body>
-<h3>${termMessage} "${requestScope.edition.name}":</h3>
+<style>
+    <%@include file="/WEB-INF/css/term.css"%>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${termMessage} "${requestScope.edition.name}":</h2>
+<ul id="term">
 <form name="subscription"
       action="${pageContext.request.contextPath}/controller?command=show_subscription" method="post">
     <label>Term:</label>
@@ -33,7 +37,8 @@
     <input type="hidden" name="street" value="${requestScope.address.street}"/>
     <input type="hidden" name="house" value="${requestScope.address.house}"/>
     <input type="hidden" name="flat" value="${requestScope.address.flat}"/>
-    <input type="submit" value="${submitTerm}"/>
+    <button type="submit">${submitTerm}</button>
 </form>
+</ul>
 </body>
 </html>

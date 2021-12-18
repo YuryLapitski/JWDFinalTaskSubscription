@@ -50,10 +50,6 @@ public class LoginCommand implements Command {
 
     @Override
     public CommandResponse execute(CommandRequest request) {
-        if (request.sessionExists() && request.retrieveFromSession(ACCOUNT_SESSION_ATTRIBUTE_NAME).isPresent()) {
-            //todo: error - account alredy logged in
-            return null;
-        }
         final String login = request.getParameter(LOGIN_REQUEST_PARAM_NAME);
         final String password = request.getParameter(PASSWORD_REQUEST_PARAM_NAME);
         final Optional<Account> account = accountService.authenticate(login, password);

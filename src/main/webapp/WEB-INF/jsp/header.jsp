@@ -23,37 +23,42 @@
     <title></title>
 </head>
 <body>
-<form name="lang" action="${pageContext.request.contextPath}/controller?command=change_language" method="post"> |
-    <a href="${pageContext.request.contextPath}/controller?command=main_page">${home_pageLink}</a> |
-    Language: <label>
-    <select name="lang" onchange="submit()">
-        <option>
-            <c:choose>
-                <c:when test="${sessionScope.lang eq 'en_US'}">
-                    <p>English</p>
-                </c:when>
-                <c:when test="${sessionScope.lang eq 'ru_RU'}">
-                    <p>Russian</p>
-                </c:when>
-                <c:otherwise>
-                </c:otherwise>
-            </c:choose>
-        </option>
-        <option>English</option>
-        <option>Russian</option>
-    </select></label> |
+<style>
+    <%@include file="/WEB-INF/css/header.css"%>
+</style>
+<ul id="menu">
+    <li><a href="${pageContext.request.contextPath}/controller?command=main_page">${home_pageLink}</a></li>
+    <li><form name="lang" action="${pageContext.request.contextPath}/controller?command=change_language" method="post">
+        <select class="select-css" name="lang" onchange="submit()">
+            <option>
+                <c:choose>
+                    <c:when test="${sessionScope.lang eq 'en_US'}">
+                        English
+                    </c:when>
+                    <c:when test="${sessionScope.lang eq 'ru_RU'}">
+                        Russian
+                    </c:when>
+                    <c:otherwise>
+                    </c:otherwise>
+                </c:choose>
+            </option>
+            <option>English</option>
+            <option>Russian</option>
+        </select>
+        <%--    </label>--%>
+    </form></li>
     <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">
-        <a href="${pageContext.request.contextPath}/controller?command=show_my_archive">${my_archiveLink}</a>
+        <li><a href="${pageContext.request.contextPath}/controller?command=show_my_archive">${my_archiveLink}</a></li>
     </c:if>
     <c:choose>
         <c:when test="${not empty sessionScope.account}">
-            <a href="${pageContext.request.contextPath}/controller?command=logout">${logoutLink}</a> |
+            <li><a href="${pageContext.request.contextPath}/controller?command=logout">${logoutLink}</a></li>
         </c:when>
         <c:otherwise>
-            <a href="${pageContext.request.contextPath}/controller?command=show_login">${loginLink}</a> |
-            <a href="${pageContext.request.contextPath}/controller?command=show_signup">${signupLink}</a> |
+            <li><a href="${pageContext.request.contextPath}/controller?command=show_login">${loginLink}</a></li>
+            <li><a href="${pageContext.request.contextPath}/controller?command=show_signup">${signupLink}</a></li>
         </c:otherwise>
     </c:choose>
-</form>
+</ul>
 </body>
 </html>

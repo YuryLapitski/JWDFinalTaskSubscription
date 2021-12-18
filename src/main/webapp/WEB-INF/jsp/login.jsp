@@ -14,7 +14,12 @@
     <title>${pageLogin}</title>
 </head>
 <body>
-<h3>${loginMessage}</h3>
+<style>
+    <%@include file="/WEB-INF/css/login.css"%>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${loginMessage}</h2>
+<ul id="login">
 <form name="login-form" action="${pageContext.request.contextPath}/controller?command=login" method="post">
     <label for="login-input">${login}</label>
     <input id="login-input" type="text" name="login" value=""/>
@@ -26,7 +31,8 @@
         <b style="color: red">${requestScope.errorLoginPassMessage}</b>
         <br>
     </c:if>
-    <input type="submit" value="${loginSubmit}"/>
+    <button type="submit">${loginSubmit}</button>
 </form>
+</ul>
 </body>
 </html>

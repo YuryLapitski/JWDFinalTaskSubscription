@@ -3,7 +3,7 @@
 <%@ taglib prefix="jwds" uri="subscription.jwd.epam.com" %>
 <%@ page import="com.epam.jwd.subscription.entity.Role" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="header.jsp" %>
+<%@ include file="header.jsp" %>
 <fmt:setLocale value="${sessionScope.lang}" />
 <fmt:setBundle basename="locale.main" var="loc" />
 <fmt:message bundle="${loc}" key="label.title" var="pageTitle" />
@@ -23,22 +23,29 @@
     <title>${pageTitle}</title>
 </head>
 <body>
+<style>
+    <%@include file="/WEB-INF/css/text.css"%>
+    <%@include file="/WEB-INF/css/main.css"%>
+</style>
 <h1>${subscriptionMessage}</h1>
 <jwds:welcomeAccount text="${welcomeMessage}"/>
-<a href="${pageContext.request.contextPath}/controller?command=show_editions">${editionsLink}</a>
+<%--<ul>--%>
+<li><a href="${pageContext.request.contextPath}/controller?command=show_editions">${editionsLink}</a></li>
 <br>
 <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.ADMIN}">
-    <a href="${pageContext.request.contextPath}/controller?command=show_users">${usersLink}</a>
+    <li><a href="${pageContext.request.contextPath}/controller?command=show_users">${usersLink}</a></li>
     <br>
-    <a href="${pageContext.request.contextPath}/controller?command=show_accounts">${accountsLink}</a>
+    <li><a href="${pageContext.request.contextPath}/controller?command=show_accounts">${accountsLink}</a></li>
     <br>
-    <a href="${pageContext.request.contextPath}/controller?command=show_archive">${archiveLink}</a>
+    <li><a href="${pageContext.request.contextPath}/controller?command=show_archive">${archiveLink}</a></li>
     <br>
 </c:if>
 <c:if test="${not empty sessionScope.account && sessionScope.account.role eq Role.USER}">
-    <a href="${pageContext.request.contextPath}/controller?command=show_user_data">${user_dataLink}</a>
+    <li><a href="${pageContext.request.contextPath}/controller?command=show_user_data">${user_dataLink}</a></li>
     <br>
-    <a href="${pageContext.request.contextPath}/controller?command=show_shopping_card">${shopping_cardLink}</a>
+    <li><a href="${pageContext.request.contextPath}/controller?command=show_shopping_card">${shopping_cardLink}</a></li>
     <br>
 </c:if>
+<%--</ul>--%>
 </body>
+</html>

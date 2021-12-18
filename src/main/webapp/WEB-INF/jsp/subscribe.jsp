@@ -22,7 +22,10 @@
     <title>${subscriptionInfo}</title>
 </head>
 <body>
-<h3>${subscriptionInfoMessage} "${requestScope.edition.name}":</h3>
+<style>
+    <%@include file="/WEB-INF/css/text.css"%>
+</style>
+<h2>${subscriptionInfoMessage} "${requestScope.edition.name}":</h2>
 <p>${firstName}: ${requestScope.user.firstName}</p>
 <p>${lastName}: ${requestScope.user.lastName}</p>
 <p>${email}: ${requestScope.user.email}</p>
@@ -42,7 +45,7 @@
     <input type="hidden" name="termId" value="${requestScope.term.id}"/>
     <input type="hidden" name="priceId" value="${requestScope.price.id}"/>
     <input type="hidden" name="statusId" value="1"/>
-    <input type="submit" value="${addToSC}"/>
+    <button type="submit">${addToSC}</button>
 </form>
 </body>
 </html>
