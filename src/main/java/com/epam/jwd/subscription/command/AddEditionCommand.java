@@ -18,10 +18,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class AddEditionCommand implements Command {
 
     private static final String EDITIONS_ATTRIBUTE_NAME = "editions";
-    private static final String EDITION_ATTRIBUTE_NAME = "edition";
     private static final String EDITIONS_PAGE = "page.editions";
     private static final String ADD_EDITIONS_PAGE = "page.add_edition";
-    private static final String EDITION_ID_REQUEST_PARAM_NAME = "editionId";
     private static final Long THREE_MONTHS_TERM_ID = 1L;
     private static final Long SIX_MONTHS_TERM_ID = 2L;
     private static final Long TWELVE_MONTHS_TERM_ID = 3L;

@@ -1,10 +1,7 @@
 package com.epam.jwd.subscription.service;
 
-import com.epam.jwd.subscription.dao.MethodAccountDao;
 import com.epam.jwd.subscription.dao.MethodAddressDao;
-import com.epam.jwd.subscription.entity.Account;
 import com.epam.jwd.subscription.entity.Address;
-import com.epam.jwd.subscription.entity.Role;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -1,13 +1,5 @@
 package com.epam.jwd.subscription.validator;
 
-import com.epam.jwd.subscription.command.SignUpCommand;
-import com.epam.jwd.subscription.controller.PropertyContext;
-import com.epam.jwd.subscription.controller.RequestFactory;
-import com.epam.jwd.subscription.dao.AccountDao;
-import com.epam.jwd.subscription.entity.Account;
-import com.epam.jwd.subscription.service.ServiceFactory;
-
-import java.util.Optional;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,13 +37,6 @@ public class AccountValidator {
         }
         Matcher matcher = LOGIN_PATTERN.matcher(login.replaceAll("\\s+", ""));
         return matcher.matches();
-
-//        if (matcher.matches()) {
-//            Optional<Account> possibleCollision = AccountDao.instance().readAccountByLogin(login);
-//            return !possibleCollision.isPresent();
-//        } else {
-//            return false;
-//        }
     }
 
     public boolean isPasswordCorrect(String password){

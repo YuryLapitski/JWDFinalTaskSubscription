@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static java.lang.String.join;
 
 public class MethodAddressDao extends CommonDao<Address> implements AddressDao {
 
@@ -26,7 +25,6 @@ public class MethodAddressDao extends CommonDao<Address> implements AddressDao {
     private static final String STREET_FIELD_NAME = "street";
     private static final String HOUSE_FIELD_NAME = "house";
     private static final String FLAT_FIELD_NAME = "flat";
-    private static final String INSERT_INTO = "insert %s (%s)";
     private static final String VALUES = "values (?, ?, ?, ?)";
     protected static final String WHERE_FIELDS = "where %s = ? and %s = ? and %s = ? and %s = ?";
     private static final String COMMA = ", ";

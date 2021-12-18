@@ -3,7 +3,6 @@ package com.epam.jwd.subscription.service;
 import com.epam.jwd.subscription.entity.Subscription;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

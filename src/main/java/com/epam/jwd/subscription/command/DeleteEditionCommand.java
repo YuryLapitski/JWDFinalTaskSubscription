@@ -8,7 +8,6 @@ import com.epam.jwd.subscription.entity.Subscription;
 import com.epam.jwd.subscription.service.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DeleteEditionCommand implements Command {

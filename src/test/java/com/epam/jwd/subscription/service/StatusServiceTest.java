@@ -1,10 +1,7 @@
 package com.epam.jwd.subscription.service;
 
 import com.epam.jwd.subscription.dao.MethodStatusDao;
-import com.epam.jwd.subscription.dao.MethodSubscriptionDao;
-import com.epam.jwd.subscription.entity.Price;
 import com.epam.jwd.subscription.entity.Status;
-import com.epam.jwd.subscription.entity.Subscription;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

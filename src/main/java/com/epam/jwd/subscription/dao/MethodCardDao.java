@@ -121,10 +121,9 @@ public class MethodCardDao extends CommonDao<Card> implements CardDao  {
             final int rowsUpdated = executePreparedUpdate(updateSql,
                     st -> fillParameters(st, entity.getAmount(), entity.getCardNumber()));
             if (rowsUpdated > 0) {
-//                read() //todo: read by unique param
                 return null;
             }
-            return null; //todo: throw exc
+            return null;
         } catch (InterruptedException e) {
             LOG.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();

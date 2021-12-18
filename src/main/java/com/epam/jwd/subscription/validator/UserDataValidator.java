@@ -1,10 +1,5 @@
 package com.epam.jwd.subscription.validator;
 
-import com.epam.jwd.subscription.dao.UserDao;
-import com.epam.jwd.subscription.entity.User;
-
-
-import java.util.Optional;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +10,7 @@ public class UserDataValidator {
     private static final Pattern LAST_NAME_PATTERN = Pattern.compile("^[A-Za-z]{2,45}$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]" +
             "+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-//    private static final Pattern EMAIL_PATTERN = Pattern.compile("(\\w)(\\.)(-){3,80}\\@(\\w){2,15}\\.(com|ru|by|net|)");
+
 
     private static UserDataValidator instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();

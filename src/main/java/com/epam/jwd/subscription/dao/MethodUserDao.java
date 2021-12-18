@@ -19,15 +19,13 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
 
     private static final Logger LOG = LogManager.getLogger(MethodUserDao.class);
 
-    private static final String USER_TABLE_NAME = "user";// u join account a on a.id = u.acc_id "; +
-//            "join role r on r.id = a.role_id";
+    private static final String USER_TABLE_NAME = "user";
     private static final String ID_FIELD_NAME = "id";
     private static final String FIRST_NAME_FIELD_NAME = "first_name";
     private static final String LAST_NAME_FIELD_NAME = "last_name";
     private static final String AGE_FIELD_NAME = "age";
     private static final String EMAIL_FIELD_NAME = "email";
     private static final String ACC_ID_FIELD_NAME = "acc_id";
-//    private static final String INSERT_INTO = "insert %s (%s) values (?, ?, ?, ?, ?)";
     private static final String VALUES = "values (?, ?, ?, ?, ?)";
     private static final String COMMA = ", ";
     private static final String UPDATE = "update %s set %s = ?, %s = ?, %s = ?, %s = ? where %s = ?";
@@ -162,22 +160,6 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
         statement.setString(4, email);
         statement.setLong(5, accId);
     }
-
-//    @Override
-//    public User create(User user) {
-//        try {
-//            final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, user));
-//            if (rowsUpdated > 0) {
-////                read() //todo: read by unique param
-//                return null;
-//            }
-//            return null; //todo: throw exc
-//        } catch (InterruptedException e) {
-//            LOG.info("takeConnection interrupted", e);
-//            Thread.currentThread().interrupt();
-//            return null;
-//        }
-//    }
 
     @Override
     public Optional<User> read(Long id) {

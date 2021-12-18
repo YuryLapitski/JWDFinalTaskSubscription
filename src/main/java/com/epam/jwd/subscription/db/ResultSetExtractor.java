@@ -1,6 +1,5 @@
 package com.epam.jwd.subscription.db;
 
-import com.epam.jwd.subscription.entity.Entity;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 
 import java.sql.ResultSet;

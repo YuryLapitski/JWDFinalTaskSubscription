@@ -1,7 +1,6 @@
 package com.epam.jwd.subscription.controller;
 
 import com.epam.jwd.subscription.command.CommandRequest;
-import com.epam.jwd.subscription.db.ConnectionPool;
 import com.epam.jwd.subscription.command.Command;
 import com.epam.jwd.subscription.command.CommandResponse;
 import org.apache.logging.log4j.LogManager;

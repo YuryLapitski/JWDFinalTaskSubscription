@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static java.lang.String.join;
 
 public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
 
@@ -31,7 +30,6 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     private static final String ROLE_ID_FIELD_NAME = "a.role_id";
     private static final String INSERT_ROLE_ID_FIELD_NAME = "role_id";
     private static final String ROLE_FIELD_NAME = "r.role_name";
-//    private static final String INSERT_INTO = "insert %s (%s)";
     private static final String VALUES = "values (?, ?, ?)";
     private static final String COMMA = ", ";
 
@@ -47,14 +45,12 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
 
     private final String selectByLoginExpression;
     protected final String deleteSql;
-//    private final String insertSql;
 
     private MethodAccountDao(ConnectionPool pool) {
         super(pool, LOG);
         this.selectByLoginExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_FIELD, LOGIN_FIELD_NAME);
         this.deleteSql = format(DELETE_FROM, ACCOUNT_DELETE_TABLE_NAME, ACC_ID_FIELD_NAME);
-//        this.insertSql = format(INSERT_INTO, getInsertTableName(), join(COMMA, getInsertFields()));
     }
 
     private static class Holder {
@@ -144,11 +140,7 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
     public boolean delete(Long id) {
         try {
             final int rowsUpdated = executePreparedUpdate(deleteSql, st -> st.setLong(1, id));
-            if (rowsUpdated > 0) {
-//                read() //todo: read by unique param
-                return true;
-            }
-            return false; //todo: throw exc
+            return rowsUpdated > 0;
         } catch (InterruptedException e) {
             LOG.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();

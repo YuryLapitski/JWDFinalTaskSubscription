@@ -1,6 +1,5 @@
 package com.epam.jwd.subscription.filter;
 
-
 import com.epam.jwd.subscription.command.Command;
 import com.epam.jwd.subscription.command.CommandRegistry;
 import com.epam.jwd.subscription.entity.Account;

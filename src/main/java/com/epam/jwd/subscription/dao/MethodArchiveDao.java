@@ -2,9 +2,6 @@ package com.epam.jwd.subscription.dao;
 
 import com.epam.jwd.subscription.db.ConnectionPool;
 import com.epam.jwd.subscription.entity.Archive;
-import com.epam.jwd.subscription.entity.Category;
-import com.epam.jwd.subscription.entity.Edition;
-import com.epam.jwd.subscription.entity.Subscription;
 import com.epam.jwd.subscription.exception.EntityExtractionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +35,6 @@ public class MethodArchiveDao extends CommonDao<Archive> implements ArchiveDao {
     private static final String FLAT_FIELD_NAME = "flat";
     private static final String STATUS_FIELD_NAME = "status_name";
     private static final String DATE_FIELD_NAME = "date";
-    private static final String UPDATE = "update %s set %s = ? where %s = ?";
     private static final String COMMA = ", ";
     private static final String VALUES = "values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     protected static final String WHERE_ONE_FIELD = "where %s = ?";
@@ -54,18 +50,12 @@ public class MethodArchiveDao extends CommonDao<Archive> implements ArchiveDao {
             STREET_FIELD_NAME, HOUSE_FIELD_NAME, FLAT_FIELD_NAME, STATUS_FIELD_NAME
     );
 
-//    private final String selectByNumberExpression;
-//    protected final String updateSql;
     private final String findByAccIdSql;
 
     private MethodArchiveDao(ConnectionPool pool) {
         super(pool, LOG);
         this.findByAccIdSql = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
                 getTableName() + SPACE + format(WHERE_ONE_FIELD, ACC_ID_FIELD_NAME);
-//        this.selectByNumberExpression = format(SELECT_ALL_FROM, String.join(COMMA, getFields())) +
-//                getTableName() + SPACE + format(WHERE_FIELD, CARD_NUMBER_FIELD_NAME);
-//        this.updateSql = format(UPDATE, getTableName(), AMOUNT_FIELD_NAME, CARD_NUMBER_FIELD_NAME);
-
     }
 
     public static MethodArchiveDao getInstance(){

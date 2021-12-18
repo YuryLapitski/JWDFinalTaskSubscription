@@ -1,6 +1,5 @@
 package com.epam.jwd.subscription.service;
 
-import com.epam.jwd.subscription.dao.AddressDao;
 import com.epam.jwd.subscription.dao.ArchiveDao;
 import com.epam.jwd.subscription.entity.Archive;
 

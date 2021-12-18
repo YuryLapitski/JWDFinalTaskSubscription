@@ -2,7 +2,6 @@ package com.epam.jwd.subscription.command;
 
 import com.epam.jwd.subscription.controller.PropertyContext;
 import com.epam.jwd.subscription.controller.RequestFactory;
-import com.epam.jwd.subscription.entity.Account;
 import com.epam.jwd.subscription.entity.Archive;
 import com.epam.jwd.subscription.service.ArchiveService;
 import com.epam.jwd.subscription.service.ServiceFactory;

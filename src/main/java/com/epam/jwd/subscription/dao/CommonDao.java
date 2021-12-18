@@ -73,11 +73,7 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
     public boolean delete(Long id) {
         try {
             final int rowsUpdated = executePreparedUpdate(deleteSql, st -> st.setLong(1, id));
-            if (rowsUpdated > 0) {
-//                read() //todo: read by unique param
-                return true;
-            }
-            return false; //todo: throw exc
+            return rowsUpdated > 0;
         } catch (InterruptedException e) {
             logger.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();
@@ -164,10 +160,9 @@ public abstract class CommonDao<T extends Entity> implements EntityDao<T> {
         try {
             final int rowsUpdated = executePreparedUpdate(insertSql, st -> fillEntity(st, entity));
             if (rowsUpdated > 0) {
-//                read() //todo: read by unique param
                 return null;
             }
-            return null; //todo: throw exc
+            return null;
         } catch (InterruptedException e) {
             logger.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();

@@ -7,7 +7,6 @@ import com.epam.jwd.subscription.entity.User;
 import com.epam.jwd.subscription.service.ServiceFactory;
 import com.epam.jwd.subscription.service.UserService;
 
-import java.util.Optional;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ShowUserDataPageCommand implements Command {
