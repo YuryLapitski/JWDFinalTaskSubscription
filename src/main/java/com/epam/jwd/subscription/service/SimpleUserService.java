@@ -21,7 +21,7 @@ public class SimpleUserService implements UserService {
 
     @Override
     public Optional<User> findById(Long id) {
-        return userDao.readUserByAccountId(id);
+        return userDao.read(id);
     }
 
     @Override

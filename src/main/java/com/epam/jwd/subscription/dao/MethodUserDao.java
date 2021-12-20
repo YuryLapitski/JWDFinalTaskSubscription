@@ -162,11 +162,6 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
     }
 
     @Override
-    public Optional<User> read(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
     public User update(User entity) {
         return null;
     }

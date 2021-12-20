@@ -94,7 +94,7 @@ public class ShowSubscriptionDataCommand implements Command {
     }
 
     private boolean addUserToJSP (CommandRequest request) {
-        Optional<User> optionalUser = userService.findById(getAccountId(request));
+        Optional<User> optionalUser = userService.readUserByAccountId(getAccountId(request));
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             request.addAttributeToJsp(JSP_USER_ATTRIBUTE_NAME, user);
