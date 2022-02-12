@@ -43,7 +43,7 @@
     <input type="hidden" name="twelveMonthsPrice" value="${requestScope.edition.twelveMonthsPrice}"/>
     <br/>
     <c:if test="${not empty requestScope.errorAddressMessage}">
-    <b>${errorAddress}</b>
+        <b style="color: red">${errorAddress}</b>
     <br>
     </c:if>
     <button type="submit">${submitAddress}</button>

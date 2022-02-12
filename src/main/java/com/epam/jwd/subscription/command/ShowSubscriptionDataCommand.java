@@ -100,6 +100,12 @@ public class ShowSubscriptionDataCommand implements Command {
             request.addAttributeToJsp(JSP_USER_ATTRIBUTE_NAME, user);
             return true;
         } else {
+            final String editionId = request.getParameter(EDITION_ID_REQUEST_PARAM_NAME);
+            final Optional<Edition> optionalEdition = editionService.findById(Long.parseLong(editionId));
+            if (optionalEdition.isPresent()) {
+                Edition edition = optionalEdition.get();
+                request.addAttributeToJsp(EDITION_ATTRIBUTE_NAME, edition);
+            }
             request.addAttributeToJsp(ERROR_FIND_USER_ATTRIBUTE, ERROR_USER_DOES_NOT_EXIST_MESSAGE);
             return false;
         }
