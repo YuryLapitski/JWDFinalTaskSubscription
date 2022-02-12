@@ -34,7 +34,7 @@ public class LogoutCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new LogoutCommand(ServiceFactory.instance().subscriptionService(),
+                    instance = new LogoutCommand(ServiceFactory.getInstance().subscriptionService(),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {

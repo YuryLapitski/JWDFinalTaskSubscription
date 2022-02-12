@@ -39,16 +39,16 @@ public class ShowSubscriptionDataCommand implements Command {
     private static ShowSubscriptionDataCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final SimpleUserService userService;
+    private final UserService userService;
     private final AddressService addressService;
-    private final SimpleEditionService editionService;
+    private final EditionService editionService;
     private final PriceService priceService;
     private final TermService termService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
-    private ShowSubscriptionDataCommand(SimpleUserService userService,
+    private ShowSubscriptionDataCommand(UserService userService,
                                         AddressService addressService,
-                                        SimpleEditionService editionService,
+                                        EditionService editionService,
                                         PriceService priceService,
                                         TermService termService,
                                         RequestFactory requestFactory,
@@ -67,11 +67,11 @@ public class ShowSubscriptionDataCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowSubscriptionDataCommand(ServiceFactory.instance().userService(),
-                            ServiceFactory.instance().addressService(),
-                            ServiceFactory.instance().editionService(),
-                            ServiceFactory.instance().priceService(),
-                            ServiceFactory.instance().termService(),
+                    instance = new ShowSubscriptionDataCommand(ServiceFactory.getInstance().userService(),
+                            ServiceFactory.getInstance().addressService(),
+                            ServiceFactory.getInstance().editionService(),
+                            ServiceFactory.getInstance().priceService(),
+                            ServiceFactory.getInstance().termService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

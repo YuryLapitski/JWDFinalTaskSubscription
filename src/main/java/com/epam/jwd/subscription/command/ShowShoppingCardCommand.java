@@ -55,12 +55,12 @@ public class ShowShoppingCardCommand implements Command {
                 LOCK.lock();
                 if (instance == null) {
                     instance = new ShowShoppingCardCommand(
-                            ServiceFactory.instance().userService(),
-                            ServiceFactory.instance().addressService(),
-                            ServiceFactory.instance().editionService(),
-                            ServiceFactory.instance().priceService(),
-                            ServiceFactory.instance().termService(),
-                            ServiceFactory.instance().statusService(),
+                            ServiceFactory.getInstance().userService(),
+                            ServiceFactory.getInstance().addressService(),
+                            ServiceFactory.getInstance().editionService(),
+                            ServiceFactory.getInstance().priceService(),
+                            ServiceFactory.getInstance().termService(),
+                            ServiceFactory.getInstance().statusService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

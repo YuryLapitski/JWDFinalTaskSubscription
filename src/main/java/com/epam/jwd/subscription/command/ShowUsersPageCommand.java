@@ -33,7 +33,7 @@ public class ShowUsersPageCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowUsersPageCommand(ServiceFactory.instance().serviceFor(User.class),
+                    instance = new ShowUsersPageCommand(ServiceFactory.getInstance().serviceFor(User.class),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {

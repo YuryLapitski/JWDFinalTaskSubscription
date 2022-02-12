@@ -45,7 +45,7 @@ public class SignUpCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new SignUpCommand(ServiceFactory.instance().accountService(),
+                    instance = new SignUpCommand(ServiceFactory.getInstance().accountService(),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {

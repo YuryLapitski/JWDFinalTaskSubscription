@@ -38,7 +38,7 @@ public class AddToShoppingCardCommand implements Command {
                 LOCK.lock();
                 if (instance == null) {
                     instance = new AddToShoppingCardCommand(
-                            ServiceFactory.instance().subscriptionService(),
+                            ServiceFactory.getInstance().subscriptionService(),
                             RequestFactory.getInstance(), 
                             PropertyContext.getInstance());
                 }

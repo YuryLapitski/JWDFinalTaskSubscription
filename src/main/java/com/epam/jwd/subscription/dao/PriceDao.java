@@ -14,7 +14,7 @@ public interface PriceDao extends EntityDao<Price> {
 
     void updateValue(BigDecimal value, Long editionId, Long termId);
 
-    static PriceDao instance() {
-        return MethodPriceDao.getInstance();
+    static PriceDao getInstance() {
+        return MethodPriceDao.getDaoInstance();
     }
 }

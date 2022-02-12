@@ -29,7 +29,7 @@ public class HTTPSessionListenerImpl implements HttpSessionListener {
         HttpSession session = se.getSession();
         final List<Subscription> subscriptions =
                 (ArrayList<Subscription>) session.getAttribute(SUBSCRIPTIONS_SESSION_ATTRIBUTE_NAME);
-        SubscriptionService subscriptionService = ServiceFactory.instance().subscriptionService();
+        SubscriptionService subscriptionService = ServiceFactory.getInstance().subscriptionService();
         if (subscriptions != null) {
             subscriptionService.deleteAllSubscriptions(subscriptions);
         }

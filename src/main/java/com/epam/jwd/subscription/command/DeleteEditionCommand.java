@@ -42,9 +42,9 @@ public class DeleteEditionCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new DeleteEditionCommand(ServiceFactory.instance().editionService(),
-                            ServiceFactory.instance().priceService(),
-                            ServiceFactory.instance().subscriptionService(),
+                    instance = new DeleteEditionCommand(ServiceFactory.getInstance().editionService(),
+                            ServiceFactory.getInstance().priceService(),
+                            ServiceFactory.getInstance().subscriptionService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

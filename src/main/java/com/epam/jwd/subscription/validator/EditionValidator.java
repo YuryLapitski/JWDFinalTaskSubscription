@@ -63,8 +63,8 @@ public class EditionValidator {
 
     public boolean validateAll(String name, String threeMonthsPrice, String sixMonthsPrice, String twelveMonthsPrice){
         return isNameValid(name)
-                & isThreeMonthsPriceValid(threeMonthsPrice)
-                & isSixMonthsPriceValid(sixMonthsPrice)
-                & isTwelveMonthsPriceValid(twelveMonthsPrice);
+                && isThreeMonthsPriceValid(threeMonthsPrice)
+                && isSixMonthsPriceValid(sixMonthsPrice)
+                && isTwelveMonthsPriceValid(twelveMonthsPrice);
     }
 }

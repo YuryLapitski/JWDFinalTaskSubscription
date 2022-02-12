@@ -41,9 +41,9 @@ public class DeleteAccountCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new DeleteAccountCommand(ServiceFactory.instance().accountService(),
-                            ServiceFactory.instance().userService(),
-                            ServiceFactory.instance().subscriptionService(),
+                    instance = new DeleteAccountCommand(ServiceFactory.getInstance().accountService(),
+                            ServiceFactory.getInstance().userService(),
+                            ServiceFactory.getInstance().subscriptionService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

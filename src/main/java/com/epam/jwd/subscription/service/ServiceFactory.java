@@ -10,20 +10,20 @@ public interface ServiceFactory {
         return (AccountService) serviceFor(Account.class);
     }
 
-    default SimpleUserService userService() {
-        return (SimpleUserService) serviceFor(User.class);
+    default UserService userService() {
+        return (UserService) serviceFor(User.class);
     }
 
-    default SimpleEditionService editionService() {
-        return (SimpleEditionService) serviceFor(Edition.class);
+    default EditionService editionService() {
+        return (EditionService) serviceFor(Edition.class);
     }
 
-    default SimplePriceService priceService() {
-        return (SimplePriceService) serviceFor(Price.class);
+    default PriceService priceService() {
+        return (PriceService) serviceFor(Price.class);
     }
 
-    default SimpleAddressService addressService() {
-        return (SimpleAddressService) serviceFor(Address.class);
+    default AddressService addressService() {
+        return (AddressService) serviceFor(Address.class);
     }
 
     default TermService termService() {
@@ -34,19 +34,19 @@ public interface ServiceFactory {
         return (StatusService) serviceFor(Status.class);
     }
 
-    default SimpleSubscriptionService subscriptionService() {
-        return (SimpleSubscriptionService) serviceFor(Subscription.class);
+    default SubscriptionService subscriptionService() {
+        return (SubscriptionService) serviceFor(Subscription.class);
     }
 
-    default SimpleCardService cardService() {
-        return (SimpleCardService) serviceFor(Card.class);
+    default CardService cardService() {
+        return (CardService) serviceFor(Card.class);
     }
 
-    default SimpleArchiveService archiveService() {
-        return (SimpleArchiveService) serviceFor(Archive.class);
+    default ArchiveService archiveService() {
+        return (ArchiveService) serviceFor(Archive.class);
     }
 
-    static SimpleServiceFactory instance() {
-        return SimpleServiceFactory.getInstance();
+    static ServiceFactory getInstance() {
+        return SimpleServiceFactory.getServiceInstance();
     }
 }

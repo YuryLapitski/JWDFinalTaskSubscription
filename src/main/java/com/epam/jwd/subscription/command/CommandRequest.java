@@ -1,12 +1,12 @@
 package com.epam.jwd.subscription.command;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
+
 import java.util.Optional;
 
 public interface CommandRequest {
 
-    void addAttributeToJsp(String name, Object attribute); //todo: make adding to jsp better
+    void addAttributeToJsp(String name, Object attribute);
 
     String getParameter(String name);
 

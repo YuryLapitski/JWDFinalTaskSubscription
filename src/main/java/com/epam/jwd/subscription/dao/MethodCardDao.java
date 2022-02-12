@@ -53,7 +53,7 @@ public class MethodCardDao extends CommonDao<Card> implements CardDao  {
 
     }
 
-    public static MethodCardDao getInstance(){
+    public static MethodCardDao getDaoInstance(){
         if(instance == null) {
             try {
                 LOCK.lock();

@@ -37,7 +37,7 @@ public class MethodTermDao extends CommonDao<Term> implements TermDao {
         super(pool, LOG);
     }
 
-    public static MethodTermDao getInstance(){
+    public static MethodTermDao getDaoInstance(){
         if(instance == null) {
             try {
                 LOCK.lock();

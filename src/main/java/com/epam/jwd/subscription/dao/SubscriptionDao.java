@@ -19,8 +19,8 @@ public interface SubscriptionDao extends EntityDao<Subscription> {
 
     void updateStatus (Long statusId, Long subscriptionId);
 
-    static SubscriptionDao instance() {
-        return MethodSubscriptionDao.getInstance();
+    static SubscriptionDao getInstance() {
+        return MethodSubscriptionDao.getDaoInstance();
 
     }
 }

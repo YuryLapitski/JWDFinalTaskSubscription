@@ -58,7 +58,7 @@ public class MethodArchiveDao extends CommonDao<Archive> implements ArchiveDao {
                 getTableName() + SPACE + format(WHERE_ONE_FIELD, ACC_ID_FIELD_NAME);
     }
 
-    public static MethodArchiveDao getInstance(){
+    public static MethodArchiveDao getDaoInstance(){
         if(instance == null) {
             try {
                 LOCK.lock();

@@ -3,8 +3,8 @@ package com.epam.jwd.subscription.command;
 import com.epam.jwd.subscription.controller.PropertyContext;
 import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.Edition;
+import com.epam.jwd.subscription.service.EditionService;
 import com.epam.jwd.subscription.service.PriceService;
-import com.epam.jwd.subscription.service.SimpleEditionService;
 import com.epam.jwd.subscription.service.ServiceFactory;
 import com.epam.jwd.subscription.validator.EditionValidator;
 
@@ -29,12 +29,12 @@ public class UpdateEditionCommand implements Command {
     private static UpdateEditionCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final SimpleEditionService editionService;
+    private final EditionService editionService;
     private final PriceService priceService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
-    private UpdateEditionCommand(SimpleEditionService editionService,
+    private UpdateEditionCommand(EditionService editionService,
                                  PriceService priceService,
                                  RequestFactory requestFactory,
                                  PropertyContext propertyContext) {
@@ -49,8 +49,8 @@ public class UpdateEditionCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new UpdateEditionCommand(ServiceFactory.instance().editionService(),
-                            ServiceFactory.instance().priceService(),
+                    instance = new UpdateEditionCommand(ServiceFactory.getInstance().editionService(),
+                            ServiceFactory.getInstance().priceService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

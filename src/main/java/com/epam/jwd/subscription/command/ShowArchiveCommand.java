@@ -33,7 +33,7 @@ public class ShowArchiveCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowArchiveCommand(ServiceFactory.instance().archiveService(),
+                    instance = new ShowArchiveCommand(ServiceFactory.getInstance().archiveService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

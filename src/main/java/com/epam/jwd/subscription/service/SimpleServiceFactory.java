@@ -21,7 +21,7 @@ public class SimpleServiceFactory implements ServiceFactory {
         public static final SimpleServiceFactory INSTANCE = new SimpleServiceFactory();
     }
 
-    static SimpleServiceFactory getInstance() {
+    static SimpleServiceFactory getServiceInstance() {
         return Holder.INSTANCE;
     }
 
@@ -36,25 +36,25 @@ public class SimpleServiceFactory implements ServiceFactory {
             final String className = clazz.getSimpleName();
             switch (className) {
                 case "Account":
-                    return new SimpleAccountService(AccountDao.instance(), BCrypt.withDefaults(), BCrypt.verifyer());
+                    return new SimpleAccountService(AccountDao.getInstance(), BCrypt.withDefaults(), BCrypt.verifyer());
                 case "Edition":
-                    return new SimpleEditionService(EditionDao.instance());
+                    return new SimpleEditionService(EditionDao.getInstance());
                 case "User":
-                    return new SimpleUserService(UserDao.instance());
+                    return new SimpleUserService(UserDao.getInstance());
                 case "Price":
-                    return new SimplePriceService(PriceDao.instance());
+                    return new SimplePriceService(PriceDao.getInstance());
                 case "Address":
-                    return new SimpleAddressService(AddressDao.instance());
+                    return new SimpleAddressService(AddressDao.getInstance());
                 case "Term":
-                    return new TermService(TermDao.instance());
+                    return new TermService(TermDao.getInstance());
                 case "Status":
-                    return new StatusService(StatusDao.instance());
+                    return new StatusService(StatusDao.getInstance());
                 case "Subscription":
-                    return new SimpleSubscriptionService(SubscriptionDao.instance());
+                    return new SimpleSubscriptionService(SubscriptionDao.getInstance());
                 case "Card":
-                    return new SimpleCardService(CardDao.instance());
+                    return new SimpleCardService(CardDao.getInstance());
                 case "Archive":
-                    return new SimpleArchiveService(ArchiveDao.instance());
+                    return new SimpleArchiveService(ArchiveDao.getInstance());
                 default:
                     throw new IllegalArgumentException(String.format(SERVICE_NOT_FOUND, className));
             }

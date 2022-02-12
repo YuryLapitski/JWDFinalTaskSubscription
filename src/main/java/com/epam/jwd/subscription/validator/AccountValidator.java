@@ -48,6 +48,6 @@ public class AccountValidator {
 
     public boolean validateAll(String login, String password){
         return isLoginValid(login)
-                & isPasswordCorrect(password);
+                && isPasswordCorrect(password);
     }
 }

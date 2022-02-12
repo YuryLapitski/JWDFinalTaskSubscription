@@ -10,7 +10,7 @@ public interface AddressDao extends EntityDao<Address> {
 
     Optional<Address> selectByCSHF(String city, String street, String house, Integer flat);
 
-    static AddressDao instance() {
-        return MethodAddressDao.getInstance();
+    static AddressDao getInstance() {
+        return MethodAddressDao.getDaoInstance();
     }
 }

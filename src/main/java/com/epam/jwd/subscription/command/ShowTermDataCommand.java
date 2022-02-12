@@ -5,7 +5,7 @@ import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.Address;
 import com.epam.jwd.subscription.entity.Edition;
 import com.epam.jwd.subscription.service.AddressService;
-import com.epam.jwd.subscription.service.SimpleEditionService;
+import com.epam.jwd.subscription.service.EditionService;
 import com.epam.jwd.subscription.service.ServiceFactory;
 import com.epam.jwd.subscription.validator.AddressValidator;
 
@@ -32,12 +32,12 @@ public class ShowTermDataCommand implements Command {
     private static final ReentrantLock LOCK = new ReentrantLock();
 
     private final AddressService addressService;
-    private final SimpleEditionService editionService;
+    private final EditionService editionService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
     private ShowTermDataCommand(AddressService addressService,
-                                SimpleEditionService editionService,
+                                EditionService editionService,
                                 RequestFactory requestFactory,
                                 PropertyContext propertyContext) {
         this.addressService = addressService;
@@ -51,8 +51,8 @@ public class ShowTermDataCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowTermDataCommand(ServiceFactory.instance().addressService(),
-                            ServiceFactory.instance().editionService(),
+                    instance = new ShowTermDataCommand(ServiceFactory.getInstance().addressService(),
+                            ServiceFactory.getInstance().editionService(),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {

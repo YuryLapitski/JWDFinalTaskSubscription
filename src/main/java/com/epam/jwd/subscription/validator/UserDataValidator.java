@@ -62,8 +62,8 @@ public class UserDataValidator {
 
     public boolean validateAll(String firstName, String lastName, int age, String email){
         return isFirstNameValid(firstName)
-                & isLastNameValid(lastName)
-                & isAgeValid(age)
-                & isEmailValid(email);
+                && isLastNameValid(lastName)
+                && isAgeValid(age)
+                && isEmailValid(email);
     }
 }

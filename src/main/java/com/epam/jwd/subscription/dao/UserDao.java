@@ -13,7 +13,7 @@ public interface UserDao extends EntityDao<User> {
     void updateByAccountId (String firstName, String lastName,
                             Integer age, String email, Long accountId);
 
-    static UserDao instance() {
-        return MethodUserDao.getInstance();
+    static UserDao getInstance() {
+        return MethodUserDao.getDaoInstance();
     }
 }

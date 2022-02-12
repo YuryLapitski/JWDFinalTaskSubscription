@@ -36,7 +36,7 @@ public class ShowMySubscriptionsCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowMySubscriptionsCommand(ServiceFactory.instance().archiveService(),
+                    instance = new ShowMySubscriptionsCommand(ServiceFactory.getInstance().archiveService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

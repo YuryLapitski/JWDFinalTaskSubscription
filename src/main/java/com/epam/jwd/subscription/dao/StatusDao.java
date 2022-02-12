@@ -4,7 +4,7 @@ import com.epam.jwd.subscription.entity.Status;
 
 public interface StatusDao extends EntityDao<Status> {
 
-    static StatusDao instance() {
-        return MethodStatusDao.getInstance();
+    static StatusDao getInstance() {
+        return MethodStatusDao.getDaoInstance();
     }
 }

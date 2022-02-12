@@ -37,7 +37,7 @@ public class MethodStatusDao extends CommonDao<Status> implements StatusDao {
         super(pool, LOG);
     }
 
-    public static MethodStatusDao getInstance(){
+    public static MethodStatusDao getDaoInstance(){
         if(instance == null) {
             try {
                 LOCK.lock();

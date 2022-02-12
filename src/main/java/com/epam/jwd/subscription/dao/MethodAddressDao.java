@@ -52,7 +52,7 @@ public class MethodAddressDao extends CommonDao<Address> implements AddressDao {
         public static final AddressDao INSTANCE = new MethodAddressDao(ConnectionPool.lockingInstance());
     }
 
-    static AddressDao getInstance() {
+    static AddressDao getDaoInstance() {
         return MethodAddressDao.Holder.INSTANCE;
     }
 

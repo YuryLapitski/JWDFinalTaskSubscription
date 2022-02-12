@@ -65,7 +65,8 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
         public static final EditionDao INSTANCE = new MethodEditionDao(ConnectionPool.lockingInstance());
     }
 
-    static EditionDao getInstance() {
+
+    static EditionDao getDaoInstance() {
         return Holder.INSTANCE;
     }
 
@@ -100,7 +101,7 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
     }
 
     private BigDecimal priceValue(Long editionId, Long termId) {
-        final List<Price> prices = PriceDao.instance().findPricesByEditionId(editionId);
+        final List<Price> prices = PriceDao.getInstance().findPricesByEditionId(editionId);
         for (Price price : prices) {
             if (price.getTermId().equals(termId)) {
                 return price.getValue();
@@ -130,10 +131,9 @@ public class MethodEditionDao extends CommonDao<Edition> implements EditionDao {
         try {
             final int rowsUpdated = executePreparedUpdate(deleteSql, st -> st.setLong(1, id));
             if (rowsUpdated > 0) {
-//                read() //todo: read by unique param
                 return true;
             }
-            return false; //todo: throw exc
+            return false;
         } catch (InterruptedException e) {
             LOG.info("takeConnection interrupted", e);
             Thread.currentThread().interrupt();

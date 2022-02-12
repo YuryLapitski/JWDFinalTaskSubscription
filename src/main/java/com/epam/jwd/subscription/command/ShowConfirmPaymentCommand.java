@@ -72,14 +72,14 @@ public class ShowConfirmPaymentCommand implements Command {
                 LOCK.lock();
                 if (instance == null) {
                     instance = new ShowConfirmPaymentCommand(
-                            ServiceFactory.instance().cardService(),
-                            ServiceFactory.instance().subscriptionService(),
-                            ServiceFactory.instance().archiveService(),
-                            ServiceFactory.instance().addressService(),
-                            ServiceFactory.instance().editionService(),
-                            ServiceFactory.instance().priceService(),
-                            ServiceFactory.instance().termService(),
-                            ServiceFactory.instance().statusService(),
+                            ServiceFactory.getInstance().cardService(),
+                            ServiceFactory.getInstance().subscriptionService(),
+                            ServiceFactory.getInstance().archiveService(),
+                            ServiceFactory.getInstance().addressService(),
+                            ServiceFactory.getInstance().editionService(),
+                            ServiceFactory.getInstance().priceService(),
+                            ServiceFactory.getInstance().termService(),
+                            ServiceFactory.getInstance().statusService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

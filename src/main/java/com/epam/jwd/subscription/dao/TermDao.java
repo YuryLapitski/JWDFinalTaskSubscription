@@ -4,7 +4,7 @@ import com.epam.jwd.subscription.entity.Term;
 
 public interface TermDao extends EntityDao<Term> {
 
-    static TermDao instance() {
-        return MethodTermDao.getInstance();
+    static TermDao getInstance() {
+        return MethodTermDao.getDaoInstance();
     }
 }

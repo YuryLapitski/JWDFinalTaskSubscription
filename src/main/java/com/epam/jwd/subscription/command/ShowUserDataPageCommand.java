@@ -34,7 +34,7 @@ public class ShowUserDataPageCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowUserDataPageCommand(ServiceFactory.instance().userService(),
+                    instance = new ShowUserDataPageCommand(ServiceFactory.getInstance().userService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }

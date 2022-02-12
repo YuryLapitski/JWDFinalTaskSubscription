@@ -57,7 +57,7 @@ public class MethodAccountDao extends CommonDao<Account> implements AccountDao {
         public static final AccountDao INSTANCE = new MethodAccountDao(ConnectionPool.lockingInstance());
     }
 
-    static AccountDao getInstance() {
+    static AccountDao getDaoInstance() {
         return MethodAccountDao.Holder.INSTANCE;
     }
 

@@ -11,7 +11,7 @@ public interface CardDao extends EntityDao<Card> {
 
     boolean updateAmount (BigDecimal amount, String cardNumber);
 
-    static CardDao instance() {
-        return MethodCardDao.getInstance();
+    static CardDao getInstance() {
+        return MethodCardDao.getDaoInstance();
     }
 }

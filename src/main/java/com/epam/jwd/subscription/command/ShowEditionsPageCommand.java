@@ -3,7 +3,7 @@ package com.epam.jwd.subscription.command;
 import com.epam.jwd.subscription.controller.PropertyContext;
 import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.Edition;
-import com.epam.jwd.subscription.service.SimpleEditionService;
+import com.epam.jwd.subscription.service.EditionService;
 import com.epam.jwd.subscription.service.ServiceFactory;
 
 import java.util.List;
@@ -17,11 +17,11 @@ public class ShowEditionsPageCommand implements Command {
     private static ShowEditionsPageCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final SimpleEditionService editionService;
+    private final EditionService editionService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
-    private ShowEditionsPageCommand(SimpleEditionService editionService, RequestFactory requestFactory,
+    private ShowEditionsPageCommand(EditionService editionService, RequestFactory requestFactory,
                                     PropertyContext propertyContext) {
         this.editionService = editionService;
         this.requestFactory = requestFactory;
@@ -33,7 +33,7 @@ public class ShowEditionsPageCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new ShowEditionsPageCommand(ServiceFactory.instance().editionService(),
+                    instance = new ShowEditionsPageCommand(ServiceFactory.getInstance().editionService(),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {

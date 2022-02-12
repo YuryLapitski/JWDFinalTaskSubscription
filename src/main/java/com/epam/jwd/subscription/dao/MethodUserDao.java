@@ -170,7 +170,7 @@ public class MethodUserDao extends CommonDao<User> implements UserDao {
         public static final UserDao INSTANCE = new MethodUserDao(ConnectionPool.lockingInstance());
     }
 
-    static UserDao getInstance() {
+    static UserDao getDaoInstance() {
         return MethodUserDao.Holder.INSTANCE;
     }
 }

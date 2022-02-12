@@ -71,7 +71,7 @@ public class MethodSubscriptionDao extends CommonDao<Subscription> implements Su
                 getTableName() + SPACE + format(WHERE_TWO_FIELD, USER_ID_FIELD_NAME, TIMESTAMP_FIELD_NAME);;
     }
 
-    public static MethodSubscriptionDao getInstance(){
+    public static MethodSubscriptionDao getDaoInstance(){
         if(instance == null) {
             try {
                 LOCK.lock();

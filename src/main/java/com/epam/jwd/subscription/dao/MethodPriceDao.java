@@ -58,7 +58,7 @@ public class MethodPriceDao extends CommonDao<Price> implements PriceDao {
                 TERM_ID_FIELD_NAME);
     }
 
-    public static MethodPriceDao getInstance(){
+    public static MethodPriceDao getDaoInstance(){
         if(instance == null) {
             try {
                 LOCK.lock();

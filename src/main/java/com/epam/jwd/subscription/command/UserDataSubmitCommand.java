@@ -5,7 +5,7 @@ import com.epam.jwd.subscription.controller.RequestFactory;
 import com.epam.jwd.subscription.entity.Account;
 import com.epam.jwd.subscription.entity.User;
 import com.epam.jwd.subscription.service.ServiceFactory;
-import com.epam.jwd.subscription.service.SimpleUserService;
+import com.epam.jwd.subscription.service.UserService;
 import com.epam.jwd.subscription.validator.UserDataValidator;
 
 import java.util.concurrent.locks.ReentrantLock;
@@ -15,7 +15,7 @@ public class UserDataSubmitCommand implements Command {
     private static UserDataSubmitCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final SimpleUserService userService;
+    private final UserService userService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
@@ -32,7 +32,7 @@ public class UserDataSubmitCommand implements Command {
     private static final String EMAIL_REQUEST_PARAM_NAME = "email";
     private static final String EMPTY_STRING = "";
 
-    private UserDataSubmitCommand(SimpleUserService userService, RequestFactory requestFactory,
+    private UserDataSubmitCommand(UserService userService, RequestFactory requestFactory,
                                   PropertyContext propertyContext) {
         this.userService = userService;
         this.requestFactory = requestFactory;
@@ -44,7 +44,7 @@ public class UserDataSubmitCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new UserDataSubmitCommand(ServiceFactory.instance().userService(),
+                    instance = new UserDataSubmitCommand(ServiceFactory.getInstance().userService(),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {

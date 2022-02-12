@@ -8,8 +8,8 @@ public interface AccountDao extends EntityDao<Account> {
 
     Optional<Account> readAccountByLogin(String login);
 
-    static AccountDao instance() {
-        return MethodAccountDao.getInstance();
+    static AccountDao getInstance() {
+        return MethodAccountDao.getDaoInstance();
     }
 
 }

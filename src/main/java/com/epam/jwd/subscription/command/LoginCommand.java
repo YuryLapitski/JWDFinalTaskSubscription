@@ -38,7 +38,7 @@ public class LoginCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new LoginCommand(ServiceFactory.instance().accountService(),
+                    instance = new LoginCommand(ServiceFactory.getInstance().accountService(),
                             RequestFactory.getInstance(), PropertyContext.getInstance());
                 }
             } finally {

@@ -50,7 +50,7 @@ public class AddressValidator {
 
     public boolean validateAll(String city, String street, String house){
         return isCityValid(city)
-                & isStreetValid(street)
-                & isHouseValid(house);
+                && isStreetValid(street)
+                && isHouseValid(house);
     }
 }

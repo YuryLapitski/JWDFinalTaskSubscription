@@ -2,7 +2,6 @@ package com.epam.jwd.subscription.dao;
 
 import com.epam.jwd.subscription.entity.Edition;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface EditionDao extends EntityDao<Edition> {
@@ -15,7 +14,7 @@ public interface EditionDao extends EntityDao<Edition> {
 
     void addEdition(String name, Long catId);
 
-    static EditionDao instance() {
-        return MethodEditionDao.getInstance();
+    static EditionDao getInstance() {
+        return MethodEditionDao.getDaoInstance();
     }
 }

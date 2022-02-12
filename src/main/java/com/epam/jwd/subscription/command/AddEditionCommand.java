@@ -2,12 +2,11 @@ package com.epam.jwd.subscription.command;
 
 import com.epam.jwd.subscription.controller.PropertyContext;
 import com.epam.jwd.subscription.controller.RequestFactory;
-import com.epam.jwd.subscription.entity.Category;
 import com.epam.jwd.subscription.entity.Edition;
 import com.epam.jwd.subscription.entity.Price;
+import com.epam.jwd.subscription.service.EditionService;
 import com.epam.jwd.subscription.service.PriceService;
 import com.epam.jwd.subscription.service.ServiceFactory;
-import com.epam.jwd.subscription.service.SimpleEditionService;
 import com.epam.jwd.subscription.validator.EditionValidator;
 
 import java.math.BigDecimal;
@@ -31,12 +30,12 @@ public class AddEditionCommand implements Command {
     private static AddEditionCommand instance = null;
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private final SimpleEditionService editionService;
+    private final EditionService editionService;
     private final PriceService priceService;
     private final RequestFactory requestFactory;
     private final PropertyContext propertyContext;
 
-    private AddEditionCommand(SimpleEditionService editionService,
+    private AddEditionCommand(EditionService editionService,
                                  PriceService priceService,
                                  RequestFactory requestFactory,
                                  PropertyContext propertyContext) {
@@ -51,8 +50,8 @@ public class AddEditionCommand implements Command {
             try {
                 LOCK.lock();
                 if (instance == null) {
-                    instance = new AddEditionCommand(ServiceFactory.instance().editionService(),
-                            ServiceFactory.instance().priceService(),
+                    instance = new AddEditionCommand(ServiceFactory.getInstance().editionService(),
+                            ServiceFactory.getInstance().priceService(),
                             RequestFactory.getInstance(),
                             PropertyContext.getInstance());
                 }
