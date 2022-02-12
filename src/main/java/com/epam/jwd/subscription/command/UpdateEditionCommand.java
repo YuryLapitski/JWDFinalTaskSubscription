@@ -70,7 +70,7 @@ public class UpdateEditionCommand implements Command {
         final String sixMonthsPrice = request.getParameter("sixMonthsPrice");
         final String twelveMonthsPrice = request.getParameter("twelveMonthsPrice");
         if (EditionValidator.getInstance().validateAll(editionName, threeMonthsPrice,
-                sixMonthsPrice, twelveMonthsPrice)) {
+                sixMonthsPrice, twelveMonthsPrice, category)) {
             editionService.updateByEditionId(editionName, categoryId(category), editionId);
             priceService.updateValue(BigDecimal.valueOf(Double.parseDouble(threeMonthsPrice)),
                     editionId, THREE_MONTHS_TERM_ID);

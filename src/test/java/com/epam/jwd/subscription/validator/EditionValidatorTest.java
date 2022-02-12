@@ -89,11 +89,18 @@ class EditionValidatorTest {
     }
 
     @Test
+    void isCategoryValid() {
+        final String cat = "Letter";
+        assertFalse(editionValidator.isCategoryValid(cat));
+    }
+
+    @Test
     void validateAll() {
         final String name = "The-New.York, & Times 5!?";
         final String threePrice = "54.81";
         final String sixPrice = "54.81";
         final String twelvePrice = "54.81";
-        assertTrue(editionValidator.validateAll(name, threePrice, sixPrice, twelvePrice));
+        final String cat = "Book";
+        assertTrue(editionValidator.validateAll(name, threePrice, sixPrice, twelvePrice, cat));
     }
 }

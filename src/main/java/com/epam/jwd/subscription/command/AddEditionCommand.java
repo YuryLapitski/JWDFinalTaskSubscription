@@ -7,6 +7,7 @@ import com.epam.jwd.subscription.entity.Price;
 import com.epam.jwd.subscription.service.EditionService;
 import com.epam.jwd.subscription.service.PriceService;
 import com.epam.jwd.subscription.service.ServiceFactory;
+
 import com.epam.jwd.subscription.validator.EditionValidator;
 
 import java.math.BigDecimal;
@@ -74,7 +75,7 @@ public class AddEditionCommand implements Command {
             return requestFactory.createForwardResponse(propertyContext.get(ADD_EDITIONS_PAGE));
         }
         if (EditionValidator.getInstance().validateAll(editionName, threeMonthsPrice,
-                sixMonthsPrice, twelveMonthsPrice)) {
+                sixMonthsPrice, twelveMonthsPrice, category)) {
             editionService.addEdition(editionName, categoryId(category));
             Optional<Edition> optionalEdition = editionService.findByName(editionName);
             if (optionalEdition.isPresent()) {

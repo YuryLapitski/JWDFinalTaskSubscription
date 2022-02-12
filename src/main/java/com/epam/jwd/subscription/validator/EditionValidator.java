@@ -61,10 +61,16 @@ public class EditionValidator {
         return matcher.matches();
     }
 
-    public boolean validateAll(String name, String threeMonthsPrice, String sixMonthsPrice, String twelveMonthsPrice){
+    public boolean isCategoryValid(String category) {
+        return category.equals("Newspaper") || category.equals("Magazine") || category.equals("Book");
+    }
+
+    public boolean validateAll(String name, String threeMonthsPrice, String sixMonthsPrice,
+                               String twelveMonthsPrice, String category){
         return isNameValid(name)
                 && isThreeMonthsPriceValid(threeMonthsPrice)
                 && isSixMonthsPriceValid(sixMonthsPrice)
-                && isTwelveMonthsPriceValid(twelveMonthsPrice);
+                && isTwelveMonthsPriceValid(twelveMonthsPrice)
+                && isCategoryValid(category);
     }
 }
